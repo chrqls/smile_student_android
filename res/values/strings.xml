@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">SMILE Student</string>
+    <string name="app_name">SMILE Student</string>
+    <string name="version">1.0.0</string>
+</resources>
