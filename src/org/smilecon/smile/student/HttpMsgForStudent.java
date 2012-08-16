@@ -34,7 +34,7 @@ import android.util.Log;
 public class HttpMsgForStudent extends Thread {
 
 	// new addition
-	junctionquiz login;
+	JunctionQuiz login;
 	
 	CourseList main;
 	String curr_name;

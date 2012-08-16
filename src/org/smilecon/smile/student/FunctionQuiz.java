@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class junctionquiz extends Activity {
+public class JunctionQuiz extends Activity {
     
 	/** Called when the activity is first created. */
 	//ImageView smile_logo;
@@ -132,7 +132,7 @@ public class junctionquiz extends Activity {
 				
 				if(index_start == false) {
 				
-					Builder adb = new AlertDialog.Builder(junctionquiz.this);
+					Builder adb = new AlertDialog.Builder(JunctionQuiz.this);
 					adb.setTitle("Warning!");
 					adb.setMessage("Insert username.");
 					adb.setPositiveButton("OK", null);
