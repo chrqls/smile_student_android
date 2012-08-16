@@ -2,5 +2,5 @@
 <resources>
     <string name="hello">SMILE Student</string>
     <string name="app_name">SMILE Student</string>
-    <string name="version">1.0.0</string>
+    <string name="version">1.0.2</string>
 </resources>
