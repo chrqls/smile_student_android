@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.Vector;
+import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONException;
 import android.widget.RatingBar;
@@ -49,8 +50,8 @@ import android.widget.Toast;
 import android.webkit.WebChromeClient;
 
 public class CourseList extends Activity implements OnDismissListener {
-
-	String APP_TAG = "MySMILE";
+	private Random mRandom = new Random();
+	String TAG = "MySMILE";
 	String server_dir = "/JunctionServerExecution/current/";
 
 	WebView webviewQ;
@@ -168,7 +169,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				for (int i = 0; i < time; i++)
 					sb.append('.');
 				http.setText(sb.toString());
-				// Log.d(APP_TAG,"Hey:"+sb.toString());
+				// Log.d(TAG,"Hey:"+sb.toString());
 			}
 		} catch (Exception e) {
 		}
@@ -209,7 +210,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	public final static int FINISH = 6;
 
 	int last_state_received = BEFORE_CONNECT; // MAKE_QUESTION,
-	String MY_IP;
+	static String MY_IP = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -227,7 +228,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		curusername_op = bundle.getString("NAMEOP");
 
 		curusername = curusername + curusername_op;
-		// Log.d(APP_TAG, "Username: "+ curusername);
+		// Log.d(TAG, "Username: "+ curusername);
 
 		draw_piechart = new piechart(this); // to draw the piechart
 		draw_piechart.onStart(100,0);
@@ -255,6 +256,10 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		MY_IP = get_IP();
 
+		if ((MY_IP == null) || (MY_IP.length() == 0) || (MY_IP=="")) {
+			MY_IP = generateFakeIP();
+		}
+		Toast.makeText(this, "Using IP: " + MY_IP, Toast.LENGTH_SHORT).show();
 		getStoredFileURL();
 		create_connection();
 		show_todo_view();
@@ -263,38 +268,47 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	}
 
+	private String generateFakeIP() {
+		String addr = "127.0.0.";
+	 	addr = addr + String.valueOf(mRandom.nextInt(255) + 1);
+		return addr;
+	}
+	
 	private void create_connection() {
 
-		Log.d(APP_TAG, "Creating connection");
+		Log.d(TAG, "Creating connection");
 		student = null;
 
 		Toast.makeText(this, "Creating Connection", Toast.LENGTH_SHORT).show();
 
-		student = new HttpMsgForStudent(this, curusername, MY_IP);
-		student.beginConnection(cururi);
+		student = new HttpMsgForStudent(this, curusername, MY_IP, this);
+		if (!student.beginConnection(cururi)) {
+			Toast.makeText(this, "Connection Issue connecting with client IP = " + MY_IP + " to server IP = " + cururi, Toast.LENGTH_SHORT).show();
+			// We should return to the login
+		}
 
 		// create connection with another thread
 		/*
 		 * new Thread(new Runnable() { public void run() {
 		 * 
 		 * int err_count = 0; while (student == null) {
-		 * Log.d(APP_TAG,"Creating Student");
+		 * Log.d(TAG,"Creating Student");
 		 * 
 		 * student = new JunctionStudent((CourseList)_act, curusername, MY_IP);
 		 * err_count++;
 		 * 
 		 * // finish application if (err_count > 2) {
-		 * Log.d(APP_TAG,"Too many Error in making connection"); inform.setText(
+		 * Log.d(TAG,"Too many Error in making connection"); inform.setText(
 		 * "Too many Error in making connection, please check your network.");
 		 * break; } } if (student == null) { // Connection Fail
 		 * setNewStateFromTeacher(CONNECT_FAIL); return; }
 		 * 
 		 * boolean succ = false; err_count = 0; while (!succ) {
-		 * Log.d(APP_TAG,"Creating Connection"); succ =
+		 * Log.d(TAG,"Creating Connection"); succ =
 		 * student.create_connection(cururi);
 		 * 
 		 * if (err_count++ > 2) {
-		 * Log.d(APP_TAG,"Too many Error in making connection");
+		 * Log.d(TAG,"Too many Error in making connection");
 		 * //inform.setText
 		 * ("Too many Error in making connection, please check your network");
 		 * break; } } if (!succ) setNewStateFromTeacher(CONNECT_FAIL); else
@@ -306,10 +320,8 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	private String get_IP() {
-
 		try {
-			Enumeration<NetworkInterface> e = NetworkInterface
-					.getNetworkInterfaces();
+			Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
 			while (e.hasMoreElements()) {
 				NetworkInterface ni = e.nextElement();
 				Enumeration<InetAddress> ips = ni.getInetAddresses();
@@ -325,18 +337,18 @@ public class CourseList extends Activity implements OnDismissListener {
 
 					if (ipa.equals("127.0.0.1")) {
 						continue; // loopback MY_IP. Not meaningful for out
-									// purpose
+								  // purpose
 					}
 
 					// mp.addIPList(ipa);
 					// System.out.println(ipa+",");
-					Log.d(APP_TAG, ipa);
+					Log.d(TAG, ipa);
 					return ipa;
 				}
 			}
 
 		} catch (SocketException e) {
-
+			Log.e(TAG, "get_IP() can't get an IP address.  ");
 			e.printStackTrace();
 		}
 
@@ -351,7 +363,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			URL url = data_dir.toURL();
 			stored_file_url = url.toString();
 		} catch (Exception e) {
-			Log.d(APP_TAG, "URL ERROR");
+			Log.d(TAG, "URL ERROR");
 		}
 	}
 
@@ -367,7 +379,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	private void show_todo_view() {
 
-		setTitle(APP_TAG);
+		setTitle(curusername + "@SMILE Student");
 		setContentView(R.layout.category);
 
 		inform = (TextView) findViewById(R.id.ProgressText);
@@ -442,12 +454,12 @@ public class CourseList extends Activity implements OnDismissListener {
 		}
 
 		if (state < last_state_received) { // repeated messag
-			Log.d(APP_TAG, "repeated todo status:" + state + ", curr:"
+			Log.d(TAG, "repeated todo status:" + state + ", curr:"
 					+ last_state_received);
 			return; // cannot go back state.
 		}
 
-		Log.d(APP_TAG, "New todo status " + state);
+		Log.d(TAG, "New todo status " + state);
 		last_state_received = state;
 
 		switch (state) {
@@ -511,7 +523,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	public void setTimer(int _time) {
-		Log.d(APP_TAG, "time_limit:" + _time);
+		Log.d(TAG, "time_limit:" + _time);
 		// call timer function
 	}
 
@@ -521,7 +533,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	public void setRightAnswers(JSONArray _array, int _num) {
 
-		// Log.d(APP_TAG, "setRightAnswers");
+		// Log.d(TAG, "setRightAnswers");
 		Integer temp = 0;
 
 		right_answer = new Vector<Integer>();
@@ -534,7 +546,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				temp = _array.getInt(i);
 				right_answer.set(i, temp);
 			} catch (JSONException e) {
-				Log.d(APP_TAG, "Correct answers error: " + e);
+				Log.d(TAG, "Correct answers error: " + e);
 			}
 		}
 	}
@@ -546,9 +558,9 @@ public class CourseList extends Activity implements OnDismissListener {
 			try {
 				temp = _array.getInt(i);
 				answer_arr.set(i, temp);
-				Log.d(APP_TAG, "Saved Answer:" + temp);
+				Log.d(TAG, "Saved Answer:" + temp);
 			} catch (JSONException e) {
-				Log.d(APP_TAG, "Correct answers error: " + e);
+				Log.d(TAG, "Correct answers error: " + e);
 			}
 		}
 	}
@@ -562,7 +574,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				score_winner_name.add(i, name);
 
 			} catch (JSONException e) {
-				Log.d(APP_TAG, "Score Winner Error: " + e);
+				Log.d(TAG, "Score Winner Error: " + e);
 			}
 		}
 
@@ -578,7 +590,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				rating_winner_name.add(i, name);
 
 			} catch (JSONException e) {
-				Log.d(APP_TAG, "Rating Winner Error: " + e);
+				Log.d(TAG, "Rating Winner Error: " + e);
 			}
 
 		}
@@ -594,7 +606,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				final_avg_ratings.add(i, _array.getString(i));
 
 			} catch (JSONException e) {
-				Log.d(APP_TAG, "Avrage Rating Error: " + e);
+				Log.d(TAG, "Avrage Rating Error: " + e);
 			}
 
 		}
@@ -609,7 +621,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				r_answer_percents.add(i, _array.getString(i));
 
 			} catch (JSONException e) {
-				Log.d(APP_TAG, "Percent of right answer Error: " + e);
+				Log.d(TAG, "Percent of right answer Error: " + e);
 			}
 
 		}
@@ -708,7 +720,7 @@ public class CourseList extends Activity implements OnDismissListener {
 												100, jpg);
 
 										if (!error)
-											Log.d(APP_TAG, "ERROR JPGE");
+											Log.d(TAG, "ERROR JPGE");
 
 										// post with picture
 										student.post_question_to_teacher_picture(
@@ -729,7 +741,7 @@ public class CourseList extends Activity implements OnDismissListener {
 												myRightan);
 									}
 
-									Log.d(APP_TAG, "Posting:"
+									Log.d(TAG, "Posting:"
 											+ myContent.getText().toString());
 									// after posting question, return the main
 									// screen
@@ -773,7 +785,7 @@ public class CourseList extends Activity implements OnDismissListener {
 												100, jpg);
 
 										if (!error)
-											Log.d(APP_TAG, "ERROR JPGE");
+											Log.d(TAG, "ERROR JPGE");
 
 										// post with picture
 										student.post_question_to_teacher_picture(
@@ -794,7 +806,7 @@ public class CourseList extends Activity implements OnDismissListener {
 												myRightan);
 									}
 
-									Log.d(APP_TAG, "Posting:"
+									Log.d(TAG, "Posting:"
 											+ myContent.getText().toString());
 
 									if (previewidx == 1) {
@@ -1020,11 +1032,11 @@ public class CourseList extends Activity implements OnDismissListener {
 				;
 
 			} catch (IOException e) {
-				Log.d(APP_TAG, "ERROr COPYING DATA");
+				Log.d(TAG, "ERROr COPYING DATA");
 			}
 
 		} catch (FileNotFoundException e) {
-			Log.d(APP_TAG, imageUri.toString());
+			Log.d(TAG, imageUri.toString());
 		}
 
 		imageview.setImageBitmap(bmImg);
@@ -1069,7 +1081,7 @@ public class CourseList extends Activity implements OnDismissListener {
 					.getContentResolver(), Uri.withAppendedPath(
 					MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id + ""));
 
-			Log.d(APP_TAG, "Height" + c.getHeight() + " width= " + c.getWidth());
+			Log.d(TAG, "Height" + c.getHeight() + " width= " + c.getWidth());
 
 			// resize bitmap: code copied from
 			// thinkandroid.wordpress.com/2009/12/25/resizing-a-bitmap/
@@ -1091,9 +1103,9 @@ public class CourseList extends Activity implements OnDismissListener {
 				b = c;
 			}
 		} catch (FileNotFoundException e) {
-			Log.d(APP_TAG, "ERROR" + e);
+			Log.d(TAG, "ERROR" + e);
 		} catch (IOException e) {
-			Log.d(APP_TAG, "ERROR" + e);
+			Log.d(TAG, "ERROR" + e);
 		}
 
 		return b;
@@ -1167,11 +1179,11 @@ public class CourseList extends Activity implements OnDismissListener {
 					;
 
 				} catch (IOException e) {
-					Log.d(APP_TAG, "ERROr COPYING DATA");
+					Log.d(TAG, "ERROr COPYING DATA");
 				}
 
 			} catch (FileNotFoundException e) {
-				Log.d(APP_TAG, add_pic_d.readURI().toString());
+				Log.d(TAG, add_pic_d.readURI().toString());
 			}
 		} else {
 			// bmImg = null;
@@ -1187,7 +1199,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		rating_arr.clear();
 		my_score.clear();
 
-		Log.d(APP_TAG, "LAST_SCENE " + LAST_SCENE_NUM);
+		Log.d(TAG, "LAST_SCENE " + LAST_SCENE_NUM);
 		for (int i = 0; i < LAST_SCENE_NUM; i++) {
 			answer_arr.add(i, -1);
 			rating_arr.add(i, -1);
@@ -1335,9 +1347,9 @@ public class CourseList extends Activity implements OnDismissListener {
 										student.submit_answer_to_teacher(
 												answer_arr, rating_arr);
 
-										// Log.d(APP_TAG,
+										// Log.d(TAG,
 										// "answer_arr[0]="+answer_arr.get(0));
-										// Log.d(APP_TAG,
+										// Log.d(TAG,
 										// "answer_arr[1]="+answer_arr.get(1));
 
 										show_todo_view();
@@ -1377,11 +1389,9 @@ public class CourseList extends Activity implements OnDismissListener {
 			ratingbar.setEnabled(false);
 
 			// percent graph	
-			System.out.println("Draw Graph: start");
 			right_val = Integer.parseInt(r_answer_percents.get(scene_number - 1).trim());
 			wrong_val = 100 - right_val;
 			draw_piechart.redraw(right_val, wrong_val);		
-			System.out.println("Draw Graph: end");
 			
 		}
 

@@ -35,7 +35,7 @@ public class JunctionQuiz extends Activity {
 	static String susername;
 	static String susername_op;
 	static String suri;
-	static String server_uri="192.168.2.4"; // hard-coding
+	static String server_uri="192.168.1.16"; // XXX hard-coding, save/restore to prefs
 	
 	boolean index_start = true; // if true, activity starts
 	int ACTIVITY_OK;
@@ -44,9 +44,6 @@ public class JunctionQuiz extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        //smile_logo    = (ImageView)findViewById(R.id.ismile_logo);
-    	//stanford_logo = (ImageView)findViewById(R.id.istanford_logo);
-            
         SetLogin();
     }
 	
@@ -61,10 +58,17 @@ public class JunctionQuiz extends Activity {
 		if(susername.equals("")) return_value = false;
 		else return_value = true;
 		
+		if (return_value) {
+			setTitle(susername + "@SMILE Student");
+		}
 		return return_value;
 		
 	}
     
+	//
+	// Refactor
+	// We should do a proper job with the networking
+	//
 	private  String get_IP() {
 
 	  	try {
@@ -82,7 +86,7 @@ public class JunctionQuiz extends Activity {
 						continue;
 					}			
 					if (ipa.equals("127.0.0.1")) {
-						continue;		// loopback MY_IP. Not meaningful for out purpose
+						continue;		// loopback MY_IP. Not meaningful for our purpose
 					}
 					return ipa;
 				}

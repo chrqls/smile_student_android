@@ -3,6 +3,7 @@ package org.smilecon.smile.student;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,9 +31,13 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.util.Log;
+import android.content.Context;
+import android.widget.Toast;
 
 public class HttpMsgForStudent extends Thread {
-
+	private static final String TAG = "<SMILESTUDENT>";
+	private Context mCTX;
+	
 	// new addition
 	JunctionQuiz login;
 	
@@ -42,7 +47,7 @@ public class HttpMsgForStudent extends Thread {
 	String Server_IP;
 	String last_type_from_msg;
 	
-	String APP_TAG = "http_student";
+
 	int msec = 1200;   // check once for 1.5 sec
 	
 	//HttpClient httpclient;
@@ -54,22 +59,24 @@ public class HttpMsgForStudent extends Thread {
 	boolean sent_answer = false;
 
 	boolean finished = false;
-	public HttpMsgForStudent(CourseList _main, String name, String IP)
+	
+	String send_uri;
+	String server_msg_uri;
+	String server_my_state_uri;
+
+	public HttpMsgForStudent(CourseList _main, String name, String IP, Context ctx)
 	{ 
 		finished  = false;
 		main      = _main;
 		curr_name = name;
 		MY_IP =  IP;
-		Log.d(APP_TAG, "IP = " + IP);
+		Log.d(TAG, "IP = " + IP);
 		
 		last_type_from_msg = "";
+		mCTX = ctx;
 		
 		send_q = new LinkedList<JSONObject>();
 	}
-	
-	String send_uri;
-	String server_msg_uri;
-	String server_my_state_uri;
 	
 	public boolean beginConnection(String ip_addr)
 	{
@@ -82,17 +89,19 @@ public class HttpMsgForStudent extends Thread {
 		    = "http://"+Server_IP+"/JunctionServerExecution/current/MSG/" + MY_IP +".txt";
 		
 		// enque HAIL message to server
-		send_initial_message(); 
-
-		start(); // start fetch thread;
+		if (send_initial_message()) {
+			start(); // start fetch thread;
+			return true;
+		} else {
+			return false;
+		}
 		
-		return true;
 	}
 	
 	public void clean_up() {
 		finished = true;
 		http_thread.cleanup();
-		Log.d(APP_TAG,"thread cleanup");
+		Log.d(TAG,"thread cleanup");
 	}
 	
 	
@@ -103,6 +112,7 @@ public class HttpMsgForStudent extends Thread {
 
 	static final int THRESHOLD1 = 8;	// when to cancel req
 	static final int THRESHOLD2 = 10;	// when to detect error 
+	
 	public void run() {
 		int cnt = 0;
 		http_thread = new http_additional_thread();
@@ -176,29 +186,30 @@ public class HttpMsgForStudent extends Thread {
 //==========================================================================
 	synchronized void sendMessage(JSONObject o)
 	{
+		
 		try {
 			o.put("IP", MY_IP); // always give my IP in the message
-
 			send_q.addLast(o);
-
 		} catch (Exception e ) {
+			Log.e(TAG, "sendMessage() Exception, reason: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
 	
-	void send_initial_message() 	// send to teacher after joining the quiz
+	boolean send_initial_message() 	// send to teacher after joining the quiz
 	{
 		JSONObject reply = new JSONObject();
 		try {			
 			reply.put("TYPE", "HAIL");
 			reply.put("NAME", curr_name);
-			System.out.println(reply);
+			Log.d(TAG, "send_initial_message() : reply = " + reply);
 			sendMessage(reply);
 			need_http = true;
-		
+			return true;
 		} catch (Exception e) {
-			System.out.println("ERROR");
+			Log.e(TAG, "send_initial_message() execption, reason: " + e.getMessage()); 
 			e.printStackTrace();
+			return true; // XXX This should be false ... 
 		}
 	}
 	public void post_question_to_teacher(
@@ -217,12 +228,12 @@ public class HttpMsgForStudent extends Thread {
 			
 			sendMessage(reply);
 			
-			Log.i(APP_TAG,"Sending Qustion"+q +" Righ Answer =  " + a);
+			Log.i(TAG,"Sending Qustion"+q +" Righ Answer =  " + a);
 			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i(APP_TAG,"Exception:question sending error");
+			Log.i(TAG,"Exception:question sending error");
 		}
 		need_http = true;
 		this.sent_question = true;
@@ -248,12 +259,12 @@ public class HttpMsgForStudent extends Thread {
 			reply.put("PIC", encoded_jpg);
 			sendMessage(reply);
 			
-			Log.i(APP_TAG,"Sending Qustion"+q +" Right Answer =  " + a);
+			Log.i(TAG,"Sending Qustion"+q +" Right Answer =  " + a);
 			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i(APP_TAG,"Exception");
+			Log.i(TAG,"Exception");
 		}
 		this.sent_question = true;
 		need_http = true;
@@ -270,7 +281,7 @@ public class HttpMsgForStudent extends Thread {
 				if(_arrayname.get(i) == null) vectorarray.set(i,0);
 				else vectorarray.set(i,(Integer) _arrayname.get(i));
 			} catch (JSONException e) {
-				Log.i(APP_TAG, "Transition error: JSONArray to Vector");
+				Log.i(TAG, "Transition error: JSONArray to Vector");
 				e.printStackTrace();
 			}
 		}
@@ -288,7 +299,7 @@ public class HttpMsgForStudent extends Thread {
 				else jsonarray.put(i,_arrayname.get(i));
 												
 			} catch (JSONException e) {
-				Log.i(APP_TAG, "Transition error: Vector to JSONArray");
+				Log.i(TAG, "Transition error: Vector to JSONArray");
 				e.printStackTrace();
 			}
 		}
@@ -312,11 +323,11 @@ public class HttpMsgForStudent extends Thread {
 			reply.put("MYRATING", submit_rating);
 			
 			sendMessage(reply);
-			Log.i(APP_TAG,"Submitting my answer and rating");
+			Log.i(TAG,"Submitting my answer and rating");
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
-			Log.i(APP_TAG, "submit error");
+			Log.i(TAG, "submit error");
 		}
 		this.sent_answer = true;
 		need_http = true;
@@ -331,9 +342,11 @@ public class HttpMsgForStudent extends Thread {
 	 synchronized void messageReceived(JSONObject arg1) {
 		try {
 			String type = arg1.getString("TYPE");
-			if (type.equals(this.last_type_from_msg))
+			Log.d(TAG, "received TYPE: " + type + " last type was :" + this.last_type_from_msg);
+			if (type.equals(this.last_type_from_msg)) {
+				Log.d(TAG, "handle: ... nothing, we are discarding this message becase we saw it before");
 				return;  // this message has been already processed
-					
+			}
 			if (last_type_from_msg.equals("") && !type.equals("WAIT_CONNECT"))
 			{
 				restore_from_previous_execution(arg1);
@@ -344,15 +357,16 @@ public class HttpMsgForStudent extends Thread {
 
 			if (type.equals("WAIT_CONNECT"))
 			{
+				Log.d(TAG, "handle type: WAIT_CONNECT");
 				if (main.getCurrentState() < CourseList.INIT_WAIT)
 					main.setNewStateFromTeacher(CourseList.INIT_WAIT);
 				
 			} else if (type.equals("WARN")){// new function
-				
+				Log.d(TAG, "handle type: WARN?");
 			} else if (type.equals("START_MAKE")) {
 				
 				System.out.println("START_MAKE");
-				Log.i(APP_TAG, "START_MAKE RECEIVED");
+				Log.d(TAG, "handle: START_MAKE");
 				
 				if (this.sent_question)
 					main.setNewStateFromTeacher(CourseList.WAIT_SOLVE_QUESTION);
@@ -361,12 +375,11 @@ public class HttpMsgForStudent extends Thread {
 
 			    
 			} else if (type.equals("START_SOLVE")) {
-				
+				Log.d(TAG, "handle: START_SOLVE");
 				int time_limit    = arg1.getInt("TIME_LIMIT");
 				int num_questions = arg1.getInt("NUMQ");
 				JSONArray ranswer = new JSONArray();
 				ranswer = arg1.getJSONArray("RANSWER");
-				System.out.println("START_SOLVE");
 				
 				main.setTimer(time_limit);
 				main.setNumOfScene(num_questions);
@@ -451,6 +464,7 @@ public class HttpMsgForStudent extends Thread {
 				}
 				
 		} catch(Exception e) {
+			Log.e(TAG, "restore_from_previous_execution() Exception, reason: " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -479,7 +493,7 @@ public class HttpMsgForStudent extends Thread {
 		// called by main thread
 		public void start_sending()
 		{
-			Log.d(APP_TAG, "start sending");
+			Log.d(TAG, "start sending");
 			synchronized(objMutex)
 			{
 			  finished = false;
@@ -492,10 +506,10 @@ public class HttpMsgForStudent extends Thread {
 		}
 		public void start_receiving()
 		{
-			Log.d(APP_TAG, "start receiving");
+			Log.d(TAG, "start receiving");
 			synchronized(objMutex)
 			{
-    			finished = false;
+    		  finished = false;
 			  to_receive = true;
 			  to_send = false;
 			  is_error = false;
@@ -506,24 +520,32 @@ public class HttpMsgForStudent extends Thread {
 		// this method is called by this thread only. so no need to synchronize
 		public JSONObject receive_status() throws Exception 
 		{
-			HttpGet httpget = new HttpGet(server_my_state_uri);
-			currentReq = httpget;
-			HttpResponse response = httpclient.execute(httpget);
-			currentReq = null;
-			
-			String body = getResponseString(response);
-			if (response.getStatusLine().getStatusCode() == 404) {
-				return null; 	// server not ready
-			}
-			else if ((response.getStatusLine().getStatusCode() / 100) != 2) { 
-				Log.e(APP_TAG, "HTTP Response Error : " + response.getStatusLine());
-				throw new Exception(""+response.getStatusLine());
-			}
+			JSONObject o = null;
+			try {
+				HttpGet httpget = new HttpGet(server_my_state_uri);
+				currentReq = httpget;
+				HttpResponse response = httpclient.execute(httpget);
+				currentReq = null;
+				Log.d(TAG, "received ");
+				String body = getResponseString(response);
+				if (response.getStatusLine().getStatusCode() == 404) {
+					// 404 doesn't mean server isn't ready, it means you are pointing at the wrong URL
+					//
+					Toast.makeText(mCTX, "404 Error contacting url: " + server_my_state_uri + ".  Please Verify that your WIFI is connected to the right network and your SMILE Server is running.", Toast.LENGTH_SHORT).show();
+					return null; 	// server not ready
+				}
+				else if (response.getStatusLine().getStatusCode() != 200) { 
+					Log.e(TAG, "HTTP Response Error : " + response.getStatusLine());
+					Toast.makeText(mCTX, "HTTP Error, Received HTTP status Code " + response.getStatusLine().getStatusCode(), Toast.LENGTH_SHORT).show();
+					throw new Exception(""+response.getStatusLine());
+				}
 	
-			JSONObject o =  new JSONObject( body );
-			
+				o =  new JSONObject( body );
+			} catch(IOException ioe) {
+				Log.e(TAG, "IOException on call to " + server_my_state_uri + ", reason: " + ioe.getMessage());
+				throw ioe;
+			} 
 			return o;
-			
 		} 		
 
 		public void abort_now() { 
@@ -534,7 +556,7 @@ public class HttpMsgForStudent extends Thread {
 		}
 		// called when the application is finished
 		public void cleanup() {
-			Log.d(APP_TAG, "stopping");
+			Log.d(TAG, "stopping");
 			if (currentReq != null) {
 				currentReq.abort();
 				currentReq = null;
@@ -562,7 +584,7 @@ public class HttpMsgForStudent extends Thread {
 			 params = new BasicHttpParams();
 			HttpConnectionParams.setConnectionTimeout(params, 7000); // until first connection
 			HttpConnectionParams.setSoTimeout(params, 7000); // 10000 ms socket timeout --? no time out for socket
-			Log.d(APP_TAG, ""+ HttpConnectionParams.getSoTimeout(params));
+			Log.d(TAG, ""+ HttpConnectionParams.getSoTimeout(params));
 			httpclient = new DefaultHttpClient(params);
 	
 			finished = true;
@@ -587,7 +609,6 @@ public class HttpMsgForStudent extends Thread {
 	                try {objMutex.wait();}
 	                catch (InterruptedException e)
 	                {
-	                    System.out.println(e);
 	                }
 	            }
 	        }
@@ -607,7 +628,7 @@ public class HttpMsgForStudent extends Thread {
 			
 		}
 		void run_main() {
-			Log.d(APP_TAG, "START_JOB");
+			Log.d(TAG, "START_JOB");
 
 			if (to_send) {	// send msg_o object
 				try{
@@ -622,11 +643,12 @@ public class HttpMsgForStudent extends Thread {
 					getResponseString(response); // consume response
 					
 					if ((response.getStatusLine().getStatusCode() / 100) != 2) { 
-						Log.e(APP_TAG, "HTTP Response Error : " + response.getStatusLine());
+						Log.e(TAG, "HTTP Response Error : " + response.getStatusLine());
 						throw new Exception(""+response.getStatusLine());
 					}
 				
 				} catch (Exception e) {
+					Log.e(TAG, "HTTP Response Error, reason " + e.getMessage());
 					e.printStackTrace();
 					is_error = true;
 				}
@@ -646,7 +668,7 @@ public class HttpMsgForStudent extends Thread {
 						// do nothing
 					}
 					else if ((response.getStatusLine().getStatusCode() / 100) != 2) { 
-						Log.e(APP_TAG, "HTTP Response Error : " + response.getStatusLine());
+						Log.e(TAG, "HTTP Response Error : " + response.getStatusLine());
 						throw new Exception(""+response.getStatusLine());
 					}
 					else {
@@ -656,15 +678,19 @@ public class HttpMsgForStudent extends Thread {
 					}
 					
 				} catch(Exception e) {
+					Log.e(TAG, "run_main() exception, reason: " + e.getMessage());
 					e.printStackTrace();
 					is_error = true;
 				}
 			}
 			
 			if (is_error) {
-				Log.d(APP_TAG, "ERR_CNT = " + my_err_cnt);
+				//
+				// XXX Basically this doesn't work
+				//
+				Log.d(TAG, "ERR_CNT = " + my_err_cnt);
 				if (my_err_cnt++ == 4) {
-					Log.d(APP_TAG, "Making new HttpClient");
+					Log.d(TAG, "Making new HttpClient");
 					httpclient.getConnectionManager().shutdown();
 					httpclient = new DefaultHttpClient(params);
 					my_err_cnt = 0;
