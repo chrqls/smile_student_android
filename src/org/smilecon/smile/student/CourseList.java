@@ -1637,7 +1637,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		String header1 = "<html><head></head><body><P></P><font face=\"helvetica\">";
 		String header2 = "<center>" + username + "'s result<br>";
-		String header3 = "Total Score: " + num_right + "/" + total_question;
+		String header3 = "Total Score: " + num_right + "/" + total_question + "<br />&#x2717;=Incorrect, &#x2713;=Correct";
 		String body1 = "<P><table border=\"1\">";
 		String body2 = "<tr><td><div align=\"center\"> Question Number </div></td>"
 				+ "<td><div align=\"center\"> Correct or Wrong </div></td></tr>";
@@ -1652,11 +1652,11 @@ public class CourseList extends Activity implements OnDismissListener {
 			if (score == 1) { // right
 				mid = "<tr><td><div align=\"center\">" + "(" + number + ")"
 						+ "</div></td>"
-						+ "<td><div align=\"center\">O</div></td></tr>";
+						+ "<td><div align=\"center\">&#x2713;</div></td></tr>";
 			} else { // wrong
 				mid = "<tr><td><div align=\"center\">" + "(" + number + ")"
 						+ "</div></td>"
-						+ "<td><div align=\"center\">X</div></td></tr>";
+						+ "<td><div align=\"center\">&#x2717;</div></td></tr>";
 			}
 
 			mid_html = mid_html + mid;

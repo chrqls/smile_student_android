@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">SMILE Student</string>
-    <string name="app_name">SMILE Student</string>
-    <string name="version">1.0.3</string>
+    <string name="hello">SMILE Student 1.0.4</string>
+    <string name="app_name">SMILE Student 1.0.4</string>
+    <string name="version">1.0.4</string>
 </resources>
