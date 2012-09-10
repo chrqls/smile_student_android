@@ -1,7 +1,30 @@
+# MAC OS X - XCode stuff to ignore
+.DS_Store
+*.swp
+*~.nib
 
-/smileplug-adm-app/bin
-/smileplug-adm-app/target
-/smileplug-adm-app/gen/com
-/smileplug-adm-test/gen/com
-/smileplug-adm-test/bin
-/smileplug-adm-test/target
+build
+
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+*.tm_build_errors
+
+# Eclipse stuff to ignore
+.settings
+.metadata
+# .project
+# .classpath
+*/bin
+
+# Ignore other VC systems, we use GIT
+.svn
+.hg
+
+# Ignore specific android SDK isms
+local.properties
+*/gen
+*/obj
+*/libs

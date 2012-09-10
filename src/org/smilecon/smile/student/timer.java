@@ -1,4 +1,4 @@
-package org.smilecon.smile.student;
+package edu.stanford.smile;
 
 import android.app.Activity;
 import android.os.Bundle;

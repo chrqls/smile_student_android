@@ -1,3 +1,12 @@
+/*===================================================================================
+  Developed by Sunmi Seol
+  Modified by chi-hou vong
+  File Name: CourseList.java
+  Version: 2.1
+  Created Time: 08.03.2012
+======================================================================================*/
+
+
 package org.smilecon.smile.student;
 
 import java.io.ByteArrayOutputStream;
@@ -13,18 +22,22 @@ import java.net.SocketException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Formatter;
+import java.util.Locale;
 import java.util.Vector;
-import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONException;
 import android.widget.RatingBar;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -50,9 +63,9 @@ import android.widget.Toast;
 import android.webkit.WebChromeClient;
 
 public class CourseList extends Activity implements OnDismissListener {
-	private Random mRandom = new Random();
-	String TAG = "MySMILE";
-	String server_dir = "/JunctionServerExecution/current/";
+
+	String APP_TAG = "SMILE";
+	String server_dir = "/SMILE/current/";
 
 	WebView webviewQ;
 	WebView webviewSR;
@@ -78,12 +91,15 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	private String question_arr[] = { "", "", "", "", "", "" };
 	int LAST_SCENE_NUM = 0;
-	private String category_arr[] = { "Make Your Question", "Solve Questions", "See Results" };
-	private String curcategory;
+	//private String category_arr[] = { "Make Your Question", "Solve Questions", "See Results" };
+	private String category_arr[];
+	private String language_list[];
+	String curcategory;
 
-	static int selarridx = 0; // 0:solve question 1: see results
+	static int selarridx  = 0; // 0:solve question 1: see results
 	static int previewidx = 0; // 0:no preview 1:preview
-	int issolvequestion = 0; // 0: solve question 1: see results
+	static int galleryidx = 0; // 1:been there 2: back no image
+	int issolvequestion   = 0; // 0: solve question 1: see results
 
 	static int chkimg = 0; // 0:no image 1: image selected
 	static int choice02 = -2;
@@ -92,14 +108,15 @@ public class CourseList extends Activity implements OnDismissListener {
 	static int curusertype = 1;
 	static String cururi;
 	static String curusername;
-	static String curusername_op;
-	// boolean connection_created = false;
+	static String curlanguage;
 
 	String myRightan;
 
 	private boolean isImageSelected = false;
 
 	AddPictureDialog add_pic_d = null;
+	AndroidCustomGallery add_pic_g = null; // on 3/19/2012
+
 	piechart draw_piechart;
 
 	TextView notemkcontent;
@@ -107,7 +124,6 @@ public class CourseList extends Activity implements OnDismissListener {
 	TextView noteseecontent;
 
 	String stored_file_url;
-	// JunctionStudent student;
 	HttpMsgForStudent student;
 
 	// variables regarding on quick_action
@@ -118,6 +134,9 @@ public class CourseList extends Activity implements OnDismissListener {
 	QuickAction image_qa;
 
 	Boolean TakenImage = false;
+
+	Boolean SolvingIndex = false; // if it is true, it means a user solved questions
+
 	Uri imageUri;
 	Uri ThumUri;
 	Intent camera_intent;
@@ -132,16 +151,14 @@ public class CourseList extends Activity implements OnDismissListener {
 	// JunctionStudent -> main.setNewState -> [MessageHandler] -> handleMessage
 	// -> main.change_todo_view_state
 	// ---------------------------------------------------------------------------------------------------------
-	public void setNewStateFromTeacher(int todo_number) { // called by junction
-															// object
+	public void setNewStateFromTeacher(int todo_number) { // called by junction object
+
 		messageHandler.sendMessage(Message.obtain(messageHandler, todo_number));
 		// below Handler will be called soon enough with 'todo_number' as
 		// msg.what
 	}
 
-	public void setTranferStatus(boolean is_send, int time) { // called by
-																// junction
-																// object
+	public void setTranferStatus(boolean is_send, int time) { // called by junction object
 		// 0: finished
 		// 1~20: how many time has passed
 		if (is_send)
@@ -155,22 +172,28 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	void setHttpStatus(int kind, int time) {
+
 		try {
 			TextView http = (TextView) findViewById(R.id.HTTPText);
 			if (time == 0)
 				http.setText("");
 			else {
-				StringBuffer sb = new StringBuffer("");
-				if (kind == HTTP_PING_STATUS)
-					sb.append("ConnectingSever:");
-				else
-					sb.append("Sending:");
 
-				for (int i = 0; i < time; i++)
+				StringBuffer sb = new StringBuffer("");
+				if (kind == HTTP_PING_STATUS){
+					sb.append(getString(R.string.ConnectingSever));
+				} else {
+					sb.append(getString(R.string.Sending));
+				}
+
+				for (int i = 0; i < time; i++) {
 					sb.append('.');
+				}
+
 				http.setText(sb.toString());
-				// Log.d(TAG,"Hey:"+sb.toString());
+
 			}
+
 		} catch (Exception e) {
 		}
 
@@ -183,13 +206,34 @@ public class CourseList extends Activity implements OnDismissListener {
 				int time = msg.arg1;
 				setHttpStatus(msg.what, time);
 			} else {
-				change_todo_view_state(msg.what);
+				if(msg.what == RE_TAKE)
+				{
+					last_state_received = WAIT_SOLVE_QUESTION;
+					change_todo_view_state(SOLVE_QUESTION);
+				}
+				else if(msg.what == RE_START)
+				{
+					last_state_received = BEFORE_CONNECT;
+					change_todo_view_state(INIT_WAIT);
+				}
+				else change_todo_view_state(msg.what);
 			}
 		};
 	};
 
 	public int getCurrentState() {
 		return last_state_received;
+	}
+
+	public int getLanguageIndex() {
+
+		int return_index = 0; //default (English)
+
+		if(curlanguage.equals(language_list[0]))       return_index = 0;
+		else if (curlanguage.equals(language_list[1])) return_index = 1;
+
+		return return_index;
+
 	}
 
 	public String getMyName() {
@@ -208,40 +252,46 @@ public class CourseList extends Activity implements OnDismissListener {
 	public final static int WAIT_SEE_RESULT = 4;
 	public final static int SEE_RESULT = 5;
 	public final static int FINISH = 6;
+	public final static int RE_TAKE = 100;
+	public final static int RE_START = 200;
 
 	int last_state_received = BEFORE_CONNECT; // MAKE_QUESTION,
-	static String MY_IP = null;
+	String MY_IP;
 
+	// This part is called when starting this app
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
+		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
+
+		Resources res = getResources(); //get resources
+		language_list = res.getStringArray(R.array.language_list);
+		category_arr  = res.getStringArray(R.array.category_list);
 
 		// First Extract the bundle from intent
 		Bundle bundle = getIntent().getExtras();
 		// Next extract the values using the key as
 		curusertype = 1; // fixed (student)
 
-		curusername = bundle.getString("USERNAME");
-		cururi = bundle.getString("URI");
-		curusername_op = bundle.getString("NAMEOP");
-
-		curusername = curusername + curusername_op;
-		// Log.d(TAG, "Username: "+ curusername);
+		curusername    = bundle.getString("USERNAME");
+		cururi         = bundle.getString("URI");
+		curlanguage    = bundle.getString("CHOSEN_LANGUAGE");
 
 		draw_piechart = new piechart(this); // to draw the piechart
 		draw_piechart.onStart(100,0);
 
-		answer_arr = new Vector<Integer>();
-		rating_arr = new Vector<Integer>();
-		my_score = new Vector<Integer>();
+		add_pic_g = new AndroidCustomGallery (this); // on 3/19/2012s
+
+		answer_arr   = new Vector<Integer>();
+		rating_arr   = new Vector<Integer>();
+		my_score     = new Vector<Integer>();
 		right_answer = new Vector<Integer>();
 
-		score_winner_name = new Vector<String>();
+		score_winner_name  = new Vector<String>();
 		rating_winner_name = new Vector<String>();
-		final_avg_ratings = new Vector<String>();
-		r_answer_percents = new Vector<String>();
+		final_avg_ratings  = new Vector<String>();
+		r_answer_percents  = new Vector<String>();
 
 		// connection_created = false;
 		_act = this;
@@ -256,10 +306,6 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		MY_IP = get_IP();
 
-		if ((MY_IP == null) || (MY_IP.length() == 0) || (MY_IP=="")) {
-			MY_IP = generateFakeIP();
-		}
-		Toast.makeText(this, "Using IP: " + MY_IP, Toast.LENGTH_SHORT).show();
 		getStoredFileURL();
 		create_connection();
 		show_todo_view();
@@ -268,58 +314,50 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	}
 
-	private String generateFakeIP() {
-		String addr = "127.0.0.";
-	 	addr = addr + String.valueOf(mRandom.nextInt(255) + 1);
-		return addr;
-	}
-	
 	private void create_connection() {
 
-		Log.d(TAG, "Creating connection");
+		Log.d(APP_TAG, "Creating connection");
 		student = null;
 
-		Toast.makeText(this, "Creating Connection", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, getString(R.string.creatingconnection), Toast.LENGTH_SHORT).show();
 
-		student = new HttpMsgForStudent(this, curusername, MY_IP, this);
-		if (!student.beginConnection(cururi)) {
-			Toast.makeText(this, "Connection Issue connecting with client IP = " + MY_IP + " to server IP = " + cururi, Toast.LENGTH_SHORT).show();
-			// We should return to the login
-		}
+		student = new HttpMsgForStudent(this, curusername, MY_IP);
+		student.beginConnection(cururi);
 
 		// create connection with another thread
 		/*
 		 * new Thread(new Runnable() { public void run() {
-		 * 
+		 *
 		 * int err_count = 0; while (student == null) {
-		 * Log.d(TAG,"Creating Student");
-		 * 
+		 * Log.d(APP_TAG,"Creating Student");
+		 *
 		 * student = new JunctionStudent((CourseList)_act, curusername, MY_IP);
 		 * err_count++;
-		 * 
+		 *
 		 * // finish application if (err_count > 2) {
-		 * Log.d(TAG,"Too many Error in making connection"); inform.setText(
+		 * Log.d(APP_TAG,"Too many Error in making connection"); inform.setText(
 		 * "Too many Error in making connection, please check your network.");
 		 * break; } } if (student == null) { // Connection Fail
 		 * setNewStateFromTeacher(CONNECT_FAIL); return; }
-		 * 
+		 *
 		 * boolean succ = false; err_count = 0; while (!succ) {
-		 * Log.d(TAG,"Creating Connection"); succ =
+		 * Log.d(APP_TAG,"Creating Connection"); succ =
 		 * student.create_connection(cururi);
-		 * 
+		 *
 		 * if (err_count++ > 2) {
-		 * Log.d(TAG,"Too many Error in making connection");
+		 * Log.d(APP_TAG,"Too many Error in making connection");
 		 * //inform.setText
 		 * ("Too many Error in making connection, please check your network");
 		 * break; } } if (!succ) setNewStateFromTeacher(CONNECT_FAIL); else
 		 * setNewStateFromTeacher(INIT_WAIT);
-		 * 
-		 * 
+		 *
+		 *
 		 * } }).start();
 		 */
 	}
 
 	private String get_IP() {
+
 		try {
 			Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
 			while (e.hasMoreElements()) {
@@ -337,33 +375,34 @@ public class CourseList extends Activity implements OnDismissListener {
 
 					if (ipa.equals("127.0.0.1")) {
 						continue; // loopback MY_IP. Not meaningful for out
-								  // purpose
+									// purpose
 					}
 
-					// mp.addIPList(ipa);
-					// System.out.println(ipa+",");
-					Log.d(TAG, ipa);
+					Log.d(APP_TAG, ipa);
 					return ipa;
 				}
 			}
 
 		} catch (SocketException e) {
-			Log.e(TAG, "get_IP() can't get an IP address.  ");
+
 			e.printStackTrace();
 		}
 
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getStoredFileURL() {
+
 		// save URL for stored file
 		File data_dir = getBaseContext().getFilesDir();
 
 		try {
+
 			URL url = data_dir.toURL();
 			stored_file_url = url.toString();
 		} catch (Exception e) {
-			Log.d(TAG, "URL ERROR");
+			Log.d(APP_TAG, "URL ERROR");
 		}
 	}
 
@@ -372,6 +411,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	Button makeQ;
 	Button solveQ;
 	Button seeR;
+
 	Boolean enabled_m = false;
 	Boolean enabled_s = false;
 	Boolean enabled_r = false;
@@ -379,16 +419,20 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	private void show_todo_view() {
 
-		setTitle(curusername + "@SMILE Student");
+		setTitle(APP_TAG);
 		setContentView(R.layout.category);
 
 		inform = (TextView) findViewById(R.id.ProgressText);
 
-		makeQ = (Button) findViewById(R.id.MKQbutton);
-		solveQ = (Button) findViewById(R.id.SOLQbutton);
-		seeR = (Button) findViewById(R.id.SEERbutton);
-
+		makeQ        = (Button) findViewById(R.id.MKQbutton);
+		solveQ       = (Button) findViewById(R.id.SOLQbutton);
+		seeR         = (Button) findViewById(R.id.SEERbutton);
 		exitTodoView = (Button) findViewById(R.id.exitbutton);
+
+		makeQ.setText(category_arr[0]);
+		solveQ.setText(category_arr[1]);
+		seeR.setText(category_arr[2]);
+		exitTodoView.setText(R.string.category_exit);
 
 		makeQ.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
@@ -409,7 +453,9 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		seeR.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
-				student.can_rest_now();
+				change_todo_view_state(FINISH);
+				// comment out for re-take the quiz and start a new session
+				// student.can_rest_now();
 				seeResults();
 				selarridx = 1;
 			}
@@ -419,19 +465,19 @@ public class CourseList extends Activity implements OnDismissListener {
 			public void onClick(View v) {
 
 				final Builder adb = new AlertDialog.Builder(CourseList.this);
-				adb.setTitle("Warnning!!");
-				adb.setMessage("Do you want to exit the program?");
-				adb.setPositiveButton("OK",
+
+				adb.setTitle(getString(R.string.warn));
+				adb.setMessage(getString(R.string.exit_q));
+				adb.setPositiveButton(getString(R.string.OK),
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
 								CourseList.this.finish();
 							}
 						});
 
-				adb.setNegativeButton("Cancel", null);
+				adb.setNegativeButton(getString(R.string.Cancel), null);
 				adb.show();
 
-				// CourseList.this.finish();
 			}
 		});
 
@@ -444,86 +490,88 @@ public class CourseList extends Activity implements OnDismissListener {
 		super.onDestroy();
 	}
 
+	@SuppressLint("ShowToast")
 	private void change_todo_view_state(int state) {
 
 		if (state == CONNECT_FAIL) {
-			Toast.makeText(this, "Connection Failed. Please Restart",
-					Toast.LENGTH_LONG);
+			Toast.makeText(this, getString(R.string.network_warning), Toast.LENGTH_LONG);
 			this.finish(); // finish current activity. Connection lost
 			return;
 		}
 
 		if (state < last_state_received) { // repeated messag
-			Log.d(TAG, "repeated todo status:" + state + ", curr:"
+			Log.d(APP_TAG, "repeated todo status:" + state + ", curr:"
 					+ last_state_received);
 			return; // cannot go back state.
 		}
 
-		Log.d(TAG, "New todo status " + state);
+		Log.d(APP_TAG, "New todo status " + state);
 		last_state_received = state;
 
 		switch (state) {
+
 		case BEFORE_CONNECT: // wait
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
-			inform.setText("Trying to connect to the server.");
+			inform.setText(R.string.inform_state_before_connect);
 			break;
+
 		case INIT_WAIT: // wait
-			// if (!connection_created) {
-			// Toast.makeText(this, "Connected to server",
-			// Toast.LENGTH_SHORT).show();
-			// student.send_initial_message(); // send first message
-			// connection_created = true;
-			// }
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
-			inform.setText("Waiting for others to join the Quiz.");
+			inform.setText(R.string.inform_state_ini_wait);
 			break;
+
 		case MAKE_QUESTION: // press button for making
 			makeQ.setEnabled(true);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
-			inform.setText("Press the button to start making your question.");
+			inform.setText(R.string.inform_state_make_question);
 			break;
+
 		case WAIT_SOLVE_QUESTION: // wait solving
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
-			inform.setText("Waiting for others to finish their question making.");
+			inform.setText(R.string.inform_state_wait_solve_question);
 			break;
+
 		case SOLVE_QUESTION: // press button for solving
 			// clear cache of webview
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(true);
 			seeR.setEnabled(false);
-			inform.setText("Press the button to start solving the questions.");
+			inform.setText(R.string.inform_state_solve_question);
 			break;
+
 		case WAIT_SEE_RESULT: // wait seeing results
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
-			inform.setText("Waiting for others to finish solving the questions...");
+			inform.setText(R.string.inform_state_wait_see_result);
 			break;
+
 		case SEE_RESULT: // see results
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(true);
-			inform.setText("Press the button to see your results and ratings.");
+			inform.setText(R.string.inform_state_see_result);
 			break;
+
 		case FINISH: // activity is over but it is possible to see results
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(true);
-			inform.setText("Quiz activity is over. Press Exit. "
-					+ "(You need to exit first and connect again, if you you want to do another round of Junction-Quiz.)");
+			exitTodoView.setEnabled(true);
+			inform.setText(R.string.inform_state_finish);
 		}
 
 	}
 
 	public void setTimer(int _time) {
-		Log.d(TAG, "time_limit:" + _time);
+		Log.d(APP_TAG, "time_limit:" + _time);
 		// call timer function
 	}
 
@@ -533,7 +581,6 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	public void setRightAnswers(JSONArray _array, int _num) {
 
-		// Log.d(TAG, "setRightAnswers");
 		Integer temp = 0;
 
 		right_answer = new Vector<Integer>();
@@ -546,7 +593,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				temp = _array.getInt(i);
 				right_answer.set(i, temp);
 			} catch (JSONException e) {
-				Log.d(TAG, "Correct answers error: " + e);
+				Log.d(APP_TAG, "Correct answers error: " + e);
 			}
 		}
 	}
@@ -558,14 +605,15 @@ public class CourseList extends Activity implements OnDismissListener {
 			try {
 				temp = _array.getInt(i);
 				answer_arr.set(i, temp);
-				Log.d(TAG, "Saved Answer:" + temp);
+				Log.d(APP_TAG, "Saved Answer:" + temp);
 			} catch (JSONException e) {
-				Log.d(TAG, "Correct answers error: " + e);
+				Log.d(APP_TAG, "Correct answers error: " + e);
 			}
 		}
 	}
 
 	public void setWinScore(JSONArray _array, int h_score) {
+		score_winner_name.clear();
 
 		for (int i = 0; i < _array.length(); i++) {
 			try {
@@ -574,7 +622,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				score_winner_name.add(i, name);
 
 			} catch (JSONException e) {
-				Log.d(TAG, "Score Winner Error: " + e);
+				Log.d(APP_TAG, "Score Winner Error: " + e);
 			}
 		}
 
@@ -582,6 +630,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	public void setWinRating(JSONArray _array, float h_rating) {
+		rating_winner_name.clear();
 
 		for (int i = 0; i < _array.length(); i++) {
 			try {
@@ -590,7 +639,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				rating_winner_name.add(i, name);
 
 			} catch (JSONException e) {
-				Log.d(TAG, "Rating Winner Error: " + e);
+				Log.d(APP_TAG, "Rating Winner Error: " + e);
 			}
 
 		}
@@ -599,14 +648,13 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	// It is added in 6/22
 	public void setAvgRating(JSONArray _array) {
+		final_avg_ratings.clear();
 
 		for (int i = 0; i < _array.length(); i++) {
 			try {
-
 				final_avg_ratings.add(i, _array.getString(i));
-
 			} catch (JSONException e) {
-				Log.d(TAG, "Avrage Rating Error: " + e);
+				Log.d(APP_TAG, "Avrage Rating Error: " + e);
 			}
 
 		}
@@ -614,14 +662,13 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	public void setRAPercents(JSONArray _array) {
+		r_answer_percents.clear();
 
 		for (int i = 0; i < _array.length(); i++) {
 			try {
-
 				r_answer_percents.add(i, _array.getString(i));
-
 			} catch (JSONException e) {
-				Log.d(TAG, "Percent of right answer Error: " + e);
+				Log.d(APP_TAG, "Percent of right answer Error: " + e);
 			}
 
 		}
@@ -640,8 +687,8 @@ public class CourseList extends Activity implements OnDismissListener {
 	String _op4;
 	String _rightan;
 
-	// 1. Make Questions (Revision: 04222011)
-	private void MakeQuestion() {
+	// 1. Make Questions
+	void MakeQuestion() {
 
 		curcategory = category_arr[0];
 
@@ -651,15 +698,21 @@ public class CourseList extends Activity implements OnDismissListener {
 		imageview = (ImageView) findViewById(R.id.galleryimg01);
 
 		final EditText myContent = (EditText) findViewById(R.id.mkqContent);
-		final EditText myOp1 = (EditText) findViewById(R.id.op1);
-		final EditText myOp2 = (EditText) findViewById(R.id.op2);
-		final EditText myOp3 = (EditText) findViewById(R.id.op3);
-		final EditText myOp4 = (EditText) findViewById(R.id.op4);
-		rgb04 = (RadioGroup) findViewById(R.id.rgroup04); // for inserting right
-															// answer
+		final EditText myOp1     = (EditText) findViewById(R.id.op1);
+		final EditText myOp2     = (EditText) findViewById(R.id.op2);
+		final EditText myOp3     = (EditText) findViewById(R.id.op3);
+		final EditText myOp4     = (EditText) findViewById(R.id.op4);
+		rgb04 = (RadioGroup) findViewById(R.id.rgroup04); // for inserting right answer
+
+
+
+		// if (galleryidx == 1) SaveImage();
 
 		// retain the previous contents for preview
-		if (previewidx == 1) {
+		if ((previewidx == 1) || (galleryidx == 1)) {
+
+			galleryidx = 0;
+
 			myContent.setText(question_arr[0]);
 			myOp1.setText(question_arr[1]);
 			myOp2.setText(question_arr[2]);
@@ -667,12 +720,34 @@ public class CourseList extends Activity implements OnDismissListener {
 			myOp4.setText(question_arr[4]);
 			rgb04.check(Integer.parseInt(question_arr[5]) + R.id.rightan01 - 1);
 			imageview.setImageBitmap(_bmImg);
+
+
 		}
 
 		// Add Image
 		ImageButton addimg = (ImageButton) findViewById(R.id.camera01);
 		addimg.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
+
+				// retain the previous information
+				int checked_rid = rgb04.getCheckedRadioButtonId();
+				int my_an = checked_rid - R.id.rightan01 + 1;
+
+				myRightan = Integer.toString(my_an);
+
+				String _content = myContent.getText().toString();
+				String _op1 = myOp1.getText().toString();
+				String _op2 = myOp2.getText().toString();
+				String _op3 = myOp3.getText().toString();
+				String _op4 = myOp4.getText().toString();
+				String _rightan = myRightan;
+				question_arr[0] = _content;
+				question_arr[1] = _op1;
+				question_arr[2] = _op2;
+				question_arr[3] = _op3;
+				question_arr[4] = _op4;
+				question_arr[5] = _rightan;
+				//----------------------------------------------------------
 
 				image_qa = new QuickAction(v);
 
@@ -685,28 +760,25 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		});
 
-		// save a question made by student (ok = 1, cancel = 2,
-		// post+makeQuestion = 3)
+		// save a question made by student (ok = 1, cancel = 2, post+makeQuestion = 3)
 		Button post1 = (Button) findViewById(R.id.post01);
-
 		post1.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 
 				final Builder adb = new AlertDialog.Builder(CourseList.this);
 				adb.setTitle(curcategory);
-				adb.setMessage("Do you want to post this question");
-				adb.setPositiveButton("Ok",
+				adb.setMessage(getString(R.string.post_q));
+				adb.setPositiveButton(getString(R.string.OK),
 						new DialogInterface.OnClickListener() {
 
 							public void onClick(DialogInterface arg0, int arg1) {
 
-								int checked_rid = rgb04
-										.getCheckedRadioButtonId();
+								int checked_rid = rgb04.getCheckedRadioButtonId();
 								int my_an = checked_rid - R.id.rightan01 + 1;
 
 								if (my_an < 0) {
 									Toast.makeText(CourseList.this,
-											"ERROR: No Right Answer!!",
+											getString(R.string.error_noanswer),
 											Toast.LENGTH_SHORT).show();
 								} else {
 
@@ -716,11 +788,10 @@ public class CourseList extends Activity implements OnDismissListener {
 										ByteArrayOutputStream jpg = new ByteArrayOutputStream(
 												64 * 1024);
 										boolean error = bmImg.compress(
-												Bitmap.CompressFormat.JPEG,
-												100, jpg);
+												Bitmap.CompressFormat.JPEG,100, jpg);
 
 										if (!error)
-											Log.d(TAG, "ERROR JPGE");
+											Log.d(APP_TAG, "ERROR JPEG");
 
 										// post with picture
 										student.post_question_to_teacher_picture(
@@ -741,7 +812,7 @@ public class CourseList extends Activity implements OnDismissListener {
 												myRightan);
 									}
 
-									Log.d(TAG, "Posting:"
+									Log.d(APP_TAG, "Posting:"
 											+ myContent.getText().toString());
 									// after posting question, return the main
 									// screen
@@ -758,10 +829,10 @@ public class CourseList extends Activity implements OnDismissListener {
 						});
 
 				// Cancel to post the question
-				adb.setNegativeButton("Cancel", null);
+				adb.setNegativeButton(getString(R.string.Cancel), null);
 
 				// Post and make the question
-				adb.setNeutralButton("Post+MoreQ",
+				adb.setNeutralButton(getString(R.string.Post_MoreQ),
 						new DialogInterface.OnClickListener() {
 
 							public void onClick(DialogInterface arg0, int arg1) {
@@ -771,7 +842,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 								if (my_an < 0) {
 									Toast.makeText(CourseList.this,
-											"ERROR: No Right Answer!!",
+											getString(R.string.error_noanswer),
 											Toast.LENGTH_SHORT).show();
 								} else {
 
@@ -785,7 +856,7 @@ public class CourseList extends Activity implements OnDismissListener {
 												100, jpg);
 
 										if (!error)
-											Log.d(TAG, "ERROR JPGE");
+											Log.d(APP_TAG, "ERROR JPGE");
 
 										// post with picture
 										student.post_question_to_teacher_picture(
@@ -806,8 +877,7 @@ public class CourseList extends Activity implements OnDismissListener {
 												myRightan);
 									}
 
-									Log.d(TAG, "Posting:"
-											+ myContent.getText().toString());
+									Log.d(APP_TAG, "Posting:"+ myContent.getText().toString());
 
 									if (previewidx == 1) {
 										previewidx = 0;
@@ -829,7 +899,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			}
 		});
 
-		// See the question beforehand
+		// Preview the newly created question
 		Button preview1 = (Button) findViewById(R.id.preview01);
 		preview1.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
@@ -862,19 +932,34 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	}
 
+	public void RetainData(String s1, String s2, String s3, String s4, String s5) {
+
+	}
+
+	//This part has a problem with LG phone (3/19/2012)
 	public void addimage() {
 
+		//galleryidx = 1; // in order to retain information
 		chkimg = 1;
+
+		/****************************************************
+		* This is the part which worked as an image dialog  *
+		*****************************************************/
+
 		add_pic_d = new AddPictureDialog(CourseList.this);
 		add_pic_d.setActivity(_act);
 
 		Window window = add_pic_d.getWindow();
 		window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
 				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-		add_pic_d.setTitle("Select a picture for the question");
+		//add_pic_d.setTitle("Touch the picture for selection");
+		add_pic_d.setTitle(R.string.img_dialog_title);
 		add_pic_d.setContentView(R.layout.addpicdialog);
 		add_pic_d.show();
 		add_pic_d.setOnDismissListener((CourseList) _act);
+
+
+		//add_pic_g.onStart();
 
 	}
 
@@ -883,12 +968,11 @@ public class CourseList extends Activity implements OnDismissListener {
 		// Adding quick action menu
 		image_first = new ActionItem();
 
-		image_first.setTitle("Add Image");
+		image_first.setTitle(getString(R.string.add_img));
 		image_first.setIcon(getResources().getDrawable(R.drawable.plus));
 		image_first.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Toast.makeText(ebookmaker.this, "Add" ,
-				// Toast.LENGTH_SHORT).show();
+
 				addimage();
 				if (image_qa != null)
 					image_qa.dismiss();
@@ -898,14 +982,12 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		image_second = new ActionItem();
 
-		image_second.setTitle("Take a Picture");
+		image_second.setTitle(getString(R.string.take_pic));
 		image_second.setIcon(getResources()
 				.getDrawable(R.drawable.take_picture));
 		image_second.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Toast.makeText(ebookmaker.this, "Take a Picture",
-				// Toast.LENGTH_SHORT).show();
-				// call for taking picture
+
 				takepicture();
 				if (image_qa != null)
 					image_qa.dismiss();
@@ -915,13 +997,10 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		image_third = new ActionItem();
 
-		image_third.setTitle("Remove Image");
+		image_third.setTitle(getString(R.string.rmv_img));
 		image_third.setIcon(getResources().getDrawable(R.drawable.minus));
 		image_third.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Toast.makeText(ebookmaker.this, "Remove",
-				// Toast.LENGTH_SHORT).show();
-
 				removeimage_dialog();
 				if (image_qa != null)
 					image_qa.dismiss();
@@ -935,9 +1014,11 @@ public class CourseList extends Activity implements OnDismissListener {
 		chkimg = 0;
 		activity = this;
 		Builder adb = new AlertDialog.Builder(activity);
-		adb.setTitle("JunctionQuiz: Making a question");
-		adb.setMessage("Do you want to delete image?");
-		adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+		adb.setTitle(getString(R.string.rmv_img_dialog_title));
+		adb.setMessage(getString(R.string.rmv_img_q));
+
+		adb.setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface arg0, int arg1) {
 
@@ -948,7 +1029,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		});
 
-		adb.setNegativeButton("Cancel", null);
+		adb.setNegativeButton(getString(R.string.Cancel), null);
 		adb.show();
 
 	}
@@ -985,6 +1066,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	}
 
+	@SuppressLint({ "ShowToast", "ShowToast" })
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -998,11 +1080,9 @@ public class CourseList extends Activity implements OnDismissListener {
 				setImageFromCamera();
 
 			} else if (resultCode == RESULT_CANCELED) {
-				Toast.makeText(this, "Picture was not taken",
-						Toast.LENGTH_SHORT);
+				Toast.makeText(this, getString(R.string.warn_nopic),Toast.LENGTH_SHORT);
 			} else {
-				Toast.makeText(this, "Picture was not taken",
-						Toast.LENGTH_SHORT);
+				Toast.makeText(this, getString(R.string.warn_nopic),Toast.LENGTH_SHORT);
 			}
 		}
 
@@ -1032,11 +1112,11 @@ public class CourseList extends Activity implements OnDismissListener {
 				;
 
 			} catch (IOException e) {
-				Log.d(TAG, "ERROr COPYING DATA");
+				Log.d(APP_TAG, "ERROr COPYING DATA");
 			}
 
 		} catch (FileNotFoundException e) {
-			Log.d(TAG, imageUri.toString());
+			Log.d(APP_TAG, imageUri.toString());
 		}
 
 		imageview.setImageBitmap(bmImg);
@@ -1081,7 +1161,7 @@ public class CourseList extends Activity implements OnDismissListener {
 					.getContentResolver(), Uri.withAppendedPath(
 					MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id + ""));
 
-			Log.d(TAG, "Height" + c.getHeight() + " width= " + c.getWidth());
+			Log.d(APP_TAG, "Height" + c.getHeight() + " width= " + c.getWidth());
 
 			// resize bitmap: code copied from
 			// thinkandroid.wordpress.com/2009/12/25/resizing-a-bitmap/
@@ -1091,21 +1171,14 @@ public class CourseList extends Activity implements OnDismissListener {
 			int w = c.getWidth();
 			int h = c.getHeight();
 			if ((w > target_width) || (h > target_height)) {
-				// float scale_w = target_width /(float) w;
-				// float scale_h = target_height / (float) h;
-				// Matrix matrix = new Matrix();
-				// matrix.postScale(scale_w, scale_h);
-				// b = Bitmap.createBitmap(c, 0, 0, target_width, target_height,
-				// matrix, false);
-				b = Bitmap.createScaledBitmap(c, target_width, target_height,
-						false);
+				b = Bitmap.createScaledBitmap(c, target_width, target_height, false);
 			} else {
 				b = c;
 			}
 		} catch (FileNotFoundException e) {
-			Log.d(TAG, "ERROR" + e);
+			Log.d(APP_TAG, "ERROR" + e);
 		} catch (IOException e) {
-			Log.d(TAG, "ERROR" + e);
+			Log.d(APP_TAG, "ERROR" + e);
 		}
 
 		return b;
@@ -1115,8 +1188,8 @@ public class CourseList extends Activity implements OnDismissListener {
 	String image;
 	String my_html;
 
-	public void preview(String _content, String _op1, String _op2, String _op3,
-			String _op4) {
+	// Creating HTML file for previewing
+	public void preview(String _content, String _op1, String _op2, String _op3, String _op4) {
 
 		setTitle(curcategory);
 		setContentView(R.layout.preview);
@@ -1131,12 +1204,13 @@ public class CourseList extends Activity implements OnDismissListener {
 		curwebview = (WebView) findViewById(R.id.webviewPreview);
 		curwebview.clearCache(true);
 
-		String header = "<html> <head> previewing your question </head>";
+		String header = "<html> <head>"+ getString(R.string.notice_preview)+ "</head>";
 		String body1 = " <body>";
 		String question = "<P>" + _content + "</P>";
 
 		if (chkimg == 1) {
-			image = "<center><img class=\"main\" src=\"test.jpg\" width=250 height=200/></center>";
+
+			image = "<center><img class=\"main\" src=\"test.jpg\" width=250 height=240/></center>";
 		}
 		String choices = "<P>(1)" + _op1 + "<br>" + "(2)" + _op2 + "<br>"
 				+ "(3)" + _op3 + "<br>" + "(4)" + _op4 + "<br>" + "</P>";
@@ -1152,7 +1226,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		readHTMLfromString(my_html, from_asset);
 	}
 
-	// Called when add_pic_d is dismissed
+	// for image dialog
 	public void onDismiss(DialogInterface dialog) {
 
 		isImageSelected = add_pic_d.isSelectedImg();
@@ -1179,11 +1253,11 @@ public class CourseList extends Activity implements OnDismissListener {
 					;
 
 				} catch (IOException e) {
-					Log.d(TAG, "ERROr COPYING DATA");
+					Log.d(APP_TAG, "ERROr COPYING DATA");
 				}
 
 			} catch (FileNotFoundException e) {
-				Log.d(TAG, add_pic_d.readURI().toString());
+				Log.d(APP_TAG, add_pic_d.readURI().toString());
 			}
 		} else {
 			// bmImg = null;
@@ -1193,13 +1267,52 @@ public class CourseList extends Activity implements OnDismissListener {
 		_bmImg = bmImg;
 	}
 
+	public void SaveImage() {
+
+		isImageSelected = add_pic_g.getImageIdx();
+
+		if (isImageSelected) {
+
+			bmImg = add_pic_g.readThunmbBitmap();
+
+			try {
+
+				// open file as input stream
+				InputStream is = getContentResolver().openInputStream(add_pic_g.readURI());
+
+				// save this output to local file
+				OutputStream os = getBaseContext().openFileOutput("test.jpg", MODE_PRIVATE);
+				byte[] BUF = new byte[1024];
+				try {
+					while (is.read(BUF) != -1) {
+						os.write(BUF);
+					}
+
+
+				} catch (IOException e) {
+					Log.d(APP_TAG, "ERROR COPYING DATA");
+				}
+
+			} catch (FileNotFoundException e) { // If errors happen
+				Log.d(APP_TAG, add_pic_g.readURI().toString());
+			}
+		} else {
+
+			//bmImg = null;
+		}
+
+		imageview.setImageBitmap(bmImg);
+		_bmImg = bmImg;
+	}
+
 	// initialization of arrays
 	void initialize_AnswerRatingArray_withDummyValues() {
+
 		answer_arr.clear();
 		rating_arr.clear();
 		my_score.clear();
 
-		Log.d(TAG, "LAST_SCENE " + LAST_SCENE_NUM);
+		Log.d(APP_TAG, "LAST_SCENE " + LAST_SCENE_NUM);
 		for (int i = 0; i < LAST_SCENE_NUM; i++) {
 			answer_arr.add(i, -1);
 			rating_arr.add(i, -1);
@@ -1254,6 +1367,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	// 2. solve Questions w/solving questions screen
 	private void SolveQuestion() {
 
+		SolvingIndex = false;
 		issolvequestion = 0;
 		// 1st screen
 		curwebview = webviewQ;
@@ -1275,7 +1389,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			public void onProgressChanged(WebView view, int progress) {
 				// Make the bar disappear after URL is loaded, and changes
 				// string to Loading...
-				CourseList.this.setTitle("Loading...");
+				CourseList.this.setTitle(getString(R.string.loading));
 				CourseList.this.setProgress(progress * 100); // Make the bar
 																// disappear
 																// after URL is
@@ -1325,9 +1439,7 @@ public class CourseList extends Activity implements OnDismissListener {
 						showNextScene();
 						checkCurrentAnswers();
 					} else {
-						Toast.makeText(CourseList.this,
-								"Insert answer & rating", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(CourseList.this,getString(R.string.insert_error), Toast.LENGTH_SHORT).show();
 					}
 
 				} else {
@@ -1337,8 +1449,8 @@ public class CourseList extends Activity implements OnDismissListener {
 					if (temp1 == 2) {
 						Builder adb = new AlertDialog.Builder(CourseList.this);
 						adb.setTitle(curcategory);
-						adb.setMessage("Do you want to submit your answers?");
-						adb.setPositiveButton("Submit",
+						adb.setMessage(getString(R.string.submit_q));
+						adb.setPositiveButton(getString(R.string.submit_btn),
 								new DialogInterface.OnClickListener() {
 
 									public void onClick(DialogInterface arg0,
@@ -1347,22 +1459,23 @@ public class CourseList extends Activity implements OnDismissListener {
 										student.submit_answer_to_teacher(
 												answer_arr, rating_arr);
 
-										// Log.d(TAG,
+										// Log.d(APP_TAG,
 										// "answer_arr[0]="+answer_arr.get(0));
-										// Log.d(TAG,
+										// Log.d(APP_TAG,
 										// "answer_arr[1]="+answer_arr.get(1));
 
 										show_todo_view();
 										selarridx = 0;
+										SolvingIndex = true;
 
 									}
 								});
 
-						adb.setNegativeButton("Cancel", null);
+						adb.setNegativeButton(getString(R.string.Cancel), null);
 						adb.show();
 					} else {
 						Toast.makeText(CourseList.this,
-								"Insert answer & rating", Toast.LENGTH_SHORT)
+								getString(R.string.insert_error), Toast.LENGTH_SHORT)
 								.show();
 					}
 				}
@@ -1378,21 +1491,29 @@ public class CourseList extends Activity implements OnDismissListener {
 					+ ".html";
 
 		} else { // related to seeing results
-			
+
 			webpage = "http://" + cururi + server_dir + (scene_number - 1)
 					+ "_result" + ".html";
-			my_answer_view.setText(answer_arr.get(scene_number - 1).toString());
+
+
+			if((SolvingIndex == true) ||(answer_arr.isEmpty() == false) ) {
+				my_answer_view.setText(answer_arr.get(scene_number - 1).toString());
+			} else {
+				my_answer_view.setText("N/A");
+			}
 
 			// 5-rating star
 			Float f = new Float(final_avg_ratings.get(scene_number - 1));
 			ratingbar.setRating(f);
 			ratingbar.setEnabled(false);
 
-			// percent graph	
+			// percent graph
+			System.out.println("Draw Graph: start");
 			right_val = Integer.parseInt(r_answer_percents.get(scene_number - 1).trim());
 			wrong_val = 100 - right_val;
-			draw_piechart.redraw(right_val, wrong_val);		
-			
+			draw_piechart.redraw(right_val, wrong_val);
+			System.out.println("Draw Graph: end");
+
 		}
 
 		curwebview.clearView();
@@ -1476,7 +1597,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			public void onClick(View v) {
 				show_todo_view();
 				selarridx = 0;
-				// change_todo_view_state(6);
+
 			}
 		});
 
@@ -1518,7 +1639,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	RatingBar ratingbar;
 	int right_val;
 	int wrong_val;
-	
+
 	private void show_detail(Vector<Integer> _myscore) {
 
 		curcategory = category_arr[2];
@@ -1530,9 +1651,9 @@ public class CourseList extends Activity implements OnDismissListener {
 		curwebview.clearCache(false);
 
 		my_answer_view = (TextView) findViewById(R.id.textresult02);
-		
+
 		ratingbar = (RatingBar) findViewById(R.id.ratingbar);
-				
+
 		showScene();
 
 		Button returnMR = (Button) findViewById(R.id.returnresult02);
@@ -1560,8 +1681,8 @@ public class CourseList extends Activity implements OnDismissListener {
 
 					Builder adb = new AlertDialog.Builder(CourseList.this);
 					adb.setTitle(curcategory);
-					adb.setMessage("This is the last question.");
-					adb.setPositiveButton("OK", null);
+					adb.setMessage(getString(R.string.notice_last_q));
+					adb.setPositiveButton(getString(R.string.OK), null);
 					adb.show();
 				}
 			}
@@ -1591,14 +1712,19 @@ public class CourseList extends Activity implements OnDismissListener {
 		return revalue;
 	}
 
+	private String getHTMLTagForUTF8() {
+		return new String("\n <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"\n ");
+	}
+
 	private String createwinnerhtml() {
 		String return_html = "";
 
+
 		String header1 = "<html><head></head><body><P></P><font face=\"helvetica\">";
-		String header2 = "<center><Strong>Who's the Winner?</Strong></center><br>";
-		String body1 = "<P></P>*** Quiz Score ***<br>";
-		String body2 = "Highest Score: " + high_score + "<br>";
-		String body3 = "Name:<br>";
+		String header2 = "<center><Strong>"+getString(R.string.winner_title)+"</Strong></center><br>";
+		String body1 = "<P></P>*** "+getString(R.string.quiz_score)+" ***<br>";
+		String body2 = getString(R.string.h_score)+ ":"+ high_score + "<br>";
+		String body3 = getString(R.string.name)+":<br>";
 		String mid_html = "";
 		for (int i = 0; i < score_winner_name.size(); i++) {
 			String name = score_winner_name.get(i);
@@ -1606,14 +1732,12 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		}
 
-		// NumberFormat formatter = new DecimalFormat("#0.00");
-
 		String body4 = "<P></P>";
-		String body5 = "*** Question Rating Score ***<br>";
+		String body5 = "*** "+getString(R.string.rating_score_title)+ " ***<br>";
 		Formatter f = new Formatter();
 		String avg = f.format(new String("%4.2f"), high_rating).toString();
-		String body6 = "Highest Average Rating: " + avg + "<br>";
-		String body7 = "Name:<br>";
+		String body6 = getString(R.string.h_avg_rating)+ " :" + avg + "<br>";
+		String body7 = getString(R.string.name)+" :<br>";
 		String next_html = "";
 		for (int i = 0; i < rating_winner_name.size(); i++) {
 			String r_name = rating_winner_name.get(i);
@@ -1622,7 +1746,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		}
 		String end = "</font></body></html>";
 
-		return_html = header1 + header2 + body1 + body2 + body3 + mid_html
+		return_html = header1 + getHTMLTagForUTF8() + header2 + body1 + body2 + body3 + mid_html
 				+ body4 + body5 + body6 + body7 + next_html + end;
 
 		return return_html;
@@ -1636,13 +1760,13 @@ public class CourseList extends Activity implements OnDismissListener {
 		int total_question = LAST_SCENE_NUM;
 
 		String header1 = "<html><head></head><body><P></P><font face=\"helvetica\">";
-		String header2 = "<center>" + username + "'s result<br>";
-		String header3 = "Total Score: " + num_right + "/" + total_question + "<br />&#x2717;=Incorrect, &#x2713;=Correct";
+		String header2 = "<center>" + getString(R.string.name)+ ": "+ username + "<br>";
+		String header3 = getString(R.string.t_score)+":" + num_right + "/" + total_question;
 		String body1 = "<P><table border=\"1\">";
-		String body2 = "<tr><td><div align=\"center\"> Question Number </div></td>"
-				+ "<td><div align=\"center\"> Correct or Wrong </div></td></tr>";
+		String body2 = "<tr><td><div align=\"center\">" + getString(R.string.q_num) + "</div></td>"
+		+ "<td><div align=\"center\">" + getString(R.string.correct_wrong)+ " </div></td></tr>";
 
-		String fore_html = header1 + header2 + header3 + body1 + body2;
+		String fore_html = header1 + getHTMLTagForUTF8()+ header2 + header3 + body1 + body2;
 		String mid_html = "";
 		for (int i = 0; i < _myscore.size(); i++) {
 			String mid;
@@ -1652,11 +1776,11 @@ public class CourseList extends Activity implements OnDismissListener {
 			if (score == 1) { // right
 				mid = "<tr><td><div align=\"center\">" + "(" + number + ")"
 						+ "</div></td>"
-						+ "<td><div align=\"center\">&#x2713;</div></td></tr>";
+						+ "<td><div align=\"center\">O</div></td></tr>";
 			} else { // wrong
 				mid = "<tr><td><div align=\"center\">" + "(" + number + ")"
 						+ "</div></td>"
-						+ "<td><div align=\"center\">&#x2717;</div></td></tr>";
+						+ "<td><div align=\"center\">X</div></td></tr>";
 			}
 
 			mid_html = mid_html + mid;

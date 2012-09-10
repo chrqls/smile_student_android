@@ -1,4 +1,4 @@
-package org.smilecon.smile.student;
+package edu.stanford.smile;
 
 import java.text.DecimalFormat;
 import java.util.List;

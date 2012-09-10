@@ -3,14 +3,13 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-android:background="@drawable/background"
-
+android:background="@drawable/main_background"
 >
 
 <ImageView
 android:id="@+id/smile_logo"
 android:layout_width="wrap_content"
-android:layout_height="wrap_content"
+android:layout_height="50dp"
 android:layout_alignParentTop="true" 
 android:layout_alignParentLeft="true"
 android:layout_alignParentRight="true"
@@ -20,63 +19,66 @@ android:layout_marginRight="50dp"
 android:src="@drawable/smile_logo"
 >
 </ImageView>    
-
+    
 <EditText 
 android:id="@+id/usernametext02"
 android:layout_width="240dp" 
 android:layout_height="50dp"
-android:hint="Username"
+android:hint="@string/login_username_hint"
 android:singleLine="true"
 android:inputType="textAutoCorrect|textCapSentences"
 android:layout_centerHorizontal="true"
 android:layout_below="@+id/smile_logo"    
-android:layout_marginTop="20dp"
+android:layout_marginTop="15dp"
 >
 </EditText>
 
-<EditText 
-android:id="@+id/passwordtext02"
-android:layout_width="240dp" 
-android:layout_height="50dp" 
-android:hint="Name (optional)" 
-android:singleLine="true"
-android:inputType="textAutoCorrect|textCapSentences"
+<Spinner
+android:id="@+id/select_language"
+android:layout_width="240dp"
+android:layout_height="50dp"
+android:drawSelectorOnTop="true"
+android:prompt="@string/select_language"
+android:textStyle="bold"
 android:layout_centerHorizontal="true"
 android:layout_below = "@+id/usernametext02"
-android:layout_marginTop="20dp"
+android:layout_marginTop="15dp"
 >
-</EditText>
+</Spinner>
 
 <EditText 
 android:id="@+id/uri"
 android:layout_width="240dp" 
 android:layout_height="50dp" 
-android:text="192.168.1.16" 
+android:text="@string/login_default_IP" 
 android:singleLine="true"
 android:layout_centerHorizontal="true"
-android:layout_below = "@+id/passwordtext02"
-android:layout_marginTop="20dp"
+android:layout_below = "@+id/select_language"
+android:layout_marginTop="15dp"
 >
 </EditText>
-<TextView
-android:id = "@+id/version"
+
+<Button
+android:id = "@+id/shareb"
 android:layout_width="wrap_content"
-android:layout_height="40dp"
-android:text = "Verison (using version in strings.xml)"
-android:layout_toLeftOf = "@+id/cancelb"
+android:layout_height="50dp"
+android:text = "@string/login_share"
+android:layout_toLeftOf="@+id/cancelb"
+android:layout_marginRight="60dp"
 android:layout_below = "@+id/uri"
-android:layout_marginTop="20dp"
-android:layout_marginRight="20dp"
+android:layout_marginTop="15dp"
 >
-</TextView>
+</Button>
+
 <Button
 android:id = "@+id/cancelb"
 android:layout_width="wrap_content"
 android:layout_height="50dp"
-android:text = "RESET"
-android:layout_centerHorizontal="true"
+android:text = "@string/login_reset"
+android:layout_toLeftOf="@+id/okb"
+android:layout_marginRight="20dp"
 android:layout_below = "@+id/uri"
-android:layout_marginTop="20dp"
+android:layout_marginTop="15dp"
 >
 </Button>
 
@@ -84,15 +86,34 @@ android:layout_marginTop="20dp"
 android:id = "@+id/okb"
 android:layout_width="wrap_content"
 android:layout_height="50dp"
-android:text = "LOGIN"
-android:layout_centerHorizontal="true"
-android:layout_toRightOf="@+id/cancelb"
-android:layout_marginLeft="20dp"
+android:text = "@string/login"
+android:layout_alignParentRight="true"
+android:layout_marginRight="20dp"
 android:layout_below = "@+id/uri"
-android:layout_marginTop="20dp"
+android:layout_marginTop="15dp"
 >
 </Button>
+    
+<TextView
+android:id = "@+id/version"
+android:layout_width="wrap_content"
+android:layout_height="20dp"
+android:text = "@string/version"
+android:layout_centerHorizontal="true"
+android:layout_above = "@+id/stanford_logo"
+android:layout_marginBottom="3dp"
+>
+</TextView>
 
-
+<ImageView
+android:id="@+id/stanford_logo"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignParentBottom="true" 
+android:layout_marginBottom="10dp"
+android:layout_centerHorizontal="true"
+android:src="@drawable/stanford_logo"
+>
+</ImageView>    
 
 </RelativeLayout>

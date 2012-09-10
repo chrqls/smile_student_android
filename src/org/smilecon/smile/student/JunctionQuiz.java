@@ -30,7 +30,6 @@ public class JunctionQuiz extends Activity {
 	private EditText pwordet;
 	private EditText uri;
 	private TextView version_text;
-	//ImageView stanford_logo;
 			
 	static String susername;
 	static String susername_op;

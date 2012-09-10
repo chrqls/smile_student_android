@@ -1,4 +1,4 @@
-package org.smilecon.smile.student;
+package edu.stanford.smile;
 // Temporary package name. This class is downloaded from below
 
 /**
