@@ -1,33 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView 
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
+android:id="@+id/ScrollView04" 
+android:layout_height="fill_parent" 
+android:layout_width="fill_parent"
+>
+
+<LinearLayout 
+android:id="@+id/LinearLayout02" 
+android:layout_height="wrap_content" 
+android:layout_width="fill_parent"
 android:background="@drawable/background"
-android:layout_width="wrap_content" android:layout_height="fill_parent">
+android:orientation="vertical"
+>
+
+<RelativeLayout
+android:id="@+id/RelativeLayout02" 
+android:background="@drawable/background"
+android:layout_width="fill_parent" 
+android:layout_height="fill_parent">
 
 <WebView 
 android:id="@+id/webviewQ" 
-android:layout_width="wrap_content" 
+android:layout_width="fill_parent" 
 android:layout_height="wrap_content"
+android:scrollbars="vertical" 
 android:layout_alignParentTop="true"
 android:layout_alignParentLeft="true"  
 android:layout_alignParentRight="true"
-android:layout_alignParentBottom="true"
-android:layout_marginLeft="15dp"
-android:layout_marginRight="15dp"
-android:layout_marginTop="15dp"
-android:layout_marginBottom="150dp"
+android:layout_marginLeft="10dp"
+android:layout_marginRight="10dp"
+android:layout_marginTop="10dp"
 />  
 
 <TextView
 android:id="@+id/antext01"
 android:layout_width="wrap_content" 
 android:layout_height="25dp"
-android:layout_above="@+id/ratingtext01"
+android:layout_below="@+id/webviewQ"
 android:layout_alignParentLeft="true"
-android:layout_marginLeft="15dp"
-android:layout_marginBottom="10dp"
-android:text="Answer"
+android:layout_marginLeft="10dp"
+android:layout_marginTop="5dp"
+android:text="@string/answer_text"
 />
 
 <RadioGroup 
@@ -35,9 +49,9 @@ android:id="@+id/rgroup02"
 android:layout_width="wrap_content" 
 android:layout_height="35dp" 
 android:orientation = "horizontal"
-android:layout_above="@+id/ratingtext01"
-android:layout_marginBottom="10dp"
-android:layout_toRightOf="@+id/antext01"
+android:layout_below="@+id/antext01"
+android:layout_marginTop="5dp"
+android:layout_alignParentLeft="true"
 android:layout_marginLeft="10dp"
 > 
 
@@ -46,7 +60,7 @@ android:id="@+id/op01"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="(1)"
+android:text="@string/answer_1"
 android:textStyle="bold"
 /> 
 
@@ -55,7 +69,7 @@ android:id="@+id/op02"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="(2)"
+android:text="@string/answer_2"
 android:textStyle="bold"
 /> 
 
@@ -64,7 +78,7 @@ android:id="@+id/op03"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="(3)"
+android:text="@string/answer_3"
 android:textStyle="bold"
 
 /> 
@@ -73,7 +87,7 @@ android:id="@+id/op04"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="(4)"
+android:text="@string/answer_4"
 android:textStyle="bold"
 /> 
 
@@ -83,11 +97,11 @@ android:textStyle="bold"
 android:id="@+id/ratingtext01"
 android:layout_width="wrap_content" 
 android:layout_height="25dp"
-android:layout_above="@+id/resetQ"
+android:layout_below="@+id/rgroup02"
 android:layout_alignParentLeft="true"
-android:layout_marginLeft="15dp"
-android:layout_marginBottom="10dp"
-android:text="Rating"
+android:layout_marginLeft="10dp"
+android:layout_marginTop="5dp"
+android:text="@string/rating_text"
 />
 
 <RadioGroup 
@@ -95,10 +109,10 @@ android:id="@+id/rgroup03"
 android:layout_width="wrap_content" 
 android:layout_height="35dp" 
 android:orientation = "horizontal"
-android:layout_above="@+id/resetQ"
-android:layout_toRightOf="@+id/ratingtext01"
+android:layout_below="@+id/ratingtext01"
+android:layout_alignParentLeft="true"
 android:layout_marginLeft="10dp"
-android:layout_marginBottom="10dp"
+android:layout_marginTop="5dp"
 > 
 
 <RadioButton 
@@ -106,7 +120,7 @@ android:id="@+id/rt01"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="1"
+android:text="@string/rating_1"
 android:textStyle="bold"
 /> 
 
@@ -115,7 +129,7 @@ android:id="@+id/rt02"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="2"
+android:text="@string/rating_2"
 android:textStyle="bold"
 /> 
 
@@ -124,7 +138,7 @@ android:id="@+id/rt03"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="3"
+android:text="@string/rating_3"
 android:textStyle="bold"
 
 /> 
@@ -133,7 +147,7 @@ android:id="@+id/rt04"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="4"
+android:text="@string/rating_4"
 android:textStyle="bold"
 /> 
 
@@ -142,7 +156,7 @@ android:id="@+id/rt05"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
-android:text="5"
+android:text="@string/rating_5"
 android:textStyle="bold"
 /> 
 </RadioGroup>
@@ -151,11 +165,11 @@ android:textStyle="bold"
 android:id="@+id/resetQ"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Reset"
+android:text="@string/reset_btn"
 android:layout_alignParentBottom="true"
-android:layout_marginBottom="15dp"
+android:layout_marginBottom="10dp"
 android:layout_toLeftOf="@+id/prevQ"
-android:layout_marginRight="15dp"
+android:layout_marginRight="10dp"
 >
 </Button>
 
@@ -163,11 +177,11 @@ android:layout_marginRight="15dp"
 android:id="@+id/prevQ"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Prev"
+android:text="@string/prev_btn"
 android:layout_alignParentBottom="true"
-android:layout_marginBottom="15dp"
+android:layout_marginBottom="10dp"
 android:layout_toLeftOf="@+id/nextQ"
-android:layout_marginRight="15dp"
+android:layout_marginRight="10dp"
 >
 </Button>
 
@@ -175,13 +189,16 @@ android:layout_marginRight="15dp"
 android:id="@+id/nextQ"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Next"
+android:text="@string/next_btn"
+android:layout_below="@+id/rgroup03"
 android:layout_alignParentBottom="true"
 android:layout_alignParentRight="true"
-android:layout_marginBottom="15dp"
-android:layout_marginRight="15dp"
+android:layout_marginTop="5dp"
+android:layout_marginBottom="10dp"
+android:layout_marginRight="10dp"
 >
 </Button>
 
 </RelativeLayout>
-
+</LinearLayout>
+</ScrollView>
