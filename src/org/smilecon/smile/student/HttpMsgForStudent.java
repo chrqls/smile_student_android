@@ -87,11 +87,11 @@ public class HttpMsgForStudent extends Thread {
 	{
 		finished = false;
 		Server_IP = ip_addr;
-		send_uri = "http://"+Server_IP+"/SMILE/pushmsg.php";
+		send_uri = "http://"+Server_IP+"/smile/pushmsg.php";
 		server_msg_uri
-			= "http://"+Server_IP+"/SMILE/current/MSG/smsg.txt";
+			= "http://"+Server_IP+"/smile/current/MSG/smsg.txt";
 		server_my_state_uri
-			= "http://"+Server_IP+"/SMILE/current/MSG/" + MY_IP +".txt";
+			= "http://"+Server_IP+"/smile/current/MSG/" + MY_IP +".txt";
 
 		// enque HAIL message to server
 		send_initial_message();

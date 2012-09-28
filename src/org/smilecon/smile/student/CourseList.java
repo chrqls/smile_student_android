@@ -65,7 +65,7 @@ import android.webkit.WebChromeClient;
 public class CourseList extends Activity implements OnDismissListener {
 
 	String APP_TAG = "SMILE";
-	String server_dir = "/SMILE/current/";
+	String server_dir = "/smile/current/";
 
 	WebView webviewQ;
 	WebView webviewSR;

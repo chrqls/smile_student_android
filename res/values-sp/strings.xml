@@ -8,13 +8,13 @@
    </string-array>
      
     <string name="hello">SMILE!</string>
-    <string name="app_name">SMILE</string>
-    <string name="version">versión 2.1</string>
+    <string name="app_name">SMILE Estudiante</string>
+    <string name="version">v2.1.1</string>
     <string name="select_language">Seleccione un idioma</string>
     
     <string name="login_username_hint">Nombre de usuario</string>
     <string name="login_optional_name">Name(optional)</string>
-    <string name="login_default_IP">192.168.2.5</string>
+    <string name="login_default_IP">192.168.1.16</string>
     <string name="login_reset">Reiniciar</string>
     <string name="login">Iniciar sesión</string>
     <string name="default_user_name">defecto</string>
