@@ -419,7 +419,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	private void show_todo_view() {
 
-		setTitle(APP_TAG);
+		setTitle(curusername + "@SMILE Student");
 		setContentView(R.layout.category);
 
 		inform = (TextView) findViewById(R.id.ProgressText);

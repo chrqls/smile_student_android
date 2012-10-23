@@ -9,7 +9,7 @@
      
     <string name="hello">SMILE!</string>
     <string name="app_name">SMILE Estudiante</string>
-    <string name="version">v2.1.1b</string>
+    <string name="version">vWarningb</string>
     <string name="select_language">Seleccione un idioma</string>
     
     <string name="login_username_hint">Nombre de usuario</string>
@@ -38,7 +38,7 @@
 	<string name="ConnectingSever">Conexión del servidor:</string>
 	<string name="Sending"> Envío:</string>
 	<string name="creatingconnection">la creación de la conexión</string>
-	<string name="network_waring">Error de conexión. Por favor, Reiniciar.</string>
+	<string name="network_warning">Error de conexión. Por favor, Reiniciar.</string>
     
 	<string name="inform_state_before_connect">Tratando de conectar con el servidor.</string>
 	<string name="inform_state_ini_wait">Waiting for others to join the Quiz.</string>

@@ -292,6 +292,9 @@ public class smile extends Activity {
 		if(susername.equals("")) return_value = false;
 		else return_value = true;
 		
+		if (return_value) {
+			setTitle(susername + "@SMILE Student");
+		}
 		return return_value;
 		
 	}
