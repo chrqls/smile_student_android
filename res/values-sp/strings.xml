@@ -9,7 +9,7 @@
      
     <string name="hello">SMILE!</string>
     <string name="app_name">SMILE Estudiante</string>
-    <string name="version">v2.1.1</string>
+    <string name="version">v2.1.1b</string>
     <string name="select_language">Seleccione un idioma</string>
     
     <string name="login_username_hint">Nombre de usuario</string>
