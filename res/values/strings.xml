@@ -17,12 +17,12 @@
     
     <string name="hello">Hello World, MySMILE!</string>
 	<string name="app_name">SMILE Student</string>
-	<string name="version">v2.1.1</string>
+	<string name="version">v2.1.1b</string>
 	<string name="select_language">Select a language</string>
 					    
 	<string name="login_username_hint">Username</string>
 	<string name="login_optional_name">Name(optional)</string>
-	<string name="login_default_IP">192.168.1.16</string>
+	<string name="login_default_IP">10.1.0.1</string>
 	<string name="login_reset">RESET</string>
 	<string name="login">LOGIN</string>
 	<string name="login_share">SHARE</string>  <!-- Share Server IP Information with other students -->

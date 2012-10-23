@@ -14,7 +14,7 @@
     
     <string name="login_username_hint">Nombre de usuario</string>
     <string name="login_optional_name">Name(optional)</string>
-    <string name="login_default_IP">192.168.1.16</string>
+    <string name="login_default_IP">10.1.0.1</string>
     <string name="login_reset">Reiniciar</string>
     <string name="login">Iniciar sesión</string>
     <string name="default_user_name">defecto</string>
