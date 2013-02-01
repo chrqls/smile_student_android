@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="3" android:versionName="2.1.4" package="org.smilecon.smile.student">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="5" android:versionName="2.1.5" package="org.smilecon.smile.student">
 	<uses-sdk android:minSdkVersion="3"/>
 	<!-- This needs some work on the layout before enabling target SDK version -->
 	<!-- <uses-sdk android:targetSdkVersion="13"></uses-sdk> -->

@@ -86,8 +86,10 @@ public class AddPictureDialog extends Dialog implements OnItemClickListener  {
 				 MediaStore.Images.Media.DATA};
 	    //String selection = "";
 		String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " = ?";
-        String[] selectionArgs = new String[] {  //  select camera image only
-            "Camera"
+
+		// XXX TODO, allow this to select from Camera and Download and Pictures
+        String[] selectionArgs = new String[] {
+			"Download"
         };
 
 	    mCursor = _act.managedQuery( MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
