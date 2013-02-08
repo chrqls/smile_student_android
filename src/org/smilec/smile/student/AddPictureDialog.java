@@ -1,4 +1,4 @@
-package org.smilecon.smile.student;
+package org.smilec.smile.student;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

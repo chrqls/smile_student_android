@@ -1,4 +1,4 @@
-package org.smilecon.smile.student;
+package org.smilec.smile.student;
 
 import android.graphics.drawable.Drawable;
 import android.view.View.OnClickListener;

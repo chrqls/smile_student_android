@@ -1,4 +1,4 @@
-package org.smilecon.smile.student;
+package org.smilec.smile.student;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -7,7 +7,7 @@
 ======================================================================================*/
 
 
-package org.smilecon.smile.student;
+package org.smilec.smile.student;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

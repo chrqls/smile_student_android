@@ -7,7 +7,7 @@
 ======================================================================================*/
 
 
-package org.smilecon.smile.student;
+package org.smilec.smile.student;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,6 +49,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -143,7 +146,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	static Cursor mcursor_for_camera;
 	int IMAGECAPTURE_OK = 0;
 	String media_path;
-
+	private int mNetworkFailureCount = 0;
 	Activity activity;
 
 	// ---------------------------------------------------------------------------------------------------------
@@ -323,43 +326,16 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		student = new HttpMsgForStudent(this, curusername, MY_IP);
 		student.beginConnection(cururi);
-
-		// create connection with another thread
-		/*
-		 * new Thread(new Runnable() { public void run() {
-		 *
-		 * int err_count = 0; while (student == null) {
-		 * Log.d(APP_TAG,"Creating Student");
-		 *
-		 * student = new JunctionStudent((CourseList)_act, curusername, MY_IP);
-		 * err_count++;
-		 *
-		 * // finish application if (err_count > 2) {
-		 * Log.d(APP_TAG,"Too many Error in making connection"); inform.setText(
-		 * "Too many Error in making connection, please check your network.");
-		 * break; } } if (student == null) { // Connection Fail
-		 * setNewStateFromTeacher(CONNECT_FAIL); return; }
-		 *
-		 * boolean succ = false; err_count = 0; while (!succ) {
-		 * Log.d(APP_TAG,"Creating Connection"); succ =
-		 * student.create_connection(cururi);
-		 *
-		 * if (err_count++ > 2) {
-		 * Log.d(APP_TAG,"Too many Error in making connection");
-		 * //inform.setText
-		 * ("Too many Error in making connection, please check your network");
-		 * break; } } if (!succ) setNewStateFromTeacher(CONNECT_FAIL); else
-		 * setNewStateFromTeacher(INIT_WAIT);
-		 *
-		 *
-		 * } }).start();
-		 */
 	}
 
 	private String get_IP() {
 
 		try {
 			Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
+			//
+			// Refactor this, this could cause problems if there are multiple NICs that get 
+			// picked up
+			//
 			while (e.hasMoreElements()) {
 				NetworkInterface ni = e.nextElement();
 				Enumeration<InetAddress> ips = ni.getInetAddresses();
@@ -490,12 +466,21 @@ public class CourseList extends Activity implements OnDismissListener {
 		super.onDestroy();
 	}
 
+	public void setStatusText(String msg, boolean showToast) {
+		inform.setText(msg);
+		if (showToast) {
+			Toast.makeText(this, msg, Toast.LENGTH_LONG);
+		}
+	}
+	
 	@SuppressLint("ShowToast")
 	private void change_todo_view_state(int state) {
 
 		if (state == CONNECT_FAIL) {
+			mNetworkFailureCount++;
 			Toast.makeText(this, getString(R.string.network_warning), Toast.LENGTH_LONG);
-			this.finish(); // finish current activity. Connection lost
+			inform.setText(getString(R.string.network_warning) + ":" + mNetworkFailureCount);
+			// Don't kill the activity
 			return;
 		}
 
@@ -856,7 +841,7 @@ public class CourseList extends Activity implements OnDismissListener {
 												100, jpg);
 
 										if (!error)
-											Log.d(APP_TAG, "ERROR JPGE");
+											Log.d(APP_TAG, "ERROR JPEG");
 
 										// post with picture
 										student.post_question_to_teacher_picture(
@@ -1620,6 +1605,23 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.simplemenu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+			case R.id.restart:
+				startActivity(new Intent(this, intro.class));
+				return true;
+			default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 	private void show_winner() {
 
 		setContentView(R.layout.winner);

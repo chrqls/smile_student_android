@@ -1,4 +1,4 @@
-package org.smilecon.smile.student;
+package org.smilec.smile.student;
 // Temporary package name. This class is downloaded from below
 
 /**

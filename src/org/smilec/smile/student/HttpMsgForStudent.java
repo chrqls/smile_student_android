@@ -6,7 +6,7 @@
   Created Time: 08.03.2012
 ======================================================================================*/
 
-package org.smilecon.smile.student;
+package org.smilec.smile.student;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -38,7 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
+import android.util.Log;
 
 import android.util.Log;
 
@@ -47,14 +47,13 @@ public class HttpMsgForStudent extends Thread {
 
 	// new addition
 	smile login;
-
+	String APP_TAG = "SMILE: HttpMsgForStudent";
 	CourseList main;
 	String curr_name;
 	String MY_IP;
 	String Server_IP;
 	String last_type_from_msg;
 
-	String APP_TAG = "http_student";
 	int msec = 1200;   // check once for 1.5 sec
 
 	//HttpClient httpclient;
@@ -125,8 +124,9 @@ public class HttpMsgForStudent extends Thread {
 				cnt++;
 				if (http_thread.isSending() || (cnt > 1))
 					main.setTranferStatus(http_thread.isSending(), cnt);
-				if (cnt == THRESHOLD1)
+				if (cnt == THRESHOLD1) {
 					http_thread.abort_now();
+				}
 				sleep(msec);
 				continue;
 			}
@@ -204,12 +204,13 @@ public class HttpMsgForStudent extends Thread {
 		try {
 			reply.put("TYPE", "HAIL");
 			reply.put("NAME", curr_name);
-			System.out.println(reply);
+			Log.d(APP_TAG, reply.toString());
 			sendMessage(reply);
 			need_http = true;
 
 		} catch (Exception e) {
-			System.out.println("ERROR");
+			Log.e(APP_TAG, "ERROR, reason: " + e.getMessage());
+			// main.setStatusText(e.getMessage(), false);
 			e.printStackTrace();
 		}
 	}
@@ -232,7 +233,6 @@ public class HttpMsgForStudent extends Thread {
 			try {
 				StringEntity se = new StringEntity(reply.toString());
 				se.setContentType("application/json;charset=UTF-8");
-				System.out.println("sending date---> "	+ se);
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -363,6 +363,7 @@ public class HttpMsgForStudent extends Thread {
 			restore_from_previous_execution(arg1); //addition 06142011
 			last_type_from_msg = type;
 
+			Log.d(APP_TAG, "Received message: " + type);
 			if (type.equals("WAIT_CONNECT"))
 			{
 				if (main.getCurrentState() < CourseList.INIT_WAIT)
@@ -371,15 +372,11 @@ public class HttpMsgForStudent extends Thread {
 			} else if (type.equals("WARN")){// new function
 
 			} else if (type.equals("RE_START")){// new function
-				System.out.println("RE_START");
-
 				sent_question = false;
 				sent_answer = false;
 				main.setNewStateFromTeacher(CourseList.RE_START);
 
 			} else if (type.equals("START_MAKE")) {
-
-				System.out.println("START_MAKE");
 				Log.i(APP_TAG, "START_MAKE RECEIVED");
 
 				if (this.sent_question)
@@ -402,14 +399,9 @@ public class HttpMsgForStudent extends Thread {
 
 				if(type.substring(0, 7).equals("RE_TAKE"))
 				{
-					System.out.println(type);
 					this.sent_answer = false;
 					main.setNewStateFromTeacher(CourseList.RE_TAKE);
-				}
-				else
-				{
-					System.out.println("START_SOLVE");
-
+				} else {
 					if (this.sent_answer)
 					  main.setNewStateFromTeacher(CourseList.WAIT_SEE_RESULT);
 					else
@@ -431,20 +423,15 @@ public class HttpMsgForStudent extends Thread {
 				int high_score = arg1.getInt("HIGHSCORE");
 				float high_rating = (float) arg1.getDouble("HIGHRATING");
 
-				System.out.println("START_SHOW_RESULT");
-
 				main.setWinScore(winscore, high_score);
-				System.out.println("set win score");
 				main.setWinRating(winrating, high_rating);
 				main.setAvgRating(avg_ratings);
 				main.setRAPercents(ranswer_percents);
 				main.setNewStateFromTeacher(CourseList.SEE_RESULT);
-
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error in MSG "+ e);
+			Log.i(APP_TAG, "Error in MSG "+ e);
 		}
 
 	}
@@ -484,8 +471,6 @@ public class HttpMsgForStudent extends Thread {
 					JSONArray saved_answers = my_state.getJSONArray("YOUR_ANSWERS");
 					main.initialize_AnswerRatingArray_withDummyValues();
 					main.restoreSavedAnswers(saved_answers, num_questions);
-					System.out.println("Restored:Sunmi");
-
 				}
 
 		} catch(Exception e) {
@@ -616,16 +601,15 @@ public class HttpMsgForStudent extends Thread {
 				run_main();
 				if (stop) break;;
 			}
-			//httpclient.getConnectionManager().shutdown();
 		}
 
 		void wait_until_begin() {
 			synchronized (objMutex){
 				while (finished){
-					try {objMutex.wait();}
-					catch (InterruptedException e)
-					{
-						System.out.println(e);
+					try {
+						objMutex.wait();
+					} catch (InterruptedException e) {
+						Log.d(APP_TAG, "Begin");
 					}
 				}
 			}
@@ -639,10 +623,9 @@ public class HttpMsgForStudent extends Thread {
 			String line;
 			StringBuffer sb = new StringBuffer("");
 			while ((line = in.readLine()) != null) {
-				sb.append(line);}
-
+				sb.append(line);
+			}
 			return sb.toString();
-
 		}
 
 		void run_main() {
@@ -671,6 +654,7 @@ public class HttpMsgForStudent extends Thread {
 
 				} catch (Exception e) {
 					Log.e(APP_TAG,"ERROR");
+					// main.setStatusText(e.getMessage(), false);
 					e.printStackTrace();
 					is_error = true;
 				}
