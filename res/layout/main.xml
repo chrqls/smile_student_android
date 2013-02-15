@@ -100,7 +100,7 @@ android:layout_width="wrap_content"
 android:layout_height="20dp"
 android:text = "@string/version"
 android:layout_centerHorizontal="true"
-android:layout_above = "@+id/stanford_logo"
+android:layout_above = "@+id/branding_logo"
 android:layout_marginBottom="3dp"
 >
 </TextView>
