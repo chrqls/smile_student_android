@@ -1,3 +1,19 @@
+/**
+Copyright 2012-2013 SMILE Consortium, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+**/
+
 package org.smilec.smile.student;
 
 import java.text.DecimalFormat;
@@ -34,7 +50,8 @@ public class View_PieChart extends View
 	private float mSweep;
 	private int mMaxConnection;
 	private List<PieDetailsItem> mdataArray;
-
+	int fontSize=0;
+	
 	public View_PieChart(Context context) {
 		super(context);
 		Log.w(" single cons ", " single cons");
@@ -55,10 +72,10 @@ public class View_PieChart extends View
 				
 		mBagpaints.setAntiAlias(true);
 		mBagpaints.setStyle(Paint.Style.FILL);
-		mBagpaints.setColor(0x88FF0000);
+		mBagpaints.setColor(0x88FF0000);  
 		mBagpaints.setStrokeWidth(0.0f);
 		mLinePaints.setAntiAlias(true);
-		mLinePaints.setColor(0xff000000);
+		mLinePaints.setColor(0xff000000);  // black
 		mLinePaints.setStrokeWidth(0.7f);
 		mLinePaints.setStyle(Paint.Style.STROKE);
 		
@@ -102,6 +119,8 @@ public class View_PieChart extends View
 		    lblX = (float) ((float) CenterOffset + Radius*Math.cos( Conv*(mStart+mSweep/2)))- bounds.width()/2;
 		    lblY = (float) ((float) CenterOffset + Radius*Math.sin( Conv*(mStart+mSweep/2)))+ bounds.height()/2;
 		    // Draw Label on Canvas
+		    if(fontSize > 0)
+		      mLinePaints.setTextSize(fontSize); 
 		    canvas.drawText(LblPercent, lblX , lblY , mLinePaints);
 		    mStart += mSweep;
 		}
@@ -110,7 +129,11 @@ public class View_PieChart extends View
 	}
 	
 	
-
+    public void setFontSize(int size)
+    {
+       fontSize=size;
+    }
+    
 	public void setGeometry(int width, int height, int gapleft, int gapright,
 			int gaptop, int gapbottom, int overlayid) {
 

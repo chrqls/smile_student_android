@@ -1,4 +1,0 @@
-SMILE Student
-=============
-
-TODO

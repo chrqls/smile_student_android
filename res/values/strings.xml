@@ -7,6 +7,8 @@
         <item>English</item>
         <item>Portuguese</item>
         <item>Spanish</item>
+        <item>Swahili</item>
+        <item>Thai</item>
     </string-array>
     
     <string-array name="category_list">
@@ -17,7 +19,7 @@
     
     <string name="hello">Hello World, MySMILE!</string>
 	<string name="app_name">SMILE Student</string>
-	<string name="version">2.1.6</string>
+	<string name="version">VERSION 2.1.8</string>
 	<string name="select_language">Select a language</string>
 					    
 	<string name="login_username_hint">Username</string>
@@ -25,19 +27,19 @@
 	<string name="login_default_IP">10.1.0.1</string>
 	<string name="login_reset">RESET</string>
 	<string name="login">LOGIN</string>
-	<string name="login_share">SHARE</string>  <!-- Share Server IP Information with other students -->
+	<string name="login_share">FIND</string>  <!-- Find Server IP using multicasting -->
+	<string name="login_share_msg">Finding the server.</string>
 	<string name="default_share_scheme">http</string>
-	<string name="default_share_host">suseit.stanford.edu</string>
+	<string name="default_share_host">www.smileconsortium.org</string>
 	<string name="default_share_pathPrefix">/smile/</string>
 	<string name="default_user_name">default</string>
-	<string name="default_user_com_name">defecto</string>
 					    
 	<!-- <string name="category_mq">Make Your Question</string>
 	<string name="category_sq">Solve Questions</string>
 	<string name="category_sr">See Results</string>-->
 	<string name="category_exit">EXIT</string>
 	
-	<string name="warn">Warning!!</string>
+	<string name="warn">Warnning!!</string>
 	<string name="exit_q">Do you want to exit the program?</string>
 	<string name="OK">OK</string>
 	<string name="NO">NO</string>
@@ -58,8 +60,7 @@
 	<string name="inform_state_solve_question">Press the button to start solving the questions.</string>
 	<string name="inform_state_wait_see_result">Waiting for others to finish solving the questions.</string>
 	<string name="inform_state_see_result">Press the button to see your results and ratings.</string>
-	<string name="inform_state_finish">Quiz activity is over. Press Exit. 
-	    You need to exit first and connect again, if you you want to do another round of SMILE-Quiz.</string>
+	<string name="inform_state_finish">Quiz activity is over.</string>
 	    
 	<!-- Make a question -->
 	<string name="q_content">Question:\n\n\n\n\n</string>

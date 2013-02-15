@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout 
-xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="fill_parent" 
-    android:layout_height="fill_parent"> 
-    
 <ScrollView 
+xmlns:android="http://schemas.android.com/apk/res/android"
 android:id="@+id/ScrollView04" 
 android:layout_height="fill_parent" 
 android:layout_width="fill_parent"
@@ -23,13 +19,13 @@ android:id="@+id/RelativeLayout02"
 android:background="@drawable/background"
 android:layout_width="fill_parent" 
 android:layout_height="fill_parent">
-    
+
 <WebView 
 android:id="@+id/webviewQ" 
 android:layout_width="fill_parent" 
-android:layout_height="wrap_content"
+android:layout_height="600dp"
 android:scrollbars="vertical" 
-android:layout_alignParentTop="true" 
+android:layout_alignParentTop="true"
 android:layout_alignParentLeft="true"  
 android:layout_alignParentRight="true"
 android:layout_marginLeft="10dp"
@@ -40,12 +36,13 @@ android:layout_marginTop="10dp"
 <TextView
 android:id="@+id/antext01"
 android:layout_width="wrap_content" 
-android:layout_height="25dp"
+android:layout_height="35dp"
 android:layout_below="@+id/webviewQ"
 android:layout_alignParentLeft="true"
 android:layout_marginLeft="10dp"
-android:layout_marginTop="5dp"
+android:layout_marginTop="25dp"
 android:text="@string/answer_text"
+android:textSize="26sp"
 />
 
 <RadioGroup 
@@ -64,8 +61,10 @@ android:id="@+id/op01"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
+android:layout_marginRight="20dp"
 android:text="@string/answer_1"
 android:textStyle="bold"
+android:textSize="26sp"
 /> 
 
 <RadioButton 
@@ -73,8 +72,10 @@ android:id="@+id/op02"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
+android:layout_marginRight="20dp"
 android:text="@string/answer_2"
 android:textStyle="bold"
+android:textSize="26sp"
 /> 
 
 <RadioButton 
@@ -82,8 +83,10 @@ android:id="@+id/op03"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
+android:layout_marginRight="20dp"
 android:text="@string/answer_3"
 android:textStyle="bold"
+android:textSize="26sp"
 
 /> 
 <RadioButton 
@@ -91,8 +94,10 @@ android:id="@+id/op04"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
+android:layout_marginRight="20dp"
 android:text="@string/answer_4"
 android:textStyle="bold"
+android:textSize="26sp"
 /> 
 
 </RadioGroup>
@@ -100,12 +105,13 @@ android:textStyle="bold"
 <TextView
 android:id="@+id/ratingtext01"
 android:layout_width="wrap_content" 
-android:layout_height="25dp"
+android:layout_height="35dp"
 android:layout_below="@+id/rgroup02"
 android:layout_alignParentLeft="true"
 android:layout_marginLeft="10dp"
-android:layout_marginTop="5dp"
+android:layout_marginTop="15dp"
 android:text="@string/rating_text"
+android:textSize="26sp"
 />
 
 <RadioGroup 
@@ -125,8 +131,10 @@ android:id="@+id/rt01"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
+android:layout_marginRight="20dp"
 android:text="@string/rating_1"
 android:textStyle="bold"
+android:textSize="26sp"
 /> 
 
 <RadioButton 
@@ -134,8 +142,10 @@ android:id="@+id/rt02"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
+android:layout_marginRight="20dp"
 android:text="@string/rating_2"
 android:textStyle="bold"
+android:textSize="26sp"
 /> 
 
 <RadioButton 
@@ -143,8 +153,10 @@ android:id="@+id/rt03"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
+android:layout_marginRight="20dp"
 android:text="@string/rating_3"
 android:textStyle="bold"
+android:textSize="26sp"
 
 /> 
 <RadioButton 
@@ -152,8 +164,10 @@ android:id="@+id/rt04"
 android:checked="false" 
 android:layout_width="wrap_content"
 android:layout_height="35dp" 
+android:layout_marginRight="20dp"
 android:text="@string/rating_4"
 android:textStyle="bold"
+android:textSize="26sp"
 /> 
 
 <RadioButton 
@@ -163,13 +177,12 @@ android:layout_width="wrap_content"
 android:layout_height="35dp" 
 android:text="@string/rating_5"
 android:textStyle="bold"
+android:textSize="26sp"
 /> 
 </RadioGroup>
 
 <RatingBar
     android:id="@+id/ratingbarQ"
-    style="?android:attr/ratingBarStyleIndicator"
-    android:isIndicator="false"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentLeft="true"
@@ -177,56 +190,49 @@ android:textStyle="bold"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="5dp"
     android:numStars="5"
-    android:stepSize="1.0" 
-/>
+    android:stepSize="1.0" />
 
 <Button 
 android:id="@+id/resetQ"
 android:layout_width="wrap_content"
-android:layout_height="wrap_content"
+android:layout_height="70dp"
 android:text="@string/reset_btn"
 android:layout_alignParentBottom="true"
 android:layout_marginBottom="10dp"
 android:layout_toLeftOf="@+id/prevQ"
 android:layout_marginRight="10dp"
+android:textSize="26sp"
 >
 </Button>
 
 <Button 
 android:id="@+id/prevQ"
 android:layout_width="wrap_content"
-android:layout_height="wrap_content"
+android:layout_height="70dp"
 android:text="@string/prev_btn"
 android:layout_alignParentBottom="true"
 android:layout_marginBottom="10dp"
 android:layout_toLeftOf="@+id/nextQ"
 android:layout_marginRight="10dp"
+android:textSize="26sp"
 >
 </Button>
 
 <Button 
 android:id="@+id/nextQ"
 android:layout_width="wrap_content"
-android:layout_height="wrap_content"
+android:layout_height="70dp"
 android:text="@string/next_btn"
 android:layout_below="@+id/ratingbarQ"
 android:layout_alignParentBottom="true"
 android:layout_alignParentRight="true"
-android:layout_marginTop="15dp"
-android:layout_marginBottom="10dp"
+android:layout_marginTop="5dp"
+android:layout_marginBottom="20dp"
 android:layout_marginRight="10dp"
+android:textSize="26sp"
 >
-
 </Button>
 
 </RelativeLayout>
 </LinearLayout>
 </ScrollView>
-<!--  
-<ZoomControls android:id="@+id/zoomcontrols"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content" 
-android:padding="5dip" 
-android:layout_margin="5dip"  
-android:layout_gravity="right|bottom" />  -->
-</FrameLayout> 
