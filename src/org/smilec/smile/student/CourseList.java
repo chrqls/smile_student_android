@@ -1807,14 +1807,8 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		setContentView(R.layout.winner);
 		curwebview = (WebView) findViewById(R.id.webviewWinner);
-		//String received_html = createwinnerhtml();		
-		//curwebview.loadData(received_html, "text/html; charset=utf-8", "UTF-8");
-		setWebviewFontSize(curwebview);
-		
-		webpage = "http://" + cururi + server_dir + "final_result" + ".html";
-		curwebview.clearView();
-		curwebview.setWebViewClient(new MyWebClient());
-		curwebview.loadUrl(webpage);
+		String received_html = createwinnerhtml();		
+		curwebview.loadData(received_html, "text/html; charset=utf-8", "UTF-8");
 		
 		Button returnSW = (Button) findViewById(R.id.returnresult01);
 		returnSW.setOnClickListener(new Button.OnClickListener() {
@@ -2123,7 +2117,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	    	       i++;
 	    	   }
 	    	      
-	    	   String send_uri = "http://"+serverURI+"/smile/logError.php";
+	    	   String send_uri = "http://"+serverURI+"/smile/logError.php"; // XXX Need to fix this URI
 	    	   Log.d("UploadErrorLog", "server uri : " + send_uri);
 	  			
 		       List<NameValuePair> nvp = new ArrayList<NameValuePair>(5);   
@@ -2208,7 +2202,7 @@ public class CourseList extends Activity implements OnDismissListener {
             e.printStackTrace();
         }
 		
-		str = "Is router (192.168.2.1) reachable? " + reachable + "\n";
+		str = "Is router IP reachable? " + reachable + "\n";
         System.out.println(str);
         internetTest += str;
         
