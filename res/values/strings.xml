@@ -5,10 +5,15 @@
     <string-array name="language_list">
         <item>Arabic</item>
         <item>English</item>
+        <item>Gujarati (India)</item>        
+        <item>Hindi (India)</item>
+        <item>Malayalam (India)</item>
         <item>Portuguese</item>
         <item>Spanish</item>
         <item>Swahili</item>
+        <item>Tamil (India)</item>
         <item>Thai</item>
+        <item>Urdu</item>
     </string-array>
     
     <string-array name="category_list">
@@ -18,19 +23,19 @@
    </string-array>
     
     <string name="hello">Hello World, MySMILE!</string>
-	<string name="app_name">SMILE Student</string>
-	<string name="version">VERSION 2.1.8</string>
+	<string name="app_name">SMILE</string>
+	<string name="version">VERSION 2.1.4</string>
 	<string name="select_language">Select a language</string>
 					    
 	<string name="login_username_hint">Username</string>
 	<string name="login_optional_name">Name(optional)</string>
-	<string name="login_default_IP">10.1.0.1</string>
+	<string name="login_default_IP">192.168.2.4</string>
 	<string name="login_reset">RESET</string>
 	<string name="login">LOGIN</string>
 	<string name="login_share">FIND</string>  <!-- Find Server IP using multicasting -->
 	<string name="login_share_msg">Finding the server.</string>
 	<string name="default_share_scheme">http</string>
-	<string name="default_share_host">www.smileconsortium.org</string>
+	<string name="default_share_host">suseit.stanford.edu</string>
 	<string name="default_share_pathPrefix">/smile/</string>
 	<string name="default_user_name">default</string>
 					    

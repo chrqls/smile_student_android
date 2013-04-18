@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <string-array name="category_list">
+        <item>\u0aa4\u0aae\u0abe\u0ab0\u0abe \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0aac\u0aa8\u0abe\u0ab5\u0acb</item>
+        <item>\u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8\u0acb \u0a89\u0a95\u0ac7\u0ab2\u0acb</item>
+        <item>\u0aaa\u0ab0\u0abf\u0aa3\u0abe\u0aae\u0acb \u0a9c\u0ac1\u0a93</item>
+   </string-array>
+    
+    <string name="hello">u0ab9\u0ac7\u0ab2\u0acb \u0ab5\u0ab0\u0acd\u0ab2\u0acd\u0aa1, MySMILE!</string>
+	<string name="app_name">SMILE</string>
+	<string name="version">2.1.4 VERSION</string>
+	<string name="select_language">\u0a8f\u0a95 \u0aad\u0abe\u0ab7\u0abe \u0aaa\u0ab8\u0a82\u0aa6 \u0a95\u0ab0\u0acb</string>
+					    
+	<string name="login_username_hint">\u0ab5\u0aaa\u0ab0\u0abe\u0ab6\u0a95\u0ab0\u0acd\u0aa4\u0abe \u0aa8\u0abe\u0aae</string>
+	<string name="login_optional_name">\u0aa8\u0abe\u0aae (\u0ab5\u0ac8\u0a95\u0ab2\u0acd\u0aaa\u0abf\u0a95)</string>
+	<string name="login_default_IP">192.168.2.4</string>
+	<string name="login_reset">\u0ab0\u0ac0\u0ab8\u0ac7\u0a9f</string>
+	<string name="login">\u0ab2\u0ac9\u0a97\u0abf\u0aa8</string>
+	<string name="login_share">\u0ab6\u0acb\u0aa7\u0acb</string>  <!-- Find Server IP using multicasting -->
+	<string name="login_share_msg">\u0ab8\u0ab0\u0acd\u0ab5\u0ab0 \u0ab6\u0acb\u0aa7\u0ab5\u0ac0.</string>
+	<string name="default_share_scheme">http</string>
+	<string name="default_share_host">suseit.stanford.edu</string>
+	<string name="default_share_pathPrefix">/smile/</string>
+	<string name="default_user_name">\u0aae\u0ac2\u0ab3\u0aad\u0ac2\u0aa4</string>
+					    
+	<!-- <string name="category_mq">Make Your Question</string>
+	<string name="category_sq">Solve Questions</string>
+	<string name="category_sr">See Results</string>-->
+	<string name="category_exit">\u0aac\u0ab9\u0abf\u0ab0\u0acd\u0aa6\u0acd\u0ab5\u0abe\u0ab0</string>
+	
+	<string name="warn">\u0a9a\u0ac7\u0aa4\u0ab5\u0aa3\u0ac0!</string>
+	<string name="exit_q">Do you want to exit the program?</string>
+	<string name="OK">\u0ab6\u0ac1\u0a82 \u0aa4\u0aae\u0ac7 \u0a95\u0abe\u0ab0\u0acd\u0aaf\u0a95\u0acd\u0ab0\u0aae \u0aac\u0ab9\u0abe\u0ab0 \u0aa8\u0ac0\u0a95\u0ab3\u0ab5\u0abe \u0aae\u0abe\u0a82\u0a97\u0acb \u0a9b\u0acb</string>
+	<string name="NO">\u0aac\u0ab0\u0abe\u0aac\u0ab0</string>
+	<string name="Cancel">\u0ab0\u0aa6 \u0a95\u0ab0\u0ab5\u0ac1\u0a82</string>
+    
+	<string name="no_network"> \u0a95\u0acb\u0a88 \u0aa8\u0ac7\u0a9f\u0ab5\u0ab0\u0acd\u0a95 \u0a9c\u0acb\u0aa1\u0abe\u0aa3n</string>
+	<string name="insert_name">\u0ab5\u0aaa\u0ab0\u0abe\u0ab6\u0a95\u0ab0\u0acd\u0aa4\u0abe \u0aa8\u0abe\u0aae \u0aa6\u0abe\u0a96\u0ab2 \u0a95\u0ab0\u0acb</string>
+	
+	<string name="ConnectingSever">\u0ab5\u0abf\u0a9a\u0acd\u0a9b\u0ac7\u0aa6 \u0a95\u0ab0\u0ab5\u0acb \u0a95\u0aa8\u0ac7\u0a95\u0acd\u0a9f\u0abf\u0a82\u0a97:</string>
+	<string name="Sending"> \u00a0 \u0aae\u0acb\u0a95\u0ab2\u0ac0 \u0ab0\u0ab9\u0acd\u0aaf\u0ac1\u0a82 \u0a9b\u0ac7:</string>
+	<string name="creatingconnection">\u0a95\u0aa8\u0ac7\u0a95\u0acd\u0ab6\u0aa8 \u0aac\u0aa8\u0abe\u0ab5\u0ac0 \u0ab0\u0ab9\u0acd\u0aaf\u0abe \u0a9b\u0ac7</string>
+	<string name="network_warning">\u0a9c\u0acb\u0aa1\u0abe\u0aa3 \u0aa8\u0abf\u0ab7\u0acd\u0aab\u0ab3. \u0aaa\u0ac1\u0aa8\u0a83\u0aaa\u0acd\u0ab0\u0abe\u0ab0\u0a82\u0aad \u0a95\u0ab0\u0acb.</string>
+	
+	<string name="inform_state_before_connect">\u0ab8\u0ab0\u0acd\u0ab5\u0ab0 \u0ab8\u0abe\u0aa5\u0ac7 \u0a95\u0aa8\u0ac7\u0a95\u0acd\u0a9f \u0a95\u0ab0\u0ab5\u0abe\u0aa8\u0acb \u0aaa\u0acd\u0ab0\u0aaf\u0abe\u0ab8 \u0a95\u0ab0\u0ac0.</string>
+	<string name="inform_state_ini_wait">\u0ab5\u0abf\u0aa7\u0acd\u0aaf\u0abe\u0ab0\u0acd\u0aa5\u0ac0  \u0a85\u0aa8\u0acd\u0aaf \u0ab5\u0abf\u0aa7\u0acd\u0aaf\u0abc\u0a86\u0ab0\u0acd\u0aa5\u0ac0 \u0aa8\u0ac7 \u0a95\u0acd\u0ab5\u0abf\u0a9d \u0a9c\u0acb\u0aa1\u0abe\u0ab5\u0abe \u0aae\u0abe\u0a9f\u0ac7 \u0ab0\u0abe\u0ab9 \u0a9c\u0acb\u0a87 \u0ab0\u0ab9\u0acd\u0aaf\u0abc\u0a86 \u0a9b\u0ac7</string>
+	<string name="inform_state_make_question">\u0a86 \u0aac\u0a9f\u0aa8 \u0aa6\u0aac\u0abe\u0ab5\u0acb \u0aa4\u0aae\u0abe\u0ab0\u0abe \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8\u0aa8\u0acb \u0aac\u0aa8\u0abe\u0ab5\u0ab5\u0abe \u0ab6\u0ab0\u0ac2 \u0a95\u0ab0\u0acb.</string>
+	<string name="inform_state_wait_solve_question">\u0a85\u0aa8\u0acd\u0aaf \u0ab2\u0acb\u0a95\u0acb \u0aa4\u0ac7\u0aae\u0aa8\u0abe \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0aac\u0aa8\u0abe\u0ab5\u0ac0\u0aa8\u0ac7 \u0ab8\u0aae\u0abe\u0aaa\u0acd\u0aa4 \u0a95\u0ab0\u0ab5\u0abe \u0aae\u0abe\u0a9f\u0ac7 \u0aaa\u0acd\u0ab0\u0aa4\u0ac0\u0a95\u0acd\u0ab7\u0abe \u0a95\u0ab0\u0ac0 \u0ab0\u0ab9\u0acd\u0aaf\u0abc\u0a86  \u0a9b\u0ac7.</string>
+	<string name="inform_state_solve_question">\u0aac\u0a9f\u0aa8 \u0aa6\u0aac\u0abe\u0ab5\u0acb \u0a85\u0aa8\u0ac7 \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8\u0acb \u0ab9\u0ab2 \u0a95\u0ab0\u0ab5\u0abe\u0aa8\u0ac1\u0a82 \u0ab6\u0ab0\u0ac2 \u0a95\u0ab0\u0acb</string>
+	<string name="inform_state_wait_see_result">\u0aac\u0abf\u0a9c\u0abe \u0ab5\u0abf\u0aa7\u0acd\u0aaf\u0abc\u0a86\u0ab0\u0acd\u0aa5\u0ac0 \u0aa8\u0ac7 \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0a89\u0a95\u0ac7\u0ab2\u0ab5\u0abe \u0aa8\u0ac0 \u0ab0\u0abe\u0ab9 \u0a9c\u0acb\u0ab5\u0abe\u0aaf\u0abc \u0a9b\u0ac7</string>
+	<string name="inform_state_see_result">\u0a86 \u0aac\u0a9f\u0aa8 \u0aa6\u0aac\u0abe\u0ab5\u0acb \u0aa4\u0aae\u0abe\u0ab0\u0abe \u0aaa\u0ab0\u0abf\u0aa3\u0abe\u0aae\u0acb \u0ab0\u0ac7\u0a9f\u0abf\u0a82\u0a97\u0acd\u0ab8 \u0a85\u0aa8\u0ac7 \u0a9c\u0ac1\u0a93.</string>
+	<string name="inform_state_finish">\u0a95\u0acd\u0ab5\u0abf\u0a9d \u0aaa\u0acd\u0ab0\u0ab5\u0ac3\u0aa4\u0acd\u0aa4\u0abf \u0ab8\u0acd\u0aae\u0abe\u0aaa\u0acd\u0aa4 \u0a9b\u0ac7.</string>
+	    
+	<!-- Make a question -->
+	<string name="q_content">\u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8:\n\n\n\n\n</string>
+	<string name="q_op1">\u0a9c\u0ab5\u0abe\u0aac 1:</string>
+	<string name="q_op2">\u0a9c\u0ab5\u0abe\u0aac 2:</string>
+	<string name="q_op3">\u0a9c\u0ab5\u0abe\u0aac 3:</string>
+	<string name="q_op4">\u0a9c\u0ab5\u0abe\u0aac 4:</string>
+	
+	<string name="img_dialog_title">\u0a8f\u0a95 \u0a9b\u0aac\u0ac0 \u0aaa\u0ab8\u0a82\u0aa6 \u0a95\u0ab0\u0acb</string>
+	<string name="img_notice">\u0a86 \u0aac\u0a9f\u0aa8 \u0aaa\u0ab0 \u0a95\u0acd\u0ab2\u0abf\u0a95 \u0a95\u0ab0\u0acb \u0aaa\u0abe\u0a9b\u0abe</string>
+	
+	
+	<!-- Preview question -->
+	<string name="back_btn">\u0aaa\u0abe\u0a9b\u0abe \u0a9c\u0abe\u0ab5</string>
+	
+	<string name="preview_btn">\u0a9a\u0a95\u0abe\u0ab8\u0acb \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8</string>
+	<string name="post_btn">\u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0aaa\u0acd\u0ab0\u0aa6\u0ab0\u0acd\u0ab6\u0abf\u0aa4 \u0a95\u0ab0\u0acb</string>
+	
+	<!-- Solve Question -->
+	<string name="answer_text">\u0a9c\u0ab5\u0abe\u0aac \u0a86\u0aaa\u0ab5\u0acb</string>
+	<string name="answer_1">(1)</string>
+	<string name="answer_2">(2)</string>
+	<string name="answer_3">(3)</string>
+	<string name="answer_4">(4)</string>
+	
+	<string name="rating_text">Rating</string>
+	<string name="rating_1">1</string>
+	<string name="rating_2">2</string>
+	<string name="rating_3">3</string>
+	<string name="rating_4">4</string>
+	<string name="rating_5">5</string>
+	
+	<string name="reset_btn">\u0ab0\u0ac0\u0ab8\u0ac7\u0a9f \u0a95\u0ab0\u0acb</string>
+	<string name="prev_btn">\u0aaa\u0ab9\u0ac7\u0ab2\u0abe</string>
+	<string name="next_btn">\u0aaa\u0a9b\u0ac0</string>
+	
+	<!-- See Result -->
+	<string name="return_btn">\u0aaa\u0abe\u0a9b\u0abe \u0aab\u0ab0\u0acb</string>
+	<string name="detail_btn">\u0ab5\u0abf\u0a97\u0aa4</string>
+	<string name="winner_btn">\u0ab5\u0abf\u0a9c\u0ac7\u0aa4\u0abe</string>
+	    
+	<string name="post_q">\u0ab6\u0ac1\u0a82 \u0aa4\u0aae\u0ac7 \u0a86 \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0aaa\u0acd\u0ab0\u0ab8\u0ab0\u0ac0\u0aa4  \u0a95\u0ab0\u0ab5\u0abe \u0aae\u0abe\u0a82\u0a97\u0acb \u0a9b\u0acb?</string>
+	<string name="error_noanswer">\u0aad\u0ac2\u0ab2: \u0a95\u0acb\u0a88  \u0a9c\u0ab5\u0abe\u0aac \u0ab8\u0abe\u0a9a\u0acb \u0aa8\u0aa5\u0ac0</string>
+	<string name="Post_MoreQ">\u0ab5\u0aa7\u0ac1 \u0aaa\u0acd\u0ab0 \u0aaa\u0acb\u0ab8\u0acd\u0a9f</string>
+	
+	<string name="add_img">\u0a9b\u0aac\u0ac0 \u0a89\u0aae\u0ac7\u0ab0\u0acb</string>
+	<string name="take_pic">\u0a9a\u0abf\u0aa4\u0acd\u0ab0 \u0ab2\u0acb</string>
+	<string name="rmv_img">\u0a9b\u0aac\u0ac0 \u0aa6\u0ac2\u0ab0 \u0a95\u0ab0\u0acb</string>
+	
+	<!-- Remove image dialog -->
+	<string name="rmv_img_dialog_title">SMILE: \u0a8f\u0a95 \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0aac\u0aa8\u0abe\u0ab5\u0acb</string>
+	<string name="rmv_img_q">\u0ab6\u0ac1\u0a82 \u0aa4\u0aae\u0ac7 \u0a9b\u0aac\u0ac0 \u0a95\u0abe\u0aa2\u0ac0 \u0aa8\u0abe\u0a96\u0ab5\u0abe \u0aae\u0abe\u0a82\u0a97\u0acb \u0a9b\u0acb?</string>
+	
+	<string name="warn_nopic">\u0a9a\u0abf\u0aa4\u0acd\u0ab0 \u0ab2\u0ac7\u0ab5\u0abe\u0aae\u0abe\u0a82 \u0a86\u0ab5\u0ac0 \u0aa8 \u0ab9\u0aa4\u0ac0</string>
+	
+	<string name="notice_preview">\u0aa4\u0aae\u0abe\u0ab0\u0abe \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0aaa\u0ac2\u0ab0\u0acd\u0ab5\u0abe\u0ab5\u0ab2\u0acb\u0a95\u0aa8</string>
+	<string name="loading">\u0ab2\u0acb\u0aa1 \u0a95\u0ab0\u0ac0 \u0ab0\u0ab9\u0acd\u0aaf\u0ac1\u0a82 \u0a9b\u0ac7</string>
+	<string name="insert_error">\u0a9c\u0ab5\u0abe\u0aac \u0a85\u0aa8\u0ac7 \u0ab0\u0ac7\u0a9f\u0abf\u0a82\u0a97 \u0ab6\u0abe\u0aae\u0ac7\u0ab2 \u0a95\u0ab0\u0acb</string>
+	<string name="submit_q">\u0ab6\u0ac1\u0a82 \u0aa4\u0aae\u0ac7 \u0aa4\u0aae\u0abe\u0ab0\u0abe \u0a9c\u0ab5\u0abe\u0aac\u0acb \u0ab8\u0aac\u0aae\u0abf\u0a9f \u0a95\u0ab0\u0ab5\u0abe \u0aae\u0abe\u0a82\u0a97\u0acb \u0a9b\u0acb?</string>
+	<string name="submit_btn">\u0ab8\u0aac\u0aae\u0abf\u0a9f \u0a95\u0ab0\u0acb</string>
+	
+	<!-- Winner Result page -->
+	<string name="winner_title">\u0a86 \u0ab5\u0abf\u0a9c\u0ac7\u0aa4\u0abe \u0a95\u0acb\u0aa3 \u0a9b\u0ac7?</string>
+	<string name="quiz_score">\u0a95\u0ac1\u0ab2 \u0ab8\u0acd\u0a95\u0acb\u0ab0 \u0a95\u0acd\u0ab5\u0abf\u0a9d</string>
+	<string name="h_score">\u0ab8\u0ab0\u0acd\u0ab5\u0acb\u0a9a\u0acd\u0a9a \u0ab8\u0acd\u0a95\u0acb\u0ab0</string>
+	<string name="name">\u0aa8\u0abe\u0aae</string>
+	
+	<string name="rating_score_title">\u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0aaa\u0acd\u0ab0\u0aa4\u0abf\u0ab8\u0abe\u0aa6 \u0ab8\u0acd\u0a95\u0acb\u0ab0</string>
+	<string name="h_avg_rating">\u0ab8\u0acc\u0aa5\u0ac0 \u0ab5\u0aa7\u0ac1 \u0ab8\u0ab0\u0ac7\u0ab0\u0abe\u0ab6 \u0ab0\u0ac7\u0a9f\u0abf\u0a82\u0a97</string>
+	
+	<string name="t_score">\u0a95\u0ac1\u0ab2 \u0ab8\u0acd\u0a95\u0acb\u0ab0</string>
+	<string name="q_num">\u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0ab8\u0a82\u0a96\u0acd\u0aaf\u0abe</string>
+	<string name="correct_wrong">\u0ab8\u0abe\u0a9a\u0ac1\u0a82 \u0a85\u0aa5\u0ab5\u0abe \u0a96\u0acb\u0a9f\u0ac1\u0a82g</string>
+
+	<!-- Detail Result -->
+	<string name="my_answer">\u0aae\u0abe\u0ab0\u0acb \u0a9c\u0ab5\u0abe\u0aac:</string>
+	<string name="num_r_answer">\u0ab8\u0abe\u0a9a\u0ac1</string>
+	<string name="num_w_answer">\u0a96\u0acb\u0a9f\u0ac1\u0a82</string>
+	<string name="notice_last_q">\u0a86 \u0a9b\u0ac7\u0ab2\u0acd\u0ab2\u0abe \u0aaa\u0acd\u0ab0\u0ab6\u0acd\u0aa8 \u0a9b\u0ac7.</string>
+	
+</resources>

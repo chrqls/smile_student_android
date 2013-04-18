@@ -2,6 +2,7 @@
 
 <RelativeLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/mainLayout"
 android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:background="@drawable/main_background"
@@ -62,10 +63,10 @@ android:layout_marginTop="15dp"
 <Button
 android:id = "@+id/shareb"
 android:layout_width="wrap_content"
-android:layout_height="50dp"
+android:layout_height="wrap_content"
 android:text = "@string/login_share"
-android:layout_alignParentLeft="true"
-android:layout_marginLeft="20dp"
+android:layout_toLeftOf="@+id/cancelb"
+android:layout_marginRight="15dp"
 android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
@@ -76,8 +77,7 @@ android:id = "@+id/cancelb"
 android:layout_width="wrap_content"
 android:layout_height="50dp"
 android:text = "@string/login_reset"
-android:layout_toLeftOf="@+id/okb"
-android:layout_marginRight="20dp"
+android:layout_centerHorizontal="true"
 android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
@@ -86,10 +86,10 @@ android:layout_marginTop="15dp"
 <Button
 android:id = "@+id/okb"
 android:layout_width="wrap_content"
-android:layout_height="50dp"
+android:layout_height="wrap_content"
 android:text = "@string/login"
-android:layout_alignParentRight="true"
-android:layout_marginRight="20dp"
+android:layout_toRightOf="@+id/cancelb"
+android:layout_marginLeft="15dp"
 android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
@@ -98,13 +98,22 @@ android:layout_marginTop="15dp"
 <TextView
 android:id = "@+id/version"
 android:layout_width="wrap_content"
-android:layout_height="20dp"
+android:layout_height="50dp"
 android:text = "@string/version"
 android:layout_centerHorizontal="true"
-android:layout_below = "@+id/okb"
-android:layout_marginTop="15dp"
-android:layout_marginBottom="3dp"
+android:layout_alignParentBottom="true"
+android:layout_marginBottom="50dp"
 >
 </TextView>
+<!--  
+<ImageView
+android:id="@+id/stanford_logo"
+android:layout_width="wrap_content"
+android:layout_height="40dp"
+android:layout_below = "@+id/version"
+android:layout_centerHorizontal="true"
+android:src="@drawable/stanford_logo"
+>
+</ImageView>  -->  
 
 </RelativeLayout>

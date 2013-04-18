@@ -1,19 +1,3 @@
-/**
-Copyright 2012-2013 SMILE Consortium, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-**/
-
 package org.smilec.smile.student;
 
 import java.text.DecimalFormat;
@@ -29,7 +13,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-public class View_PieChart extends View 
+public class View_PieChart extends View
 {
 	public static final int WAIT = 0;
 	public static final int IS_READY_TO_DRAW = 1;
@@ -37,7 +21,7 @@ public class View_PieChart extends View
 	private static final float START_INC = 30;
 	private Paint mBagpaints  = new Paint();
 	private Paint mLinePaints = new Paint();
-	
+
 	private int mWidth;
 	private int mHeight;
 	private int mGapTop;
@@ -51,7 +35,7 @@ public class View_PieChart extends View
 	private int mMaxConnection;
 	private List<PieDetailsItem> mdataArray;
 	int fontSize=0;
-	
+
 	public View_PieChart(Context context) {
 		super(context);
 		Log.w(" single cons ", " single cons");
@@ -69,20 +53,20 @@ public class View_PieChart extends View
 			return;
 		}
 		canvas.drawColor(mBgcolor);
-				
+
 		mBagpaints.setAntiAlias(true);
 		mBagpaints.setStyle(Paint.Style.FILL);
-		mBagpaints.setColor(0x88FF0000);  
+		mBagpaints.setColor(0x88FF0000);
 		mBagpaints.setStrokeWidth(0.0f);
 		mLinePaints.setAntiAlias(true);
 		mLinePaints.setColor(0xff000000);  // black
 		mLinePaints.setStrokeWidth(0.7f);
 		mLinePaints.setStyle(Paint.Style.STROKE);
-		
+
 		RectF mOvals = new RectF(mGapleft, mGapTop, mWidth - mGapright, mHeight
 				- mGapBottm);
 		mStart = START_INC;
-		
+
 		PieDetailsItem item;
 		for (int i = 0; i < mdataArray.size(); i++) {
 			item = (PieDetailsItem) mdataArray.get(i);
@@ -90,11 +74,11 @@ public class View_PieChart extends View
 			mSweep = (float) 360* ((float) item.count / (float) mMaxConnection);
 			canvas.drawArc(mOvals, mStart, mSweep, true, mBagpaints);
 			canvas.drawArc(mOvals, mStart, mSweep, true, mLinePaints);
-			
+
 			mStart = mStart + mSweep;
-			
+
 		}
-		
+
 		//------------------------------------------------------------
 		// Draw Legend on Pie
 		//------------------------------------------------------------
@@ -120,20 +104,20 @@ public class View_PieChart extends View
 		    lblY = (float) ((float) CenterOffset + Radius*Math.sin( Conv*(mStart+mSweep/2)))+ bounds.height()/2;
 		    // Draw Label on Canvas
 		    if(fontSize > 0)
-		      mLinePaints.setTextSize(fontSize); 
+		      mLinePaints.setTextSize(fontSize);
 		    canvas.drawText(LblPercent, lblX , lblY , mLinePaints);
 		    mStart += mSweep;
 		}
 
 		mState = IS_DRAW;
 	}
-	
-	
+
+
     public void setFontSize(int size)
     {
        fontSize=size;
     }
-    
+
 	public void setGeometry(int width, int height, int gapleft, int gapright,
 			int gaptop, int gapbottom, int overlayid) {
 
@@ -152,7 +136,7 @@ public class View_PieChart extends View
 	}
 
 	public void setData(List<PieDetailsItem> data, int maxconnection) {
-		
+
 		mdataArray = data;
 		mMaxConnection = maxconnection;
 		Log.w(" Max Connection  ", maxconnection + " " + "  Adataarray :"
@@ -163,7 +147,7 @@ public class View_PieChart extends View
 	public void setState(int state) {
 		mState = state;
 	}
-	
+
 	public int getColorValues(int index) {
 		if (mdataArray == null) {
 			return 0;

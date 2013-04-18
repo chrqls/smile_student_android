@@ -1,19 +1,3 @@
-/**
-Copyright 2012-2013 SMILE Consortium, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-**/
-
 package org.smilec.smile.student;
 
 import java.io.BufferedReader;
@@ -81,13 +65,11 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebBackForwardList;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -95,14 +77,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ZoomControls;
 import android.webkit.WebChromeClient;
-import android.view.MotionEvent;
 
 @SuppressLint("NewApi")
 public class CourseList extends Activity implements OnDismissListener {
 
 	String APP_TAG = "SMILE";
-	String server_dir = "/smile/current/";
-	
+	String server_dir = "/SMILE/current/";
+
 	ZoomControls zoomControls;
 	WebView webviewQ;
 	WebView webviewSR;
@@ -130,7 +111,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	int LAST_SCENE_NUM = 0;
 	//private String category_arr[] = { "Make Your Question", "Solve Questions", "See Results" };
 	private String category_arr[];
-	private String language_list[];	                          
+	private String language_list[];
 	String curcategory;
 
 	static int selarridx  = 0; // 0:solve question 1: see results
@@ -146,14 +127,14 @@ public class CourseList extends Activity implements OnDismissListener {
 	static String cururi;
 	static String curusername;
 	static String curlanguage;
-	
+
 	String myRightan;
 
 	private boolean isImageSelected = false;
 
 	AddPictureDialog add_pic_d = null;
 	AndroidCustomGallery add_pic_g = null; // on 3/19/2012
-	
+
 	piechart draw_piechart;
 
 	TextView notemkcontent;
@@ -171,9 +152,9 @@ public class CourseList extends Activity implements OnDismissListener {
 	QuickAction image_qa;
 
 	Boolean TakenImage = false;
-	
-	Boolean SolvingIndex = false; // if it is true, it means a user solved questions 
-	
+
+	Boolean SolvingIndex = false; // if it is true, it means a user solved questions
+
 	Uri imageUri;
 	Uri ThumUri;
 	Intent camera_intent;
@@ -183,13 +164,19 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	Activity activity;
 
+	@Override
+	public void setContentView(int layoutResID) {
+		super.setContentView(layoutResID);
+		smile.overrideFonts(this, findViewById(android.R.id.content).getRootView());
+	}
+
 	// ---------------------------------------------------------------------------------------------------------
 	// communication channel from JunctionStudent -> main application
 	// JunctionStudent -> main.setNewState -> [MessageHandler] -> handleMessage
 	// -> main.change_todo_view_state
 	// ---------------------------------------------------------------------------------------------------------
 	public void setNewStateFromTeacher(int todo_number) { // called by junction object
-		
+
 		messageHandler.sendMessage(Message.obtain(messageHandler, todo_number));
 		// below Handler will be called soon enough with 'todo_number' as
 		// msg.what
@@ -209,28 +196,28 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	void setHttpStatus(int kind, int time) {
-		
+
 		try {
 			TextView http = (TextView) findViewById(R.id.HTTPText);
 			if (time == 0)
 				http.setText("");
 			else {
-				
+
 				StringBuffer sb = new StringBuffer("");
 				if (kind == HTTP_PING_STATUS){
 					sb.append(getString(R.string.ConnectingSever));
 				} else {
 					sb.append(getString(R.string.Sending));
 				}
-				
+
 				for (int i = 0; i < time; i++) {
 					sb.append('.');
 				}
-				
+
 				http.setText(sb.toString());
-				
+
 			}
-			
+
 		} catch (Exception e) {
 		}
 
@@ -254,7 +241,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			} else {
 				if(msg.what == RE_TAKE)
 				{
-					last_state_received = WAIT_SOLVE_QUESTION;					
+					last_state_received = WAIT_SOLVE_QUESTION;
 					change_todo_view_state(SOLVE_QUESTION);
 				}
 				else if(msg.what == RE_START)
@@ -270,16 +257,16 @@ public class CourseList extends Activity implements OnDismissListener {
 	public int getCurrentState() {
 		return last_state_received;
 	}
-	
+
 	public int getLanguageIndex() {
-		
+
 		int return_index = 0; //default (English)
-		
+
 		if(curlanguage.equals(language_list[0]))       return_index = 0;
 		else if (curlanguage.equals(language_list[1])) return_index = 1;
-				
+
 		return return_index;
-		
+
 	}
 
 	public String getMyName() {
@@ -304,23 +291,23 @@ public class CourseList extends Activity implements OnDismissListener {
 	public final static int WIFI_NOT_CONNECTED = 201;
 	public final static int SERVER_NOT_AVAIL = 202;
 	public final static int SERVER_AVAIL = 203;
-	
+
 	int last_state_received = BEFORE_CONNECT; // MAKE_QUESTION,
 	String MY_IP;
     String titleSize1="";
     String titleSize2="";
-    
+
 	// This part is called when starting this app
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
-	    
+
 		Resources res = getResources(); //get resources
 		language_list = res.getStringArray(R.array.language_list);
 		category_arr  = res.getStringArray(R.array.category_list);
-		
+
 		// First Extract the bundle from intent
 		Bundle bundle = getIntent().getExtras();
 		// Next extract the values using the key as
@@ -331,22 +318,22 @@ public class CourseList extends Activity implements OnDismissListener {
 		curlanguage    = bundle.getString("CHOSEN_LANGUAGE");
 		String manufacturer = android.os.Build.MANUFACTURER;
 		//showToast(manufacturer);
-		
-		if ((getResources().getConfiguration().screenLayout &      
+
+		if ((getResources().getConfiguration().screenLayout &
 				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {     // 480x640 dp units
 			draw_piechart = new piechart(this, returnPixels(200.0f));
 			titleSize1 ="<big>";
 			titleSize2 ="</big>";
-	    } 
+	    }
 		else if (manufacturer != null && manufacturer.toLowerCase().equals("samsung"))
-		{		    
-			draw_piechart = new piechart(this, returnPixels(150.0f));			
-			draw_piechart.setFontSize(returnPixels(12.0f));			
+		{
+			draw_piechart = new piechart(this, returnPixels(150.0f));
+			draw_piechart.setFontSize(returnPixels(12.0f));
 		}
 		else draw_piechart = new piechart(this, returnPixels(150.0f)); // to draw the piechart
-		
+
 		draw_piechart.onStart(100,0);
-		
+
 		add_pic_g = new AndroidCustomGallery (this); // on 3/19/2012s
 
 		answer_arr   = new Vector<Integer>();
@@ -379,7 +366,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		// student.send_initial_message();
 		uploadErrorLog(cururi);
 	}
-	
+
 	private int returnPixels(float THRESHOLD_DP)
 	{
 		// Get the screen's density scale
@@ -388,7 +375,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		int mThreshold = (int) (THRESHOLD_DP * scale + 0.5f);
 		return mThreshold;
 	}
-	
+
 	private void create_connection() {
 
 		Log.d(APP_TAG, "Creating connection");
@@ -396,38 +383,38 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		//Toast.makeText(this, getString(R.string.creatingconnection), Toast.LENGTH_SHORT).show();
 		showToast(getString(R.string.creatingconnection));
-		
+
 		student = new HttpMsgForStudent(this, curusername, MY_IP);
 		student.beginConnection(cururi);
 
 		// create connection with another thread
 		/*
 		 * new Thread(new Runnable() { public void run() {
-		 * 
+		 *
 		 * int err_count = 0; while (student == null) {
 		 * Log.d(APP_TAG,"Creating Student");
-		 * 
+		 *
 		 * student = new JunctionStudent((CourseList)_act, curusername, MY_IP);
 		 * err_count++;
-		 * 
+		 *
 		 * // finish application if (err_count > 2) {
 		 * Log.d(APP_TAG,"Too many Error in making connection"); inform.setText(
 		 * "Too many Error in making connection, please check your network.");
 		 * break; } } if (student == null) { // Connection Fail
 		 * setNewStateFromTeacher(CONNECT_FAIL); return; }
-		 * 
+		 *
 		 * boolean succ = false; err_count = 0; while (!succ) {
 		 * Log.d(APP_TAG,"Creating Connection"); succ =
 		 * student.create_connection(cururi);
-		 * 
+		 *
 		 * if (err_count++ > 2) {
 		 * Log.d(APP_TAG,"Too many Error in making connection");
 		 * //inform.setText
 		 * ("Too many Error in making connection, please check your network");
 		 * break; } } if (!succ) setNewStateFromTeacher(CONNECT_FAIL); else
 		 * setNewStateFromTeacher(INIT_WAIT);
-		 * 
-		 * 
+		 *
+		 *
 		 * } }).start();
 		 */
 	}
@@ -469,12 +456,12 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	@SuppressWarnings("deprecation")
 	private void getStoredFileURL() {
-		
+
 		// save URL for stored file
 		File data_dir = getBaseContext().getFilesDir();
 
 		try {
-			
+
 			URL url = data_dir.toURL();
 			stored_file_url = url.toString();
 		} catch (Exception e) {
@@ -487,7 +474,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	Button makeQ;
 	Button solveQ;
 	Button seeR;
-	
+
 	Boolean enabled_m = false;
 	Boolean enabled_s = false;
 	Boolean enabled_r = false;
@@ -496,7 +483,9 @@ public class CourseList extends Activity implements OnDismissListener {
 	public void setAppTitle(int status)
 	{
 		String text = "<html>"+titleSize1+APP_TAG+" - "+curusername+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		
+		String my_font="";
+		if(smile.face!=null)
+
 		if (status == SERVER_NOT_AVAIL) {
 		    // SERVER not connected
 			// setTitleColor(Color.RED);
@@ -510,30 +499,30 @@ public class CourseList extends Activity implements OnDismissListener {
 		    // setTitleColor(Color.WHITE);
 			text += "<font color='green'>&#9679;&#9679;&#9679;</font>";
 		}
-		
-		text += titleSize2 + "</html>";	
+
+		text += titleSize2 + "</html>";
 
 		setTitle(Html.fromHtml(text));
 	}
-	
+
 	private void show_todo_view() {
 
 		//setTitle(APP_TAG + " - " + curusername);
 		setAppTitle(WIFI_CONNECTED);
 		setContentView(R.layout.category);
-		
+
 		inform = (TextView) findViewById(R.id.ProgressText);
 
 		makeQ        = (Button) findViewById(R.id.MKQbutton);
 		solveQ       = (Button) findViewById(R.id.SOLQbutton);
 		seeR         = (Button) findViewById(R.id.SEERbutton);
 		exitTodoView = (Button) findViewById(R.id.exitbutton);
-		
+
 		makeQ.setText(category_arr[0]);
 		solveQ.setText(category_arr[1]);
 		seeR.setText(category_arr[2]);
 		exitTodoView.setText(R.string.category_exit);
-			
+
 		makeQ.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				change_todo_view_state(WAIT_SOLVE_QUESTION);
@@ -555,7 +544,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			public void onClick(View v) {
 				change_todo_view_state(FINISH);
 				// comment out for re-take the quiz and start a new session
-				// student.can_rest_now();   
+				// student.can_rest_now();
 				seeResults();
 				selarridx = 1;
 			}
@@ -565,7 +554,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			public void onClick(View v) {
 
 				final Builder adb = new AlertDialog.Builder(CourseList.this);
-				
+
 				adb.setTitle(getString(R.string.warn));
 				adb.setMessage(getString(R.string.exit_q));
 				adb.setPositiveButton(getString(R.string.OK),
@@ -574,10 +563,10 @@ public class CourseList extends Activity implements OnDismissListener {
 								CourseList.this.finish();
 							}
 						});
-	
+
 				adb.setNegativeButton(getString(R.string.Cancel), null);
-				adb.show();
-								
+				AlertDialog d = adb.show();
+				smile.overrideFonts(activity, d.findViewById(android.R.id.content));
 			}
 		});
 
@@ -596,7 +585,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		if (state == CONNECT_FAIL) {
 			//Toast.makeText(this, getString(R.string.network_warning), Toast.LENGTH_LONG);
 			showToast(getString(R.string.network_warning));
-			
+
 			this.finish(); // finish current activity. Connection lost
 			return;
 		}
@@ -611,35 +600,35 @@ public class CourseList extends Activity implements OnDismissListener {
 		last_state_received = state;
 
 		switch (state) {
-		
+
 		case BEFORE_CONNECT: // wait
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
 			inform.setText(R.string.inform_state_before_connect);
 			break;
-			
+
 		case INIT_WAIT: // wait
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
 			inform.setText(R.string.inform_state_ini_wait);
 			break;
-			
+
 		case MAKE_QUESTION: // press button for making
 			makeQ.setEnabled(true);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
 			inform.setText(R.string.inform_state_make_question);
 			break;
-			
+
 		case WAIT_SOLVE_QUESTION: // wait solving
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
 			inform.setText(R.string.inform_state_wait_solve_question);
 			break;
-			
+
 		case SOLVE_QUESTION: // press button for solving
 			// clear cache of webview
 			makeQ.setEnabled(false);
@@ -647,22 +636,22 @@ public class CourseList extends Activity implements OnDismissListener {
 			seeR.setEnabled(false);
 			inform.setText(R.string.inform_state_solve_question);
 			break;
-			
+
 		case WAIT_SEE_RESULT: // wait seeing results
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(false);
 			inform.setText(R.string.inform_state_wait_see_result);
 			break;
-			
+
 		case SEE_RESULT: // see results
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(true);
 			inform.setText(R.string.inform_state_see_result);
 			break;
-			
-		case FINISH: // activity is over but it is possible to see results			
+
+		case FINISH: // activity is over but it is possible to see results
 			makeQ.setEnabled(false);
 			solveQ.setEnabled(false);
 			seeR.setEnabled(true);
@@ -716,7 +705,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	public void setWinScore(JSONArray _array, int h_score) {
 		score_winner_name.clear();
-		
+
 		for (int i = 0; i < _array.length(); i++) {
 			try {
 
@@ -733,7 +722,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	public void setWinRating(JSONArray _array, float h_rating) {
 		rating_winner_name.clear();
-		
+
 		for (int i = 0; i < _array.length(); i++) {
 			try {
 
@@ -751,7 +740,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	// It is added in 6/22
 	public void setAvgRating(JSONArray _array) {
 		final_avg_ratings.clear();
-		
+
 		for (int i = 0; i < _array.length(); i++) {
 			try {
 				final_avg_ratings.add(i, _array.getString(i));
@@ -765,7 +754,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	public void setRAPercents(JSONArray _array) {
 		r_answer_percents.clear();
-		
+
 		for (int i = 0; i < _array.length(); i++) {
 			try {
 				r_answer_percents.add(i, _array.getString(i));
@@ -789,7 +778,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	String _op4;
 	String _rightan;
 
-	// 1. Make Questions 
+	// 1. Make Questions
 	void MakeQuestion() {
 
 		curcategory = category_arr[0];
@@ -805,25 +794,24 @@ public class CourseList extends Activity implements OnDismissListener {
 		final EditText myOp3     = (EditText) findViewById(R.id.op3);
 		final EditText myOp4     = (EditText) findViewById(R.id.op4);
 		rgb04 = (RadioGroup) findViewById(R.id.rgroup04); // for inserting right answer
-		
-		
-		
+
+
+
 		// if (galleryidx == 1) SaveImage();
-		
+
 		// retain the previous contents for preview
 		if ((previewidx == 1) || (galleryidx == 1)) {
-			
+
 			galleryidx = 0;
-			
+
 			myContent.setText(question_arr[0]);
 			myOp1.setText(question_arr[1]);
 			myOp2.setText(question_arr[2]);
 			myOp3.setText(question_arr[3]);
 			myOp4.setText(question_arr[4]);
-			rgb04.check(Integer.parseInt(question_arr[5]) + R.id.rightan01 - 1);
+			if(question_arr[5]!=null && question_arr[5]!="")
+			   rgb04.check(Integer.parseInt(question_arr[5]) + R.id.rightan01 - 1);
 			imageview.setImageBitmap(_bmImg);
-					
-			
 		}
 
 		// Add Image
@@ -850,7 +838,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				question_arr[4] = _op4;
 				question_arr[5] = _rightan;
 				//----------------------------------------------------------
-				
+
 				image_qa = new QuickAction(v);
 
 				image_qa.addActionItem(image_first);
@@ -998,8 +986,8 @@ public class CourseList extends Activity implements OnDismissListener {
 							}
 						});
 
-				adb.show();
-
+				AlertDialog d=adb.show();
+				smile.overrideFonts(activity, d.findViewById(android.R.id.content));
 			}
 		});
 
@@ -1035,9 +1023,9 @@ public class CourseList extends Activity implements OnDismissListener {
 		});
 
 	}
-	
+
 	public void RetainData(String s1, String s2, String s3, String s4, String s5) {
-		
+
 	}
 
 	//This part has a problem with LG phone (3/19/2012)
@@ -1045,11 +1033,11 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		//galleryidx = 1; // in order to retain information
 		chkimg = 1;
-		
+
 		/****************************************************
 		* This is the part which worked as an image dialog  *
 		*****************************************************/
-		
+
 		add_pic_d = new AddPictureDialog(CourseList.this);
 		add_pic_d.setActivity(_act);
 
@@ -1061,10 +1049,10 @@ public class CourseList extends Activity implements OnDismissListener {
 		add_pic_d.setContentView(R.layout.addpicdialog);
 		add_pic_d.show();
 		add_pic_d.setOnDismissListener((CourseList) _act);
-		
-		
+		smile.overrideFonts(CourseList.this, add_pic_d.findViewById(android.R.id.content).getRootView());
+
 		//add_pic_g.onStart();
-		
+
 	}
 
 	public void image_quickaction() {
@@ -1076,7 +1064,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		image_first.setIcon(getResources().getDrawable(R.drawable.plus));
 		image_first.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				
+
 				addimage();
 				if (image_qa != null)
 					image_qa.dismiss();
@@ -1091,7 +1079,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				.getDrawable(R.drawable.take_picture));
 		image_second.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				
+
 				takepicture();
 				if (image_qa != null)
 					image_qa.dismiss();
@@ -1118,10 +1106,10 @@ public class CourseList extends Activity implements OnDismissListener {
 		chkimg = 0;
 		activity = this;
 		Builder adb = new AlertDialog.Builder(activity);
-		
+
 		adb.setTitle(getString(R.string.rmv_img_dialog_title));
 		adb.setMessage(getString(R.string.rmv_img_q));
-		
+
 		adb.setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface arg0, int arg1) {
@@ -1134,8 +1122,8 @@ public class CourseList extends Activity implements OnDismissListener {
 		});
 
 		adb.setNegativeButton(getString(R.string.Cancel), null);
-		adb.show();
-
+		AlertDialog d=adb.show();
+		smile.overrideFonts(activity, d.findViewById(android.R.id.content));
 	}
 
 	private void takepicture() {
@@ -1299,6 +1287,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		setTitle(curcategory);
 		setContentView(R.layout.preview);
+		smile.overrideFonts(this, findViewById(R.layout.preview));
 
 		Button backpreview = (Button) findViewById(R.id.previewBack);
 		backpreview.setOnClickListener(new Button.OnClickListener() {
@@ -1310,13 +1299,13 @@ public class CourseList extends Activity implements OnDismissListener {
 		curwebview = (WebView) findViewById(R.id.webviewPreview);
 		curwebview.clearCache(true);
 		setWebviewFontSize(curwebview);
-		
-		String header = "<html> <head>"+ getString(R.string.notice_preview)+ "</head>";
+
+		String header = "<html> <head>"+getHTMLheader()+getString(R.string.notice_preview)+ "</head>";
 		String body1 = " <body>";
 		String question = "<P>" + _content + "</P>";
 
 		if (chkimg == 1) {
-			
+
 			image = "<center><img class=\"main\" src=\"test.jpg\" width=250 height=240/></center>";
 		}
 		String choices = "<P>(1)" + _op1 + "<br>" + "(2)" + _op2 + "<br>"
@@ -1373,20 +1362,20 @@ public class CourseList extends Activity implements OnDismissListener {
 		imageview.setImageBitmap(bmImg);
 		_bmImg = bmImg;
 	}
-	
+
 	public void SaveImage() {
 
 		isImageSelected = add_pic_g.getImageIdx();
-		
+
 		if (isImageSelected) {
-			
+
 			bmImg = add_pic_g.readThunmbBitmap();
-								
+
 			try {
 
 				// open file as input stream
 				InputStream is = getContentResolver().openInputStream(add_pic_g.readURI());
-								
+
 				// save this output to local file
 				OutputStream os = getBaseContext().openFileOutput("test.jpg", MODE_PRIVATE);
 				byte[] BUF = new byte[1024];
@@ -1394,7 +1383,7 @@ public class CourseList extends Activity implements OnDismissListener {
 					while (is.read(BUF) != -1) {
 						os.write(BUF);
 					}
-					
+
 
 				} catch (IOException e) {
 					Log.d(APP_TAG, "ERROR COPYING DATA");
@@ -1404,7 +1393,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				Log.d(APP_TAG, add_pic_g.readURI().toString());
 			}
 		} else {
-			
+
 			//bmImg = null;
 		}
 
@@ -1414,7 +1403,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	// initialization of arrays
 	void initialize_AnswerRatingArray_withDummyValues() {
-		
+
 		answer_arr.clear();
 		rating_arr.clear();
 		my_score.clear();
@@ -1441,23 +1430,23 @@ public class CourseList extends Activity implements OnDismissListener {
 		}
 
 		/*checked_id = rgb03.getCheckedRadioButtonId();
-        
+
 		if (checked_id > 0) {
 			rating_arr.set((scene_number - 1), (checked_id - R.id.rt01 + 1));
 			tot_answer++;
 		} else {
 			rating_arr.set((scene_number - 1), -1);
 		}*/
-		
+
         int rating = (int)ratingbar.getRating();
-        
+
 		if (rating > 0) {
 			rating_arr.set((scene_number - 1), rating);
 			tot_answer++;
 		} else {
 			rating_arr.set((scene_number - 1), -1);
 		}
-		
+
 		return tot_answer;
 
 	}
@@ -1485,7 +1474,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	String webpage;
 	Boolean ansewr_chk = false;
-    
+
 	// 2. solve Questions w/solving questions screen
 	private void SolveQuestion() {
 
@@ -1504,9 +1493,9 @@ public class CourseList extends Activity implements OnDismissListener {
 		rgb03 = (RadioGroup) findViewById(R.id.rgroup03);
 		ratingbar = (RatingBar) findViewById(R.id.ratingbarQ);
 		curwebview.clearCache(true);
-		
+
 		setWebviewFontSize(curwebview);
-		
+
 		// zoom
 		//curwebview.getSettings().setBuiltInZoomControls(true);
         /*
@@ -1517,7 +1506,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			}
 		});
 		zoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
-			
+
 			public void onClick(View v) {
 				curwebview.zoomOut();
 			}
@@ -1529,20 +1518,20 @@ public class CourseList extends Activity implements OnDismissListener {
 	        public boolean onDoubleTap(MotionEvent e) {
 	        	String url = curwebview.getUrl();
 	            Log.d("**APP**", "Double Tap event url:"+url);
-	            if (curwebview!=null && curwebview.canGoBack() && url.endsWith(".jpg")) 
+	            if (curwebview!=null && curwebview.canGoBack() && url.endsWith(".jpg"))
 		        {
 	               //zoomControls.hide();
 		           curwebview.goBack();
 		        }
-	            	
-	            return false;	           
+
+	            return false;
 	        }
 
 	        @Override
 	        public boolean onDown(MotionEvent e) {
 	        	String url = curwebview.getUrl();
 	            Log.d("**APP**", "onDown event url:"+url);
-	            if (curwebview!=null && url.endsWith(".jpg")) 
+	            if (curwebview!=null && url.endsWith(".jpg"))
 		        {
 	            	//zoomControls.show();
 		        }
@@ -1552,14 +1541,14 @@ public class CourseList extends Activity implements OnDismissListener {
 	    gestureDetector.setIsLongpressEnabled(true);
 
 		curwebview.setOnTouchListener(new OnTouchListener(){
-	       
+
 	        public boolean onTouch(View v, MotionEvent event) {
 	            return gestureDetector.onTouchEvent(event);
 	        }
 
 	    });*/
 		// zoom
-		
+
 		getWindow().setFeatureInt(Window.FEATURE_PROGRESS,
 				Window.PROGRESS_VISIBILITY_ON);
 
@@ -1582,7 +1571,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		initialize_AnswerRatingArray_withDummyValues();
 
 		showScene();
-		
+
 		checkCurrentAnswers();
 
 		// reset button (delete previous answer)
@@ -1653,7 +1642,8 @@ public class CourseList extends Activity implements OnDismissListener {
 								});
 
 						adb.setNegativeButton(getString(R.string.Cancel), null);
-						adb.show();
+						AlertDialog d=adb.show();
+						smile.overrideFonts(activity, d.findViewById(android.R.id.content));
 					} else {
 						/*Toast.makeText(CourseList.this,
 								getString(R.string.insert_error), Toast.LENGTH_SHORT)
@@ -1667,23 +1657,23 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	private void showScene() {
-		
+
 		if (issolvequestion == 0) { // related to solving questions
 			webpage = "http://" + cururi + server_dir + (scene_number - 1)
 					+ ".html";
 
 		} else { // related to seeing results
-			
+
 			webpage = "http://" + cururi + server_dir + (scene_number - 1)
 					+ "_result" + ".html";
-			
-			
+
+
 			if((SolvingIndex == true) ||(answer_arr.isEmpty() == false) ) {
 				my_answer_view.setText(answer_arr.get(scene_number - 1).toString());
 			} else {
 				my_answer_view.setText("N/A");
-			} 
-			
+			}
+
 			// 5-rating star
 			Float f = new Float(final_avg_ratings.get(scene_number - 1));
 			ratingbar.setRating(f);
@@ -1693,9 +1683,9 @@ public class CourseList extends Activity implements OnDismissListener {
 			System.out.println("Draw Graph: start");
 			right_val = Integer.parseInt(r_answer_percents.get(scene_number - 1).trim());
 			wrong_val = 100 - right_val;
-			draw_piechart.redraw(right_val, wrong_val);		
+			draw_piechart.redraw(right_val, wrong_val);
 			System.out.println("Draw Graph: end");
-			
+
 		}
 
 		curwebview.clearView();
@@ -1768,19 +1758,19 @@ public class CourseList extends Activity implements OnDismissListener {
 		curwebview = (WebView) findViewById(R.id.webviewSeeR);
 		curwebview.clearCache(false);
 		setWebviewFontSize(curwebview);
-		
 		scorequestion(answer_arr, right_answer); // score my answers
 
 		// 1. show main result
 		String received_html = createresulthtml(my_score, curusername);
-		curwebview.loadData(received_html, "text/html; charset=utf-8", "UTF-8");
+	    //curwebview.loadData(received_html, "text/html; charset=utf-8", "UTF-8");
+	    curwebview.loadDataWithBaseURL("file:///android_asset", received_html, "text/html", "utf-8", null);
 
 		Button quitSR = (Button) findViewById(R.id.SeeRQuit);
 		quitSR.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				show_todo_view();
 				selarridx = 0;
-				
+
 			}
 		});
 
@@ -1807,9 +1797,15 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		setContentView(R.layout.winner);
 		curwebview = (WebView) findViewById(R.id.webviewWinner);
-		String received_html = createwinnerhtml();		
-		curwebview.loadData(received_html, "text/html; charset=utf-8", "UTF-8");
-		
+		//String received_html = createwinnerhtml();
+		//curwebview.loadData(received_html, "text/html; charset=utf-8", "UTF-8");
+		setWebviewFontSize(curwebview);
+
+		webpage = "http://" + cururi + server_dir + "final_result" + ".html";
+		curwebview.clearView();
+		curwebview.setWebViewClient(new MyWebClient());
+		curwebview.loadUrl(webpage);
+
 		Button returnSW = (Button) findViewById(R.id.returnresult01);
 		returnSW.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
@@ -1822,7 +1818,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	RatingBar ratingbar;
 	int right_val;
 	int wrong_val;
-	
+
 	private void show_detail(Vector<Integer> _myscore) {
 
 		curcategory = category_arr[2];
@@ -1833,11 +1829,11 @@ public class CourseList extends Activity implements OnDismissListener {
 		curwebview = (WebView) findViewById(R.id.webviewdetailresult);
 		curwebview.clearCache(false);
 		setWebviewFontSize(curwebview);
-		
+
 		my_answer_view = (TextView) findViewById(R.id.textresult02);
-				
+
 		ratingbar = (RatingBar) findViewById(R.id.ratingbar);
-				
+
 		showScene();
 
 		Button returnMR = (Button) findViewById(R.id.returnresult02);
@@ -1867,7 +1863,8 @@ public class CourseList extends Activity implements OnDismissListener {
 					adb.setTitle(curcategory);
 					adb.setMessage(getString(R.string.notice_last_q));
 					adb.setPositiveButton(getString(R.string.OK), null);
-					adb.show();
+					AlertDialog d=adb.show();
+					smile.overrideFonts(activity, d.findViewById(android.R.id.content));
 				}
 			}
 		});
@@ -1895,14 +1892,48 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		return revalue;
 	}
-	
+
+	private String getHTMLheader()
+	{
+		String str=getHTMLTagForUTF8();
+		String url="file:///android_asset/fonts/";
+
+	    str+="<style type='text/css'>";
+
+		if(curlanguage.equals("Gujarati (India)"))
+		{
+			str+="@font-face { font-family: Gujarati; src: url('"+url+"shruti.ttf');}";
+			str+="body {font-family: Gujarati;}";
+		}
+		else if(curlanguage.equals("Tamil (India)"))
+		{
+			str+="@font-face { font-family: Tamil; src: url('"+url+"latha.ttf');}";
+			str+="body {font-family: Tamil;}";
+		}
+		else if(curlanguage.equals("Hindi (India)"))
+		{
+			str+="@font-face { font-family: Hindi; src: url('"+url+"mangal.ttf');}";
+			str+="body {font-family: Hindi;}";
+		}
+		else if(curlanguage.equals("Malayalam (India)"))
+		{
+			str+="@font-face { font-family: Malayalam; src: url('"+url+"kartika.ttf');}";
+			str+="body {font-family: Malayalam;}";
+		}
+		else str+="body {font-family: helvetica;}";
+
+		str+="</style>";
+
+		return str;
+	}
+
 	private String getHTMLTagForUTF8() {
-		return new String("\n <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"\n ");
+		return new String("\n <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n ");
 	}
 
 	private String createwinnerhtml() {
 		String return_html = "";
-		
+
 		String header1 = "<html><head></head><body><P></P><font face=\"helvetica\">";
 		String header2 = "<center><Strong>"+getString(R.string.winner_title)+"</Strong></center><br>";
 		String body1 = "<P></P>*** "+getString(R.string.quiz_score)+" ***<br>";
@@ -1910,10 +1941,10 @@ public class CourseList extends Activity implements OnDismissListener {
 		String body3 = getString(R.string.name)+":<br>";
 		String mid_html = "";
 		for (int i = 0; i < score_winner_name.size(); i++) {
-			String name = score_winner_name.get(i);				
-			mid_html = mid_html + name + "<br>";	
+			String name = score_winner_name.get(i);
+			mid_html = mid_html + name + "<br>";
 		}
-		
+
 		String body4 = "<P></P>";
 		String body5 = "*** "+getString(R.string.rating_score_title)+ " ***<br>";
 		Formatter f = new Formatter();
@@ -1930,7 +1961,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		return_html = header1 + getHTMLTagForUTF8() + header2 + body1 + body2 + body3 + mid_html
 				+ body4 + body5 + body6 + body7 + next_html + end;
-        
+
 		return return_html;
 	}
 
@@ -1941,14 +1972,15 @@ public class CourseList extends Activity implements OnDismissListener {
 		int num_right = countrightquestion(_myscore);
 		int total_question = LAST_SCENE_NUM;
 
-		String header1 = "<html><head></head><body><P></P><font face=\"helvetica\">";
+		String header="<head>"+getHTMLheader()+"</head>";
+		String header1 = "<html>"+header+"<body><P></P>";
 		String header2 = "<center>" + getString(R.string.name)+ ": "+ username + "<br>";
-		String header3 = getString(R.string.t_score)+":" + num_right + "/" + total_question + "<br />&#x2717;=Incorrect, &#x2713;=Correct";
+		String header3 = getString(R.string.t_score)+":" + num_right + "/" + total_question;
 		String body1 = "<P><table border=\"1\">";
 		String body2 = "<tr><td><div align=\"center\">" + getString(R.string.q_num) + "</div></td>"
 		+ "<td><div align=\"center\">" + getString(R.string.correct_wrong)+ " </div></td></tr>";
 
-		String fore_html = header1 + getHTMLTagForUTF8()+ header2 + header3 + body1 + body2;
+		String fore_html = header1 + header2 + header3 + body1 + body2;
 		String mid_html = "";
 		for (int i = 0; i < _myscore.size(); i++) {
 			String mid;
@@ -1958,38 +1990,38 @@ public class CourseList extends Activity implements OnDismissListener {
 			if (score == 1) { // right
 				mid = "<tr><td><div align=\"center\">" + "(" + number + ")"
 						+ "</div></td>"
-						+ "<td><div align=\"center\">&#x2713;</div></td></tr>";
+						+ "<td><div align=\"center\">O</div></td></tr>";
 			} else { // wrong
 				mid = "<tr><td><div align=\"center\">" + "(" + number + ")"
 						+ "</div></td>"
-						+ "<td><div align=\"center\">&#x2717;</div></td></tr>";
+						+ "<td><div align=\"center\">X</div></td></tr>";
 			}
 
 			mid_html = mid_html + mid;
 		}
-		String end = "</table></p></center></font></body></html>";
+		String end = "</table></p></center></body></html>";
 		String last_html = end;
 		result_html = fore_html + mid_html + last_html;
 
 		return result_html;
 	}
-	
+
 	void setWebviewFontSize(WebView view)
-	{	
+	{
 		WebSettings webSettings = view.getSettings();
-				
+
 	    //Determine screen size  xlarge 720x960 dp units
-		if ((getResources().getConfiguration().screenLayout &      
+		if ((getResources().getConfiguration().screenLayout &
 				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {     // 480x640 dp units
 	        //Toast.makeText(this, "Large screen",Toast.LENGTH_LONG).show();
 	        webSettings.setTextSize(WebSettings.TextSize.LARGER);
 	    }  /*
-	    else if ((getResources().getConfiguration().screenLayout &      
+	    else if ((getResources().getConfiguration().screenLayout &
 	    		Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {     // 320x470 dp units mobile phone
 	        Toast.makeText(this, "Normal sized screen" , Toast.LENGTH_LONG).show();
 
-	    } 
-	    else if ((getResources().getConfiguration().screenLayout &      
+	    }
+	    else if ((getResources().getConfiguration().screenLayout &
 	    		Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {     // 320x426 dp units
 	        Toast.makeText(this, "Small sized screen" , Toast.LENGTH_LONG).show();
 	    }
@@ -1998,24 +2030,27 @@ public class CourseList extends Activity implements OnDismissListener {
 	    }*/
 
 	}
-	
+
 	public void showToast(String msg)
     {
     	LayoutInflater inflater = getLayoutInflater();
     	View layout = inflater.inflate(R.layout.toast_layout,
     	                               (ViewGroup) findViewById(R.id.toast_layout_root));
 
-    	
+
     	TextView text = (TextView) layout.findViewById(R.id.text);
     	text.setText(msg);
 
     	Toast toast = new Toast(getApplicationContext());
+    	if(smile.face != null)
+     	   text.setTypeface(smile.face);
+     	text.setText(msg);
     	toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 100);
     	toast.setDuration(Toast.LENGTH_LONG);
     	toast.setView(layout);
-    	toast.show();   	
+    	toast.show();
     }
-	
+
 	public void onStop() {
 
 		// CourseList.this.finish();
@@ -2027,44 +2062,44 @@ public class CourseList extends Activity implements OnDismissListener {
 		// CourseList.this.finish();
 		super.onPause();
 	}
-	
+
 	public class MyWebClient extends WebViewClient {
 		int code=0;
 		boolean timeout = true;
 		Handler myHandler=new Handler();
-		
+
         @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {       	
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
         	Log.i("WEB_VIEW_TEST", "onPageStarted:");
         	timeout = true;
             Runnable run = new Runnable() {
                 public void run() {
                     if(timeout) {
                     	Log.i("WEB_VIEW_TEST", "onPageStarted: curwebview.stopLoading()");
-                    	curwebview.stopLoading();             	             			
+                    	curwebview.stopLoading();
                     	LoadWebpageTask loadWebpageTask = new LoadWebpageTask();
         	    		loadWebpageTask.execute(webpage, "loading time longer 15 seconds");
                     }
                 }
             };
-            myHandler.postDelayed(run, 15000);         // wait 15 seconds  
+            myHandler.postDelayed(run, 15000);         // wait 15 seconds
         }
 		@Override
 	    public void onReceivedError (WebView view, int errorCode, String description, String failingUrl) {
 	            Log.i("WEB_VIEW_TEST", "onReceivedError error code:" + errorCode);
-	            code = errorCode;	
+	            code = errorCode;
 	    }
-		
-	    @Override  
-        public void onPageFinished(WebView view, String url) {  
+
+	    @Override
+        public void onPageFinished(WebView view, String url) {
 	    	String pageTitle = view.getTitle();
 	        Log.i("WEB_VIEW_TEST", "onPageFinished pageTitle: " + pageTitle);
 	        timeout = false;
-	        
+
 	        if(pageTitle == null)
 	        	return;
-	        
-	        if(pageTitle.contains(new String("Web page not available")) || pageTitle.contains(new String("Webpage not available")) || 
+
+	        if(pageTitle.contains(new String("Web page not available")) || pageTitle.contains(new String("Webpage not available")) ||
 	           pageTitle.contains(new String("404 Not Found")) )
 	        {
 	        	curwebview.clearView();
@@ -2072,12 +2107,12 @@ public class CourseList extends Activity implements OnDismissListener {
 	    		LoadWebpageTask loadWebpageTask = new LoadWebpageTask();
 	    		if(code != 0)
 	    			pageTitle += ", error code: " + code;
-	    		loadWebpageTask.execute(webpage, pageTitle);		        
+	    		loadWebpageTask.execute(webpage, pageTitle);
 	        }
-	        
+
         }
 	}
-	
+
 	private void uploadErrorLog(String serverURI)
     {
 		try{
@@ -2086,25 +2121,25 @@ public class CourseList extends Activity implements OnDismissListener {
 			String serverTest="";
 			String apacheTest="";
 			String filename="smileErrorLog.txt";
-			
+
 			Log.d("UploadErrorLog", "Uploading Error Log to "+serverURI);
-				
+
 			InputStream instream = openFileInput(filename);
-		    	 
+
 	    	    // if file the available for reading
 	    	if (instream != null) {
 	    	      // prepare the file for reading
 	    	   InputStreamReader inputreader = new InputStreamReader(instream);
 	    	   BufferedReader buffreader = new BufferedReader(inputreader);
-	    	                 
+
 	    	   String line;
 	    	   int i=0;
 	    	      // read every line of the file into the line-variable, on line at the time
-	    	      
+
 	    	   while (( line = buffreader.readLine()) != null) {
 	    	        // do something with the settings from the file
 	    	       line = line.trim();
-	    	    	  
+
 	    	       if(i==0)
 	    	    	  url=line;
 	    	       else if(i==1)
@@ -2113,134 +2148,134 @@ public class CourseList extends Activity implements OnDismissListener {
 	    	    	  serverTest=line;
 	    	       else if (i==3)
 	    	    	  apacheTest=line;
-	    	    	  
+
 	    	       i++;
 	    	   }
-	    	      
-	    	   String send_uri = "http://"+serverURI+"/smile/logError.php"; // XXX Need to fix this URI
+
+	    	   String send_uri = "http://"+serverURI+"/SMILE/logError.php";
 	    	   Log.d("UploadErrorLog", "server uri : " + send_uri);
-	  			
-		       List<NameValuePair> nvp = new ArrayList<NameValuePair>(5);   
-			   nvp.add(new BasicNameValuePair("WEBPAGE", url)); 
-			   nvp.add(new BasicNameValuePair("ROUTER", routerTest)); 
-			   nvp.add(new BasicNameValuePair("SERVER", serverTest)); 
-			   nvp.add(new BasicNameValuePair("APACHE", apacheTest)); 
-				    
+
+		       List<NameValuePair> nvp = new ArrayList<NameValuePair>(5);
+			   nvp.add(new BasicNameValuePair("WEBPAGE", url));
+			   nvp.add(new BasicNameValuePair("ROUTER", routerTest));
+			   nvp.add(new BasicNameValuePair("SERVER", serverTest));
+			   nvp.add(new BasicNameValuePair("APACHE", apacheTest));
+
 			   HttpClient httpclient;
 			   HttpParams params;
 			   params = new BasicHttpParams();
 			   HttpConnectionParams.setConnectionTimeout(params, 10000); // until first connection
-			   HttpConnectionParams.setSoTimeout(params, 10000); // 10000 ms socket timeout 
+			   HttpConnectionParams.setSoTimeout(params, 10000); // 10000 ms socket timeout
 			   httpclient = new DefaultHttpClient(params);
-			   HttpPost httppost = new HttpPost(send_uri);  						
-			   httppost.setEntity(new UrlEncodedFormEntity(nvp, HTTP.UTF_8));  			
+			   HttpPost httppost = new HttpPost(send_uri);
+			   httppost.setEntity(new UrlEncodedFormEntity(nvp, HTTP.UTF_8));
 			   HttpResponse response = httpclient.execute(httppost);
-					
-			   if ((response.getStatusLine().getStatusCode() / 100) != 2) { 
+
+			   if ((response.getStatusLine().getStatusCode() / 100) != 2) {
 				   Log.d("UploadErrorLog", "HTTP Response Error : " + response.getStatusLine());
 				   throw new Exception(""+response.getStatusLine());
 			   }
 			   else Log.d("UploadErrorLog", "HTTP Response : " + response.getStatusLine());
-			   
+
 			   BufferedReader in = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
 			   StringBuffer sb = new StringBuffer("");
 			   while ((line = in.readLine()) != null) {
 					sb.append(line);
 			   }
-					
+
 			   sb.toString();
 			   Log.d("UploadErrorLog", "uploaded succeed: "+sb.toString());
 	         }
 	    	 else Log.d("UploadErrorLog", "smileErrorLog.txt does not exist.");
-	    	     
-	    	    // close the file again       
+
+	    	    // close the file again
 	    	 instream.close();
-	    	    
-	    	 try{	    
+
+	    	 try{
 	        		if(deleteFile(filename)){
 	        			Log.e("UploadErrorLog", filename + " is deleted!");
 	        		}else{
 	        			Log.e("UploadErrorLog","Delete operation is failed.");
 	        		}
-	     
-	         }catch(Exception e){     
-	        		e.printStackTrace();    
+
+	         }catch(Exception e){
+	        		e.printStackTrace();
 	         }
-			
+
 		} catch (Exception e) {
 			Log.e("UploadErrorLog","ERROR");
-			e.printStackTrace();							
+			e.printStackTrace();
 		}
-		
+
     }
-	
+
 	private void logError(String url, String err)
 	{
 		boolean reachable=false;
 		String internetTest="";
 		String str="";
 		Date now = new Date();
-		
+
 		internetTest = now.toString() + ", loading page " + url + " error: " + err + "\n";;
 		System.out.println(internetTest);
-		
+
 		try
         {
 			//test router
             //InetAddress address = InetAddress.getByName("192.168.2.1");
 			byte [] b = new byte[] {(byte)192,(byte)168,(byte)2,(byte)1};
             InetAddress address = InetAddress.getByAddress(b);
-            
+
             // Try to reach the specified address within the timeout
             // periode. If during this periode the address cannot be
             // reach then the method returns false.
-            reachable = address.isReachable(5000);  // 5 seconds            
-        } 
+            reachable = address.isReachable(5000);  // 5 seconds
+        }
 		catch (Exception e)
         {
 			reachable=false;
             e.printStackTrace();
         }
-		
-		str = "Is router IP reachable? " + reachable + "\n";
+
+		str = "Is router (192.168.2.1) reachable? " + reachable + "\n";
         System.out.println(str);
         internetTest += str;
-        
+
 		try
         {
 			//test server
-            InetAddress address = InetAddress.getByName(cururi);                      
+            InetAddress address = InetAddress.getByName(cururi);
             reachable = address.isReachable(5000);
 
-        } 
+        }
 		catch (Exception e)
         {
 			reachable=false;
             e.printStackTrace();
         }
-		
+
 		str = "Is host reachable? "  + reachable + "\n";
         System.out.println(str);
         internetTest += str;
 		String received="";
-		int statusCode=0; 
-		
+		int statusCode=0;
+
 		try {
 			HttpParams params = new BasicHttpParams();
  			HttpConnectionParams.setConnectionTimeout(params, 5000); // until first connection
  			HttpConnectionParams.setSoTimeout(params, 5000); // 10000 ms socket timeout --? no time out for socket
  			HttpClient httpclient = new DefaultHttpClient(params);
 			HttpGet httpget;
-			httpget = new HttpGet("http://" + cururi);					
-			HttpResponse response = httpclient.execute(httpget);					
-			statusCode = response.getStatusLine().getStatusCode();		
-						
+			httpget = new HttpGet("http://" + cururi);
+			HttpResponse response = httpclient.execute(httpget);
+			statusCode = response.getStatusLine().getStatusCode();
+
 			if (statusCode == 404) {
 				// server not ready
-				// do nothing									
+				// do nothing
 				throw new Exception(""+response.getStatusLine());
 			}
-			else if ((statusCode / 100) != 2) { 	
+			else if ((statusCode / 100) != 2) {
 				throw new Exception(""+response.getStatusLine());
 			}
 			else {
@@ -2250,70 +2285,70 @@ public class CourseList extends Activity implements OnDismissListener {
 				while ((line = in.readLine()) != null) {
 					sb.append(line);
 				}
-                
+
 				received =  sb.toString();
-				
+
 				if(received != null && received.length()>0)
 					reachable = true;
-				
+
 				received = "http status code: " + statusCode;
 			}
-								
+
 		} catch(Exception e) {
 			//e.printStackTrace();
-			received = "loading error, http status code: " + statusCode;		
+			received = "loading error, http status code: " + statusCode;
 			reachable = false;
 		}
-		
+
 		str = "Is Apache reachable? "  + reachable + ", " + received + "\n";
         System.out.println(str);
         internetTest += str;
-        
-		try 
+
+		try
 		{
 	    	  // open myfilename.txt for writing
 			  Log.d("Write log Err", "Start writing error log");
 			  OutputStreamWriter out = new OutputStreamWriter(openFileOutput("smileErrorLog.txt",0));
-	    	  out.write(internetTest);  	
-	    	  out.close();  	    	    	    
+	    	  out.write(internetTest);
+	    	  out.close();
 	    	  Log.d("Write log Err", "Writing error log finished.");
 	    } catch (java.io.IOException e) {
 	    	  //do something if an IOException occurs.
 	    	Log.d("Write log Error","ERROR");
-			e.printStackTrace();		
+			e.printStackTrace();
 	    }
-	    	
+
 	}
-	
+
 	private class LoadWebpageTask extends AsyncTask<String, String, String> {
     	HttpClient httpclient;
-			
-        protected String doInBackground(String... msg) {        	
+
+        protected String doInBackground(String... msg) {
         	HttpParams params = new BasicHttpParams();
  			HttpConnectionParams.setConnectionTimeout(params, 7000); // until first connection
  			HttpConnectionParams.setSoTimeout(params, 7000); // 10000 ms socket timeout --? no time out for socket
  			httpclient = new DefaultHttpClient(params);
  			int counter = 0;
- 			int statusCode=0; 			
- 			String received=""; 
-        	
+ 			int statusCode=0;
+ 			String received="";
+
         	logError(webpage, msg[1]);
     	    publishProgress("Loading data...");
-    	    
+
     	    while(counter<3)
-    	    {				            	
+    	    {
 	    	    try {
 					HttpGet httpget;
-					httpget = new HttpGet(msg[0]);					
-					HttpResponse response = httpclient.execute(httpget);					
-				    statusCode = response.getStatusLine().getStatusCode();		
-					
+					httpget = new HttpGet(msg[0]);
+					HttpResponse response = httpclient.execute(httpget);
+				    statusCode = response.getStatusLine().getStatusCode();
+
 					if (statusCode == 404) {
 						// server not ready
-						// do nothing									
+						// do nothing
 						throw new Exception(""+response.getStatusLine());
 					}
-					else if ((statusCode / 100) != 2) { 
+					else if ((statusCode / 100) != 2) {
 						throw new Exception(""+response.getStatusLine());
 					}
 					else {
@@ -2323,28 +2358,28 @@ public class CourseList extends Activity implements OnDismissListener {
 						while ((line = in.readLine()) != null) {
 							sb.append(line);
 						}
-						
+
 						received =  sb.toString();
 						counter=3;
 						break;
 					}
-										
+
 				} catch(Exception e) {
 					//e.printStackTrace();
 					received = "loading error, http status code: " + statusCode;
 					Log.d("WEB_VIEW", "ERR_CNT = " + counter);
 					httpclient.getConnectionManager().shutdown();
 					httpclient = new DefaultHttpClient(params);
-					counter++;	        
+					counter++;
 				}
-				
+
 				try
             	{
-            		Thread.sleep(5*1000); // 5 seconds		        		
+            		Thread.sleep(5*1000); // 5 seconds
             	}
-            	catch (Exception e){  }							
+            	catch (Exception e){  }
     	    }
-    	    
+
             return received;
         }
 
@@ -2353,11 +2388,11 @@ public class CourseList extends Activity implements OnDismissListener {
     		{
         		curwebview.clearView();
         		curwebview.loadData(result, "text/html", "UTF-8");
-    		}       	
+    		}
         }
-        
+
         protected void onProgressUpdate(String... msg) {
-        	curwebview.clearView(); 			
+        	curwebview.clearView();
  			curwebview.loadData("<html><head></head><body><div style='height:100px;text-align:center;'><br /><i>"+msg[0]+"</i><br /><br /></div></body></html>", "text/html", "UTF-8");
         }
 	}

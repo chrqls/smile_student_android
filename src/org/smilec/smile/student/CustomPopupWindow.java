@@ -1,19 +1,3 @@
-/**
-Copyright 2012-2013 SMILE Consortium, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-**/
-
 package org.smilec.smile.student;
 
 import android.content.Context;
@@ -35,48 +19,48 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 
 public class CustomPopupWindow {
-	
+
 	protected final View anchor;
 	protected final PopupWindow window;
 	private View root;
 	private Drawable background = null;
 	protected final WindowManager windowManager;
-	
-	
+
+
 	/**
 	 * Create a QuickAction
-	 * 
+	 *
 	 * @param anchor
 	 *            the view that the QuickAction will be displaying 'from'
 	 */
 	public CustomPopupWindow(View anchor) {
-		
+
 		this.anchor = anchor;
 		this.window = new PopupWindow(anchor.getContext());
-		
+
 
 		// when a touch even happens outside of the window
 		// make the window go away (It should be changed)
 		window.setTouchInterceptor(new OnTouchListener() {
-			
+
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_OUTSIDE)  {
 					CustomPopupWindow.this.window.dismiss();
-					
+
 					return true;
-				} 
-				
+				}
+
 				return false;
 			}
 		});
-		
+
 		windowManager = (WindowManager) anchor.getContext().getSystemService(Context.WINDOW_SERVICE);
-		
+
 		onCreate();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Anything you want to have happen when created. Probably should create a view and setup the event listeners on
 	 * child views.
@@ -92,7 +76,7 @@ public class CustomPopupWindow {
 		if (root == null) {
 			throw new IllegalStateException("setContentView was not called with a view to display.");
 		}
-		
+
 		onShow();
 
 		if (background == null) {
@@ -104,7 +88,7 @@ public class CustomPopupWindow {
 		// if using PopupWindow#setBackgroundDrawable this is the only values of the width and hight that make it work
 		// otherwise you need to set the background of the root viewgroup
 		// and set the popupwindow background to an empty BitmapDrawable
-		
+
 		window.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setTouchable(true);
@@ -120,31 +104,31 @@ public class CustomPopupWindow {
 
 	/**
 	 * Sets the content view. Probably should be called from {@link onCreate}
-	 * 
+	 *
 	 * @param root
 	 *            the view the popup will display
 	 */
 	public void setContentView(View root) {
 		this.root = root;
-		
+
 		window.setContentView(root);
 	}
 
 	/**
 	 * Will inflate and set the view from a resource id
-	 * 
+	 *
 	 * @param layoutResID
 	 */
 	public void setContentView(int layoutResID) {
 		LayoutInflater inflator =
 				(LayoutInflater) anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+
 		setContentView(inflator.inflate(layoutResID, null));
 	}
 
 	/**
 	 * If you want to do anything when {@link dismiss} is called
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void setOnDismissListener(PopupWindow.OnDismissListener listener) {
@@ -160,7 +144,7 @@ public class CustomPopupWindow {
 
 	/**
 	 * Displays like a popdown menu from the anchor view.
-	 * 
+	 *
 	 * @param xOffset
 	 *            offset in X direction
 	 * @param yOffset
@@ -183,7 +167,7 @@ public class CustomPopupWindow {
 
 	/**
 	 * Displays like a QuickAction from the anchor view.
-	 * 
+	 *
 	 * @param xOffset
 	 *            offset in the X direction
 	 * @param yOffset
@@ -203,7 +187,7 @@ public class CustomPopupWindow {
 
 		root.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		root.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		
+
 		int rootWidth 		= root.getMeasuredWidth();
 		int rootHeight 		= root.getMeasuredHeight();
 
@@ -216,13 +200,13 @@ public class CustomPopupWindow {
 		// display on bottom
 		if (rootHeight > anchorRect.top) {
 			yPos = anchorRect.bottom + yOffset;
-			
+
 			window.setAnimationStyle(R.style.Animations_PopDownMenu_Center);
 		}
 
 		window.showAtLocation(anchor, Gravity.NO_GRAVITY, xPos, yPos);
 	}
-	
+
 	public void dismiss() {
 		window.dismiss();
 	}
