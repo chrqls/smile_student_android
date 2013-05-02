@@ -11,7 +11,8 @@
     <string name="hello">Halo ulimwengu</string>
 	<string name="app_name">SMILE</string>
 	<string name="version">TOLEO 2.1.4</string>
-	<string name="select_language">Chagua lugha</string>
+	<!--  <string name="select_language">Chagua lugha</string> -->
+	<string name="select_language">Select a language</string>
 					    
 	<string name="login_username_hint">Jina la mtumiaji</string>
 	<string name="login_optional_name">Jina (hiari)</string>

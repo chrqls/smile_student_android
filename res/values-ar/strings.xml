@@ -11,7 +11,7 @@
     <string name="hello">\u0645\u0631\u062d\u0628\u0627 \u0633\u0645\u0627\u064a\u0644\u064a!</string>
 	<string name="app_name">SMILE</string>
 	<string name="version">VERSION 2.1.4</string>
-	<string name="select_language">Select a language</string>
+    <string name="select_language">Select a language</string> 
 					    
 	<string name="login_username_hint">\u0627\u0633\u0645 \u0627\u0644\u0645\u0633\u062a\u062e\u062f\u0645</string>
 	<string name="login_optional_name">\u0627\u0644\u0627\u0633\u0645  \u0627\u062e\u062a\u064a\u0627\u0631\u064a</string>

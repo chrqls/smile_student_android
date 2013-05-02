@@ -15,7 +15,7 @@
         <item>Thai</item>
         <item>Urdu</item>
     </string-array>
-    
+        
     <string-array name="category_list">
         <item>Make Your Question</item>
         <item>Solve Questions</item>

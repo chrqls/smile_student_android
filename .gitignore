@@ -13,7 +13,7 @@ build
 *.tm_build_errors
 
 # Eclipse stuff to ignore
-.settings
+#.settings
 .metadata
 # .project
 # .classpath
@@ -27,4 +27,4 @@ build
 local.properties
 */gen
 */obj
-*/libs
+*:/libs

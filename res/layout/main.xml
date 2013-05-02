@@ -66,7 +66,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text = "@string/login_share"
 android:layout_toLeftOf="@+id/cancelb"
-android:layout_marginRight="15dp"
+android:layout_marginRight="10dp"
 android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
@@ -77,7 +77,8 @@ android:id = "@+id/cancelb"
 android:layout_width="wrap_content"
 android:layout_height="50dp"
 android:text = "@string/login_reset"
-android:layout_centerHorizontal="true"
+android:layout_toLeftOf="@+id/okb"
+android:layout_marginRight="10dp"
 android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
@@ -88,21 +89,33 @@ android:id = "@+id/okb"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text = "@string/login"
-android:layout_toRightOf="@+id/cancelb"
-android:layout_marginLeft="15dp"
+android:layout_alignParentRight="true"
+android:layout_marginRight="35dp"
 android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
 </Button>
-    
+
+<Button
+android:id = "@+id/shareb2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text = "@string/login_share"
+android:layout_alignParentRight="true"
+android:layout_marginRight="35dp"
+android:layout_below = "@+id/okb"
+android:layout_marginTop="5dp"
+>
+</Button>
+
 <TextView
 android:id = "@+id/version"
 android:layout_width="wrap_content"
-android:layout_height="50dp"
+android:layout_height="30dp"
 android:text = "@string/version"
 android:layout_centerHorizontal="true"
 android:layout_alignParentBottom="true"
-android:layout_marginBottom="50dp"
+android:layout_marginBottom="30dp"
 >
 </TextView>
 <!--  
