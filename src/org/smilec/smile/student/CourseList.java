@@ -506,7 +506,6 @@ public class CourseList extends Activity implements OnDismissListener {
 	{
 		String text = "<html>"+titleSize1+APP_TAG+" - "+curusername+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		String my_font="";
-		if(smile.face!=null)
 			
 		if (status == SERVER_NOT_AVAIL) {
 		    // SERVER not connected
