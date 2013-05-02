@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +19,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import edu.stanford.smile.R;
-import edu.stanford.smile.R.id;
-import edu.stanford.smile.R.layout;
-import edu.stanford.smile.R.style;
+import org.smilec.smile.student.R;
 
 /**
  * Popup window, shows action list as icon and text like the one in Gallery3D app. 

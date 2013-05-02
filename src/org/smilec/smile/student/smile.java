@@ -18,9 +18,7 @@ import java.net.MulticastSocket;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Locale;
 
 //import android.R;
@@ -43,8 +41,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,11 +53,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
-import edu.stanford.smile.R;
-import edu.stanford.smile.R.array;
-import edu.stanford.smile.R.id;
-import edu.stanford.smile.R.layout;
-import edu.stanford.smile.R.string;
+import org.smilec.smile.student.R;
 
 public class smile extends Activity {
     

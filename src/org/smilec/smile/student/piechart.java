@@ -3,8 +3,7 @@ package org.smilec.smile.student;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.stanford.smile.R;
-import edu.stanford.smile.R.id;
+import org.smilec.smile.student.R;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

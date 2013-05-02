@@ -1,14 +1,12 @@
 package org.smilec.smile.student;
 
-import edu.stanford.smile.R;
-import edu.stanford.smile.R.style;
+import org.smilec.smile.student.R;
 import android.content.Context;
 
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +16,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 
 import android.widget.PopupWindow;
-import android.widget.PopupWindow.OnDismissListener;
 
 public class CustomPopupWindow {
 	

@@ -2,17 +2,13 @@ package org.smilec.smile.student;
 
 import java.util.Vector;
 
-import edu.stanford.smile.R;
-import edu.stanford.smile.R.id;
-import edu.stanford.smile.R.layout;
-import edu.stanford.smile.R.string;
+import org.smilec.smile.student.R;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +18,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 @TargetApi(5)
 public class AndroidCustomGallery {

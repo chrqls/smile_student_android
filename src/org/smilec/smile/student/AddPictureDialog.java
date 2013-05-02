@@ -3,21 +3,16 @@ package org.smilec.smile.student;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import edu.stanford.smile.R;
-import edu.stanford.smile.R.id;
+import org.smilec.smile.student.R;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnDismissListener;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;

@@ -44,12 +44,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import edu.stanford.smile.R;
-import edu.stanford.smile.R.array;
-import edu.stanford.smile.R.drawable;
-import edu.stanford.smile.R.id;
-import edu.stanford.smile.R.layout;
-import edu.stanford.smile.R.string;
+import org.smilec.smile.student.R;
 
 import android.widget.RatingBar;
 import android.annotation.SuppressLint;
@@ -72,12 +67,10 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;

@@ -10,8 +10,7 @@ package org.smilec.smile.student;
 
 import java.util.List;
 
-import edu.stanford.smile.R;
-import edu.stanford.smile.R.layout;
+import org.smilec.smile.student.R;
 
 import android.app.Activity;
 import android.content.Intent;
