@@ -24,7 +24,6 @@
 
     <string name="hello">こんにちは、マイスマイル</string>
 	<string name="app_name">スマイル</string>
-	<string name="version">バージョン 2.1.4</string>
 	<string name="select_language">言語の選択</string>
 
 	<string name="login_username_hint">ユーザー名</string>

@@ -28,6 +28,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -48,7 +49,6 @@ public class smile extends Activity {
 	Button   shareb;
 	EditText unameet;
 	EditText uri;
-	TextView version_text;
 
 	static String susername;
 	static String suri;
@@ -73,7 +73,10 @@ public class smile extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        try {
+            setTitle(getTitle() + " v" + getPackageManager().getPackageInfo(getPackageName(), 0 ).versionName);
+        } catch(NameNotFoundException nnfe) {
+        }
         set_init_locale();
         setContentView(R.layout.main);
         initialize_basic_features();
@@ -147,8 +150,6 @@ public class smile extends Activity {
 			uri.setEnabled(false);
 		}
 
-		version_text = (TextView)findViewById(R.id.version);
-
 	}
 
 	public void set_adaptor () {
@@ -166,11 +167,8 @@ public class smile extends Activity {
 	}
 
 	public void set_language(String r_language) {
-
 		cancelb.setText(R.string.login_reset);
 		okb.setText(R.string.login);
-		version_text.setText(R.string.version);
-
 	}
 
 	public void select_language() {
@@ -191,7 +189,6 @@ public class smile extends Activity {
 				//set the button
 				cancelb.setText(R.string.login_reset);
 				okb.setText(R.string.login);
-				version_text.setText(R.string.version);
 
         		Setup_Eng();
 
@@ -306,7 +303,10 @@ public class smile extends Activity {
 		else return_value = true;
 
 		if (return_value) {
-			setTitle(susername + "@SMILE Student");
+            try {
+			    setTitle(susername + "@SMILE Student v" + getPackageManager().getPackageInfo(getPackageName(), 0 ).versionName);
+            } catch(NameNotFoundException nnfe) {
+            }
 		}
 		return return_value;
 

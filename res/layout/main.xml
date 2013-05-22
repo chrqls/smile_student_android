@@ -10,7 +10,7 @@ android:background="@drawable/background"
 android:id="@+id/smile_logo"
 android:layout_width="wrap_content"
 android:layout_height="50dp"
-android:layout_alignParentTop="true" 
+android:layout_alignParentTop="true"
 android:layout_alignParentLeft="true"
 android:layout_alignParentRight="true"
 android:layout_marginTop="20dp"
@@ -18,17 +18,17 @@ android:layout_marginLeft="50dp"
 android:layout_marginRight="50dp"
 android:src="@drawable/smile_logo"
 >
-</ImageView>    
-    
-<EditText 
+</ImageView>
+
+<EditText
 android:id="@+id/usernametext02"
-android:layout_width="240dp" 
+android:layout_width="240dp"
 android:layout_height="50dp"
 android:hint="@string/login_username_hint"
 android:singleLine="true"
 android:inputType="textAutoCorrect|textCapSentences"
 android:layout_centerHorizontal="true"
-android:layout_below="@+id/smile_logo"    
+android:layout_below="@+id/smile_logo"
 android:layout_marginTop="15dp"
 >
 </EditText>
@@ -46,11 +46,11 @@ android:layout_marginTop="15dp"
 >
 </Spinner>
 
-<EditText 
+<EditText
 android:id="@+id/uri"
-android:layout_width="240dp" 
-android:layout_height="50dp" 
-android:text="@string/login_default_IP" 
+android:layout_width="240dp"
+android:layout_height="50dp"
+android:text="@string/login_default_IP"
 android:singleLine="true"
 android:layout_centerHorizontal="true"
 android:layout_below = "@+id/select_language"
@@ -93,16 +93,4 @@ android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
 </Button>
-    
-<TextView
-android:id = "@+id/version"
-android:layout_width="wrap_content"
-android:layout_height="20dp"
-android:text = "@string/version"
-android:layout_centerHorizontal="true"
-android:layout_above = "@+id/branding_logo"
-android:layout_marginBottom="3dp"
->
-</TextView>
-
 </RelativeLayout>
