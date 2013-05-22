@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	android:versionCode="6"
-	android:versionName="2.1.7"
+	android:versionName="2.1.9"
 	package="org.smilec.smile.student">
 	<uses-sdk android:minSdkVersion="3"/>
 	<!-- This needs some work on the layout before enabling target SDK version -->

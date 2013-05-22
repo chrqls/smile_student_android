@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string-array name="language_list">
+        <item>アラビア</item>
+        <item>ヒンディー(インド)</item>
+        <item>マレー</item>
+        <item>ポルトガル</item>
+        <item>スペイン</item>
+        <item>スワヒリ</item>
+        <item>タイ</item>
+        <item>グジャラート(インド)</item>
+        <item>タミール(インド)</item>
+        <item>英語</item>
+        <item>ウルドゥー</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string-array name="category_list">
+        <item>問題作成</item>
+        <item>答え</item>
+        <item>判定</item>
+   </string-array>
+
+    <string name="hello">こんにちは、マイスマイル</string>
+	<string name="app_name">スマイル</string>
+	<string name="version">バージョン 2.1.4</string>
+	<string name="select_language">言語の選択</string>
+
+	<string name="login_username_hint">ユーザー名</string>
+	<string name="login_optional_name">名前(オプショナル)</string>
+	<string name="login_default_IP">192.168.2.4</string>
+	<string name="login_reset">リセット</string>
+	<string name="login">ログイン</string>
+	<string name="login_share">検索</string>  <!-- Find Server IP using multicasting -->
+	<string name="login_share_msg">サーバーの検索</string>
+	<string name="default_share_scheme">http</string>
+	<string name="default_share_host">suseit.stanford.edu</string>
+	<string name="default_share_pathPrefix">/smile/</string>
+	<string name="default_user_name">default</string>
+
+	<!-- <string name="category_mq">Make Your Question</string>
+	<string name="category_sq">Solve Questions</string>
+	<string name="category_sr">See Results</string>-->
+	<string name="category_exit">終了</string>
+
+	<string name="warn">警告!!</string>
+	<string name="exit_q">プログラムを終了しますか?</string>
+	<string name="OK">はい</string>
+	<string name="NO">いいえ</string>
+	<string name="Cancel">キャンセル</string>
+
+	<string name="no_network">ネットワークに接続されていません</string>
+	<string name="insert_name">ユーザー名を入力</string>
+
+	<string name="ConnectingSever">サーバーへ接続:</string>
+	<string name="Sending"> 送信:</string>
+    <string name="creatingconnection">接続の作成</string>
+	<string name="network_warning">接続出来ませんでした。もう一度接続して下さい</string>
+
+	<string name="inform_state_before_connect">サーバーへ接続しています.</string>
+	<string name="inform_state_ini_wait">他者の参加まで少々お待ち下さい.</string>
+	<string name="inform_state_make_question">質問の開始にはボタンを押して下さい.</string>
+	<string name="inform_state_wait_solve_question">他者からの質問作成をお待ち下さい.</string>
+	<string name="inform_state_solve_question">回答を始める為にはボタンを押して下さい.</string>
+	<string name="inform_state_wait_see_result">他者の答えが出る迄少々お待ち下さい.</string>
+	<string name="inform_state_see_result">正解と得点を見る為にボタンを押して下さい.</string>
+	<string name="inform_state_finish">クイズは終了しました.</string>
+
+	<!-- Make a question -->
+	<string name="q_content">Question:\n\n\n\n\n</string>
+	<string name="q_op1">答え1:</string>
+	<string name="q_op2">答え2:</string>
+	<string name="q_op3">答え3:</string>
+	<string name="q_op4">答え4:</string>
+
+	<string name="img_dialog_title">イメージの選択</string>
+	<string name="img_notice">戻るにはここをクリック</string>
+
+
+	<!-- Preview question -->
+	<string name="back_btn">戻る</string>
+
+	<string name="preview_btn">プレビュー</string>
+	<string name="post_btn">掲載</string>
+
+	<!-- Solve Question -->
+	<string name="answer_text">答え</string>
+	<string name="answer_1">(1)</string>
+	<string name="answer_2">(2)</string>
+	<string name="answer_3">(3)</string>
+	<string name="answer_4">(4)</string>
+
+	<string name="rating_text">成績</string>
+	<string name="rating_1">1</string>
+	<string name="rating_2">2</string>
+	<string name="rating_3">3</string>
+	<string name="rating_4">4</string>
+	<string name="rating_5">5</string>
+
+	<string name="reset_btn">リセット</string>
+	<string name="prev_btn">プレビュー</string>
+	<string name="next_btn">次へ</string>
+
+	<!-- See Result -->
+	<string name="return_btn">戻る</string>
+	<string name="detail_btn">詳細</string>
+	<string name="winner_btn">優勝者</string>
+
+	<string name="post_q">この質問を掲載しますか?</string>
+	<string name="error_noanswer">エラー: 不正解</string>
+	<string name="Post_MoreQ">追加の質問を掲載しますか？</string>
+
+	<string name="add_img">写真の追加</string>
+	<string name="take_pic">写真を撮る</string>
+	<string name="rmv_img">写真の消去</string>
+
+	<!-- Remove image dialog -->
+	<string name="rmv_img_dialog_title">スマイル: 質問の作成</string>
+	<string name="rmv_img_q">写真を消去しますか?</string>
+
+	<string name="warn_nopic">写真が撮れていません</string>
+
+	<string name="notice_preview">質問のプレビュー</string>
+	<string name="loading">ローディング</string>
+	<string name="insert_error">答えと得点の挿入</string>
+	<string name="submit_q">貴女の答えを提示しますか?</string>
+	<string name="submit_btn">提示する</string>
+
+	<!-- Winner Result page -->
+	<string name="winner_title">優勝者は誰?</string>
+	<string name="quiz_score">クイズの得点</string>
+	<string name="h_score">最高得点</string>
+	<string name="name">名前</string>
+
+	<string name="rating_score_title">質問の得点スコアー</string>
+	<string name="h_avg_rating">最高得点の平均値</string>
+
+	<string name="t_score">得点合計</string>
+	<string name="q_num">質問の番号</string>
+	<string name="correct_wrong">正解または不正解</string>
+
+	<!-- Detail Result -->
+	<string name="my_answer">貴女の答え:</string>
+	<string name="num_r_answer">正解</string>
+	<string name="num_w_answer">不正解</string>
+	<string name="notice_last_q">最後の質問です.</string>
+
+</resources>
