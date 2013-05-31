@@ -60,6 +60,7 @@ android:layout_marginTop="15dp"
 
 <Button
 android:id = "@+id/shareb"
+android:visibility="invisible"
 android:layout_width="wrap_content"
 android:layout_height="50dp"
 android:text = "@string/login_share"
