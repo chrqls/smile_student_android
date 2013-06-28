@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string-array name="category_list">
+        <item>Formuler votre question</item>
+        <item>Répondre aux Questions</item>
+        <item>Voir les résultats</item>
+   </string-array>
+
+    <string name="hello">Bonjour le monde, MySMILE!</string>
+	<string name="app_name">Élève SMILE</string>
+	<string name="select_language">Selectionner une langue</string>
+
+	<string name="login_username_hint">Identifiant</string>
+	<string name="login_optional_name">Nom(optionnel)</string>
+	<string name="login_default_IP">10.1.0.1</string>
+	<string name="login_reset">RÉINITIALISER</string>
+	<string name="login">LOGIN</string> <!-- #TODO# -->
+	<string name="login_share">PARTAGER</string>  <!-- Share Server IP Information with other students -->
+	<string name="default_share_scheme">http</string>
+	<string name="default_share_host">github.com/SMILEConsortium</string>
+	<string name="default_share_pathPrefix">/smile/</string>
+	<string name="default_user_name">default</string>
+	<string name="default_user_com_name">defecto</string>
+
+	<!-- <string name="category_mq">Make Your Question</string>
+	<string name="category_sq">Solve Questions</string>
+	<string name="category_sr">See Results</string>-->
+	<string name="category_exit">EXIT</string>
+
+	<string name="warn">Attention!!</string>
+	<string name="exit_q">Voulez-vous quitter l\'application/programme ?</string> <!-- #TODO# -->
+	<string name="OK">Oui</string>
+	<string name="NO">Non</string>
+	<string name="Cancel">Annuler</string>
+    
+	<string name="no_network">Aucune connexion réseau</string>
+	<string name="insert_name">Insérer votre identifiant</string>
+	
+	<string name="ConnectingSever">ConnexionAuServeur:</string>
+	<string name="Sending"> Envoi:</string>
+	<string name="creatingconnection">Création de la connexion</string>
+	<string name="network_warning">La connexion a échoué. Veuillez réessayer.</string>
+
+	<string name="inform_state_before_connect">Tentative de connexion au serveur.</string>
+	<string name="inform_state_ini_wait">Attente des autres élèves avant de débuter le quiz.</string>
+	<string name="inform_state_make_question">Appuyer sur le bouton pour formuler votre question.</string>
+	<string name="inform_state_wait_solve_question">Veuillez patienter pendant que les autres élèves finissent de rédiger leurs questions.</string>
+	<string name="inform_state_solve_question">Appuyer sur le bouton pour commencer à répondre aux questions.</string>
+	<string name="inform_state_wait_see_result">Veuillez patienter pendant que les autres élèves finissent de répondre aux questions.</string>
+	<string name="inform_state_see_result">Appuyer sur le bouton pour connaître les résultats et consulter votre note.</string>
+	<string name="inform_state_finish">Votre quiz est terminé. Appuyez sur EXIT. 
+	    Veuillez quitter la session et vous reconnecter pour un autre quiz SMILE.</string>
+
+	<!-- Make a question -->
+	<string name="q_content">Question:\n\n\n\n\n</string>
+	<string name="q_op1">Réponse1:</string>
+	<string name="q_op2">Réponse2:</string>
+	<string name="q_op3">Réponse3:</string>
+	<string name="q_op4">Réponse4:</string>
+	
+	<string name="img_dialog_title">Sélectionner une image</string>
+	<string name="img_notice">Cliquer ICI pour retourner en arrière (revenir a la page précédente)</string> <!-- #TODO# -->
+	
+	
+	<!-- Preview question -->
+	<string name="back_btn">Précédent</string>
+	
+	<string name="preview_btn">Aperçu</string>
+	<string name="post_btn">Poster</string>
+	
+	<!-- Solve Question -->
+	<string name="answer_text">Réponse</string>
+	<string name="answer_1">(1)</string>
+	<string name="answer_2">(2)</string>
+	<string name="answer_3">(3)</string>
+	<string name="answer_4">(4)</string>
+	
+	<string name="rating_text">Note</string>
+	<string name="rating_1">1</string>
+	<string name="rating_2">2</string>
+	<string name="rating_3">3</string>
+	<string name="rating_4">4</string>
+	<string name="rating_5">5</string>
+	
+	<string name="reset_btn">Réinitialiser</string>
+	<string name="prev_btn">Précédent</string>
+	<string name="next_btn">Suivant</string>
+
+	<!-- See Result -->
+	<string name="return_btn">Retour</string>
+	<string name="detail_btn">Detail</string>
+	<string name="winner_btn">Gagnant</string>
+	    
+	<string name="post_q">Voulez-vous poster cette question?</string>
+	<string name="error_noanswer">ERREUR: Aucune bonne réponse</string>
+	<string name="Post_MoreQ">Post+MoreQ</string> <!-- #TODO# -->
+	
+	<string name="add_img">Ajouter une Image</string>
+	<string name="take_pic">Prendre une photo</string>
+	<string name="rmv_img">Supprimer une Image</string>
+	
+	<!-- Remove image dialog -->
+	<string name="rmv_img_dialog_title">SMILE: Formuler une question</string>
+	<string name="rmv_img_q">Voulez-vous supprimer l\'image ?</string>
+	
+	<string name="warn_nopic">La photo n\'a pas été prise</string>
+	
+	<string name="notice_preview">Prévisualiser votre question</string>
+	<string name="loading">Chargement</string>
+	<string name="insert_error">Insérer votre réponse et votre note</string>
+	<string name="submit_q">Voulez-vous envoyer vos réponses?</string>
+	<string name="submit_btn">Envoyer</string>
+	
+	<!-- Winner Result page -->
+	<string name="winner_title">Qui est le gagnant ?</string>
+	<string name="quiz_score">Score du quiz</string>
+	<string name="h_score">Score le plus élevé</string>
+	<string name="name">Nom</string>
+	
+	<string name="rating_score_title">Score des notes</string> <!-- #TODO#: total ? -->
+	<string name="h_avg_rating">Moyenne la plus élevée</string>
+
+	<string name="t_score">Score total</string>
+	<string name="q_num">Numéro de la question</string>
+	<string name="correct_wrong">Correct/Vrai ou Incorrect/Faux</string> <!-- #TODO# -->
+
+	<!-- Detail Result -->
+	<string name="my_answer">Ma réponse:</string>
+	<string name="num_r_answer">Vrai</string>
+	<string name="num_w_answer">Faux</string>
+	<string name="notice_last_q">C\'est la dernière question.</string>
+
+</resources>
