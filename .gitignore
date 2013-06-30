@@ -17,14 +17,14 @@ build
 .metadata
 # .project
 # .classpath
-*/bin
+bin/*
 
 # Ignore other VC systems, we use GIT
 .svn
 .hg
 
 # Ignore specific android SDK isms
-local.properties
-*/gen
+project.properties
+gen/*
 */obj
 */libs

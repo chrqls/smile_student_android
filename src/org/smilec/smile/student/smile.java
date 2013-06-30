@@ -121,6 +121,8 @@ public class smile extends Activity {
 			cur_locale = new Locale("ar");
 		} else if (curr_lang.equals(language_list[4])) {   // Japanese
 			cur_locale = new Locale("jp");
+		} else if (curr_lang.equals(language_list[5])) {   // French
+			cur_locale = new Locale("fr");
 		} else {
         }
 
