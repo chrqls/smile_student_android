@@ -197,8 +197,11 @@ public class HttpMsgForStudent extends Thread {
 		boolean r=true;
 		ConnectivityManager manager = (ConnectivityManager) main.getSystemService(Context.CONNECTIVITY_SERVICE);
 		//boolean is3g = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnected();
-		boolean isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
+		boolean isWifi = false;
 
+		if(manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI) != null)
+			isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();		
+			
 		//Log.d(APP_TAG,"test if the wifi is connected wifi: " + isWifi + ", mobile: " + is3g);
 		
 		if (!isWifi) {
