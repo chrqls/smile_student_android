@@ -7,7 +7,7 @@ android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:background="@drawable/main_background"
 >
-
+  
 <ImageView
 android:id="@+id/smile_logo"
 android:layout_width="wrap_content"
@@ -33,7 +33,7 @@ android:layout_centerHorizontal="true"
 android:layout_below="@+id/smile_logo"    
 android:layout_marginTop="15dp"
 >
-</EditText>
+</EditText> 
 
 <Spinner
 android:id="@+id/select_language"
@@ -61,12 +61,12 @@ android:layout_marginTop="15dp"
 </EditText>
 
 <Button
-android:id = "@+id/shareb"
+android:id = "@+id/okb"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text = "@string/login_share"
-android:layout_toLeftOf="@+id/cancelb"
-android:layout_marginRight="10dp"
+android:text = "@string/login"
+android:layout_alignParentRight="true"
+android:layout_marginRight="35dp"
 android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
@@ -85,17 +85,17 @@ android:layout_marginTop="15dp"
 </Button>
 
 <Button
-android:id = "@+id/okb"
+android:id = "@+id/shareb"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text = "@string/login"
-android:layout_alignParentRight="true"
-android:layout_marginRight="35dp"
+android:text = "@string/login_share"
+android:layout_toLeftOf="@+id/cancelb"
+android:layout_marginRight="10dp"
 android:layout_below = "@+id/uri"
 android:layout_marginTop="15dp"
 >
-</Button>
-
+</Button> 
+ 
 <Button
 android:id = "@+id/shareb2"
 android:layout_width="wrap_content"
@@ -106,8 +106,8 @@ android:layout_marginRight="35dp"
 android:layout_below = "@+id/okb"
 android:layout_marginTop="5dp"
 >
-</Button>
-
+</Button> 
+  
 <TextView
 android:id = "@+id/version"
 android:layout_width="wrap_content"
@@ -117,7 +117,8 @@ android:layout_centerHorizontal="true"
 android:layout_alignParentBottom="true"
 android:layout_marginBottom="30dp"
 >
-</TextView>
+</TextView> 
+
 <!--  
 <ImageView
 android:id="@+id/stanford_logo"

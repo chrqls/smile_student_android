@@ -176,13 +176,14 @@ public class smile extends Activity {
 		cancelb = (Button) findViewById(R.id.cancelb);
 		okb     = (Button) findViewById(R.id.okb);
 		shareb  = (Button) findViewById(R.id.shareb);
-		if ((getResources().getConfiguration().screenLayout &      
+	    if ((getResources().getConfiguration().screenLayout &      
 				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {     // 480x640 dp units
 			shareb2 = null;
 		}
 		else 
 		   shareb2  = (Button) findViewById(R.id.shareb2);
 		
+	
 		unameet = (EditText)findViewById(R.id.usernametext02);
 		uri     = (EditText)findViewById(R.id.uri);
 		

@@ -95,7 +95,7 @@ public final class R {
         public static final int nextQ=0x7f080052;
         public static final int nextResult=0x7f080018;
         public static final int okBPic=0x7f080004;
-        public static final int okb=0x7f080023;
+        public static final int okb=0x7f080021;
         public static final int op01=0x7f080044;
         public static final int op02=0x7f080045;
         public static final int op03=0x7f080046;
@@ -132,7 +132,7 @@ public final class R {
         public static final int rt05=0x7f08004e;
         public static final int scroller=0x7f080038;
         public static final int select_language=0x7f08001f;
-        public static final int shareb=0x7f080021;
+        public static final int shareb=0x7f080023;
         public static final int shareb2=0x7f080024;
         public static final int smile_logo=0x7f08001d;
         public static final int spinnerTarget=0x7f080057;

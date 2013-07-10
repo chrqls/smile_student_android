@@ -325,7 +325,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
-	    
+		
 		Resources res = getResources(); //get resources
 		language_list = res.getStringArray(R.array.language_list);
 		category_arr  = res.getStringArray(R.array.category_list);
@@ -334,7 +334,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		Bundle bundle = getIntent().getExtras();
 		// Next extract the values using the key as
 		curusertype = 1; // fixed (student)
-
+       
 		curusername    = bundle.getString("USERNAME");
 		cururi         = bundle.getString("URI");
 		curlanguage    = bundle.getString("CHOSEN_LANGUAGE");
@@ -353,6 +353,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			draw_piechart.setFontSize(returnPixels(12.0f));			
 		}
 		else draw_piechart = new piechart(this, returnPixels(150.0f)); // to draw the piechart
+
 		
 		draw_piechart.onStart(100,0);
 		
@@ -379,12 +380,14 @@ public class CourseList extends Activity implements OnDismissListener {
 		// Adding quick action menu
 		image_quickaction();
 
+		
 		MY_IP = get_IP();
 
 		getStoredFileURL();
 		create_connection();
 		show_todo_view();
-
+	
+		
 		// student.send_initial_message();
 		uploadErrorLog(cururi);
 	}
