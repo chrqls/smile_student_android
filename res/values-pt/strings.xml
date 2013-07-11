@@ -10,7 +10,7 @@
     
     <string name="hello">Olá Mundo, MeuSMILE!</string>
 	<string name="app_name">SMILE</string>
-	<string name="version">VERSION 2.1.4</string>
+	<!--  <string name="version">VERSION 2.1.4</string> -->
 	<!-- <string name="select_language">Selecione um idioma</string> -->
 	<string name="select_language">Select a language</string>
 					    

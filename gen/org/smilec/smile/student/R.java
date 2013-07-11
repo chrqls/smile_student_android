@@ -196,6 +196,7 @@ public final class R {
  Solve Question 
  Solve Question 
  Solve Question 
+ Solve Question 
          */
         public static final int answer_text=0x7f06002d;
         public static final int app_name=0x7f060001;
@@ -211,9 +212,13 @@ public final class R {
  Preview question 
  Preview question 
  Preview question 
+ Preview question 
          */
         public static final int back_btn=0x7f06002a;
         /**  <string name="category_mq">Make Your Question</string>
+	<string name="category_sq">Solve Questions</string>
+	<string name="category_sr">See Results</string>
+ <string name="category_mq">Make Your Question</string>
 	<string name="category_sq">Solve Questions</string>
 	<string name="category_sr">See Results</string>
  <string name="category_mq">Make Your Question</string>
@@ -295,10 +300,12 @@ public final class R {
  Find Server IP using multicasting 
  Find Server IP using multicasting 
  Find Server IP using multicasting 
+ Find Server IP using multicasting 
          */
         public static final int login_share_msg=0x7f06000a;
         public static final int login_username_hint=0x7f060004;
         /**  Detail Result 
+ Detail Result 
  Detail Result 
  Detail Result 
  Detail Result 
@@ -326,6 +333,7 @@ public final class R {
         public static final int prev_btn=0x7f060039;
         public static final int preview_btn=0x7f06002b;
         /**  Make a question 
+ Make a question 
  Make a question 
  Make a question 
  Make a question 
@@ -365,6 +373,7 @@ public final class R {
  See Result 
  See Result 
  See Result 
+ See Result 
          */
         public static final int return_btn=0x7f06003b;
         public static final int rmv_img=0x7f060043;
@@ -380,17 +389,30 @@ public final class R {
  Remove image dialog 
  Remove image dialog 
  Remove image dialog 
+ Remove image dialog 
          */
         public static final int rmv_img_dialog_title=0x7f060044;
         public static final int rmv_img_q=0x7f060045;
-        /**  <string name="select_language">\u0a8f\u0a95 \u0aad\u0abe\u0ab7\u0abe \u0aaa\u0ab8\u0a82\u0aa6 \u0a95\u0ab0\u0acb</string>
+        /**   <string name="version">VERSION 2.1.5</string> 
+ <string name="version">2.1.5 VERSION</string> 
+ <string name="select_language">\u0a8f\u0a95 \u0aad\u0abe\u0ab7\u0abe \u0aaa\u0ab8\u0a82\u0aa6 \u0a95\u0ab0\u0acb</string>
+  <string name="version">\u0938\u0902\u0938\u094d\u0915\u0930\u0923 2.1.5</string> 
  <string name="select_language">\u092d\u093e\u0937\u093e \u0915\u093e \u091a\u092f\u0928 \u0915\u0930\u0947\u0902</string> 
+  <string name="version">VERSION 2.1.5</string>  
+ <string name="version">\u0d35\u0d46\u0d30\u0d4d\u200d\u0d37\u0d28\u0d4d\u200d 2.1.5</string> 
  <string name="select_language">\u0d2d\u0d3e\u0d37 \u0d24\u0d3f\u0d30\u0d1e\u0d4d\u0d1e\u0d46\u0d1f\u0d41\u0d15\u0d4d\u0d15\u0d41\u0d15</string> 
+  <string name="version">VERSION 2.1.4</string> 
  <string name="select_language">Selecione um idioma</string> 
+  <string name="version">Versión 2.1.4</string> 
  <string name="select_language">Seleccione un idioma</string> 
+  <string name="version">TOLEO 2.1.4</string> 
   <string name="select_language">Chagua lugha</string> 
+  <string name="version">\u0baa\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc1 2.1.4</string> 
  <string name="select_language">\u0b92\u0bb0\u0bc1 \u0bae\u0bc6\u0bbe\u0bb4\u0bbf \u0ba4\u0bc7\u0bb0\u0bcd\u0bb5\u0bc1</string> 
+  <string name="version">VERSION 2.1.4</string> 
+  <string name="version">\u0938\u0902\u0938\u094d\u0915\u0930\u0923 2.1.4</string> 
   <string name="select_language">\u092d\u093e\u0937\u093e \u0915\u093e \u091a\u092f\u0928 \u0915\u0930\u0947\u0902</string> 
+  <string name="version">2.1.4 \u0648\u0631\u0698\u0646</string> 
   <string name="select_language">\u0632\u0628\u0627\u0646 \u0645\u0646\u062a\u062e\u0628 \u06a9\u0631\u06cc\u06ba</string> 
          */
         public static final int select_language=0x7f060003;
@@ -403,6 +425,7 @@ public final class R {
         public static final int warn_nopic=0x7f060046;
         public static final int winner_btn=0x7f06003d;
         /**  Winner Result page 
+ Winner Result page 
  Winner Result page 
  Winner Result page 
  Winner Result page 
@@ -431,6 +454,7 @@ public final class R {
  PopDownMenu 
  PopDownMenu 
  PopDownMenu 
+ PopDownMenu 
          */
         public static final int Animations_PopDownMenu=0x7f070001;
         public static final int Animations_PopDownMenu_Center=0x7f070002;
@@ -438,6 +462,7 @@ public final class R {
         public static final int Animations_PopDownMenu_Reflect=0x7f070005;
         public static final int Animations_PopDownMenu_Right=0x7f070004;
         /**  PopUpMenu 
+ PopUpMenu 
  PopUpMenu 
  PopUpMenu 
  PopUpMenu 

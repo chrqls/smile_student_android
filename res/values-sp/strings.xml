@@ -9,7 +9,7 @@
      
     <string name="hello">SMILE!</string>
     <string name="app_name">SMILE</string>
-    <string name="version">Versión 2.1.4</string>
+    <!--  <string name="version">Versión 2.1.4</string> -->
     <!-- <string name="select_language">Seleccione un idioma</string> -->
     <string name="select_language">Select a language</string>
     

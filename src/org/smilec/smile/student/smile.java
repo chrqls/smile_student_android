@@ -139,22 +139,24 @@ public class smile extends Activity {
 			face=Typeface.createFromAsset(getAssets(), "fonts/shruti.ttf");		
 		} else if (curr_lang.equals(language_list[3])) {  // Hindi (India)			
 			cur_locale = new Locale("hi");	
-			face=Typeface.createFromAsset(getAssets(), "fonts/mangal.ttf");		
-		} else if (curr_lang.equals(language_list[4])) {  // Malayalam (India)			
+			face=Typeface.createFromAsset(getAssets(), "fonts/mangal.ttf");	
+		} else if (curr_lang.equals(language_list[4])) {  // Indonesian			
+			cur_locale = new Locale("id");		
+		} else if (curr_lang.equals(language_list[5])) {  // Malayalam (India)			
 			cur_locale = new Locale("ma");	
 			face=Typeface.createFromAsset(getAssets(), "fonts/kartika.ttf");		
-		} else if (curr_lang.equals(language_list[5])) {  // Portuguese 		
+		} else if (curr_lang.equals(language_list[6])) {  // Portuguese 		
 			cur_locale = new Locale("pt");						
-		} else if (curr_lang.equals(language_list[6])) {   // Spanish			
+		} else if (curr_lang.equals(language_list[7])) {   // Spanish			
 			cur_locale = new Locale("sp");					
-		} else if (curr_lang.equals(language_list[7])) {   // Swahili			
+		} else if (curr_lang.equals(language_list[8])) {   // Swahili			
 			cur_locale = new Locale("sw");		
-		} else if (curr_lang.equals(language_list[8])) {  // Hindi-Tamil			
+		} else if (curr_lang.equals(language_list[9])) {  // Hindi-Tamil			
 			cur_locale = new Locale("ta");	
 		    face=Typeface.createFromAsset(getAssets(), "fonts/latha.ttf");
-		} else if (curr_lang.equals(language_list[9])) {   // Thai			
+		} else if (curr_lang.equals(language_list[10])) {   // Thai			
 			cur_locale = new Locale("th");			       
-		} else if (curr_lang.equals(language_list[10])) {   // Urdu			
+		} else if (curr_lang.equals(language_list[11])) {   // Urdu			
 			cur_locale = new Locale("ur");			       
 		}
 				
@@ -230,8 +232,8 @@ public class smile extends Activity {
 				
 				chosen_language = (String) spin.getSelectedItem();
 				
-				if (chosen_language.equals(language_list[4])||  // Malayalam (India)		
-					chosen_language.equals(language_list[10])) {  // Urdu
+				if (chosen_language.equals(language_list[5])||  // Malayalam (India)		
+					chosen_language.equals(language_list[11])) {  // Urdu
 					if(shareb2 != null)
 					{
 						shareb.setVisibility(View.INVISIBLE); 

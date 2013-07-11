@@ -1,38 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <string-array name="language_list">
-        <item>Arabic</item>
-        <item>English</item>
-        <item>Gujarati (India)</item>        
-        <item>Hindi (India)</item>
-        <item>Indonesian</item>
-        <item>Malayalam (India)</item>
-        <item>Portuguese</item>
-        <item>Spanish</item>
-        <item>Swahili</item>
-        <item>Tamil (India)</item>
-        <item>Thai</item>
-        <item>Urdu</item>
-    </string-array>
         
     <string-array name="category_list">
-        <item>Make Your Question</item>
-        <item>Solve Questions</item>
-        <item>See Results</item>
+        <item>Buat Pertanyaan Anda</item>
+        <item>Jawab Pertanyaan2</item>
+        <item>Liat Hasil</item>
    </string-array>
     
     <string name="hello">Hello World, MySMILE!</string>
 	<string name="app_name">SMILE</string>
-	<string name="version">VERSION 2.1.5</string>
+	<!--  <string name="version">VERSION 2.1.5</string>  -->
 	<string name="select_language">Select a language</string>
 					    
 	<string name="login_username_hint">Username</string>
 	<string name="login_optional_name">Name(optional)</string>
 	<string name="login_default_IP">192.168.2.4</string>
 	<string name="login_reset">RESET</string>
-	<string name="login">LOGIN</string>
+	<string name="login">LOGIN T</string>
 	<string name="login_share">FIND</string>  <!-- Find Server IP using multicasting -->
 	<string name="login_share_msg">Finding the server.</string>
 	<string name="default_share_scheme">http</string>
@@ -46,18 +31,18 @@
 	<string name="category_exit">EXIT</string>
 	
 	<string name="warn">Warnning!!</string>
-	<string name="exit_q">Do you want to exit the program?</string>
+	<string name="exit_q">Apa Anda mau exit program ini?</string>
 	<string name="OK">OK</string>
 	<string name="NO">NO</string>
 	<string name="Cancel">Cancel</string>
     
-	<string name="no_network"> No network connection</string>
-	<string name="insert_name">Insert username</string>
+	<string name="no_network"> Tak ada network connection</string>
+	<string name="insert_name">Masukan username</string>
 	
 	<string name="ConnectingSever">ConnectingSever:</string>
 	<string name="Sending"> Sending:</string>
 	<string name="creatingconnection">Creating Connection</string>
-	<string name="network_warning">Connection Failed. Please Restart.</string>
+	<string name="network_warning">Connection Failed. Mohon Restart.</string>
 	
 	<string name="inform_state_before_connect">Trying to connect to the server.</string>
 	<string name="inform_state_ini_wait">Waiting for others to join the Quiz.</string>
@@ -69,13 +54,13 @@
 	<string name="inform_state_finish">Quiz activity is over.</string>
 	    
 	<!-- Make a question -->
-	<string name="q_content">Question:\n\n\n\n\n</string>
-	<string name="q_op1">Answer1:</string>
-	<string name="q_op2">Answer2:</string>
-	<string name="q_op3">Answer3:</string>
-	<string name="q_op4">Answer4:</string>
+	<string name="q_content">Tanya:\n\n\n\n\n</string>
+	<string name="q_op1">Jawab 1:</string>
+	<string name="q_op2">Jawab 2:</string>
+	<string name="q_op3">Jawab 3:</string>
+	<string name="q_op4">Jawab 4:</string>
 	
-	<string name="img_dialog_title">Select an Image</string>
+	<string name="img_dialog_title">Pilih satu Gambar</string>
 	<string name="img_notice">Click THIS to return</string>
 	
 	
@@ -86,7 +71,7 @@
 	<string name="post_btn">Post</string>
 	
 	<!-- Solve Question -->
-	<string name="answer_text">Answer</string>
+	<string name="answer_text">Jawab</string>
 	<string name="answer_1">(1)</string>
 	<string name="answer_2">(2)</string>
 	<string name="answer_3">(3)</string>
@@ -105,11 +90,11 @@
 	
 	<!-- See Result -->
 	<string name="return_btn">Return</string>
-	<string name="detail_btn">Detail</string>
+	<string name="detail_btn">Detil</string>
 	<string name="winner_btn">Winner</string>
 	    
-	<string name="post_q">Do you want to post this question?</string>
-	<string name="error_noanswer">ERROR: No Right Answer</string>
+	<string name="post_q">Apa Anda mau post pertanyaan ini?</string>
+	<string name="error_noanswer">ERROR: Tak Ada Jawaban Benar</string>
 	<string name="Post_MoreQ">Post+MoreQ</string>
 	
 	<string name="add_img">Add Image</string>
@@ -118,33 +103,33 @@
 	
 	<!-- Remove image dialog -->
 	<string name="rmv_img_dialog_title">SMILE: Make a Question</string>
-	<string name="rmv_img_q">Do you want to delete image?</string>
+	<string name="rmv_img_q">Apa Anda mau hapus gambar ini?</string>
 	
-	<string name="warn_nopic">Picture was not taken</string>
+	<string name="warn_nopic">Picture tak diambil</string>
 	
 	<string name="notice_preview">previewing your question</string>
 	<string name="loading">Loading</string>
-	<string name="insert_error">Insert answer and rating</string>
-	<string name="submit_q">Do you want to submit your answers?</string>
+	<string name="insert_error">Masukan jawaban and rating</string>
+	<string name="submit_q">Apa Anda mau submit jawaban2nya?</string>
 	<string name="submit_btn">Submit</string>
 	
 	<!-- Winner Result page -->
-	<string name="winner_title">Who is the Winner?</string>
-	<string name="quiz_score">Quiz Score</string>
-	<string name="h_score">Highest Score</string>
-	<string name="name">Name</string>
+	<string name="winner_title">Siapa Winner-nya?</string>
+	<string name="quiz_score">Skor Quiz</string>
+	<string name="h_score">Skor Tertinggi</string>
+	<string name="name">Nama</string>
 	
 	<string name="rating_score_title">Question Rating Score</string>
 	<string name="h_avg_rating">Highest Average Rating</string>
 	
-	<string name="t_score">Total Score</string>
-	<string name="q_num">Question Number</string>
-	<string name="correct_wrong">Correct or Wrong</string>
+	<string name="t_score">Total Skor</string>
+	<string name="q_num">Nomer Pertanyaan</string>
+	<string name="correct_wrong">Benar atau Salah</string>
 
 	<!-- Detail Result -->
-	<string name="my_answer">My Answer:</string>
-	<string name="num_r_answer">Right</string>
-	<string name="num_w_answer">Wrong</string>
-	<string name="notice_last_q">This is the last question.</string>
+	<string name="my_answer">Jawaban Aku:</string>
+	<string name="num_r_answer">Benar</string>
+	<string name="num_w_answer">Salah</string>
+	<string name="notice_last_q">Ini pertanyaan terakhir.</string>
 	
 </resources>
