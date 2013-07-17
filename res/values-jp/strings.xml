@@ -67,7 +67,7 @@
 	<string name="inform_state_finish">クイズは終了しました.</string>
 
 	<!-- Make a question -->
-	<string name="q_content">Question:\n\n\n\n\n</string>
+	<string name="q_content">質問:\n\n\n\n\n</string>
 	<string name="q_op1">答え1:</string>
 	<string name="q_op2">答え2:</string>
 	<string name="q_op3">答え3:</string>
