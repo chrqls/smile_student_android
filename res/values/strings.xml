@@ -23,7 +23,7 @@
 
 	<string name="login_username_hint">Username</string>
 	<string name="login_optional_name">Name(optional)</string>
-	<string name="login_default_IP">10.1.0.1</string>
+	<string name="login_default_IP">10.0.0.5</string>
 	<string name="login_reset">RESET</string>
 	<string name="login">LOGIN</string>
 	<string name="login_share">SHARE</string>  <!-- Share Server IP Information with other students -->
@@ -63,7 +63,7 @@
 	    You need to exit first and connect again, if you you want to do another round of SMILE-Quiz.</string>
 
 	<!-- Make a question -->
-	<string name="q_content">Question:\n\n\n\n\n</string>
+	<string name="q_content">Question:</string>
 	<string name="q_op1">Answer1:</string>
 	<string name="q_op2">Answer2:</string>
 	<string name="q_op3">Answer3:</string>
