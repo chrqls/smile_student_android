@@ -1722,7 +1722,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	private String getHTMLTagForUTF8() {
-		return new String("\n <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"\n ");
+		return new String("\n <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n ");
 	}
 
 	private String createwinnerhtml() {

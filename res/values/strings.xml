@@ -47,7 +47,7 @@
 	<string name="no_network"> No network connection</string>
 	<string name="insert_name">Insert username</string>
 
-	<string name="ConnectingSever">ConnectingSever:</string>
+	<string name="ConnectingSever">ConnectingServer:</string>
 	<string name="Sending"> Sending:</string>
 	<string name="creatingconnection">Creating Connection</string>
 	<string name="network_warning">Connection Failed. Please Restart.</string>
