@@ -1515,7 +1515,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				// Preparing the picture
 				try {
 					  ImageView picture = (ImageView) findViewById(R.id.picture);
-					  URL url = new URL("http://"+this.getString(R.string.login_default_IP)+json.getString("picturePath"));
+					  URL url = new URL("http://"+json.getString("picturePath"));
 					  InputStream is = (InputStream) url.getContent();
 					  Bitmap bitmap = BitmapFactory.decodeStream(is);
 					  picture.setImageBitmap(bitmap); 
@@ -1523,6 +1523,7 @@ public class CourseList extends Activity implements OnDismissListener {
 					  e.printStackTrace();
 					} catch (IOException e) {
 					  e.printStackTrace();
+					  System.out.println("/!\\ The IP address of node server may be wrong /!\\");
 					}
 					
 			} catch (JSONException e) {
