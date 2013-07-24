@@ -16,6 +16,7 @@ limitations under the License.
 
 package org.smilec.smile.student;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,16 +24,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.Locale;
 import java.util.Vector;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.widget.RatingBar;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -47,6 +53,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1479,14 +1486,48 @@ public class CourseList extends Activity implements OnDismissListener {
 	private void showScene() {
 
 		if (issolvequestion == 0) { // related to solving questions
-			webpage = "http://" + cururi + server_dir + (scene_number - 1)
-					+ ".html";
+			webpage = "http://" + cururi + server_dir + (scene_number - 1) + ".html";
 
-		} else { // related to seeing results
+		} else { // related to detail results
 
-			webpage = "http://" + cururi + server_dir + (scene_number - 1)
-					+ "_result" + ".html";
-
+			webpage = "http://" + cururi + server_dir + (scene_number - 1) + "_result" + ".html";
+			
+			// Getting all the values from node server
+			String detailResultData = getContents(webpage);
+			
+			try {
+				JSONObject json = new JSONObject(detailResultData);
+				
+				String detailResult = this.getString(R.string.question_num)+json.getString("questionNum")
+						+" ("+this.getString(R.string.author)+" "+json.getString("author")+")\n\n"
+						+this.getString(R.string.question)+" "+json.getString("question")+"\n\n"
+						+"(1) "+json.getString("option1")+"\n"
+						+"(2) "+json.getString("option2")+"\n"
+						+"(3) "+json.getString("option3")+"\n"
+						+"(4) "+json.getString("option4")+"\n\n"
+						+this.getString(R.string.answer)+" "+json.getString("answer")+"\n"
+						+this.getString(R.string.num_correct_people)+" "+json.getString("numCorrectPeople")+" / "+json.getString("numberOfStudents")+"\n"
+						+this.getString(R.string.average_rating)+" "+json.getString("averageRating");
+				
+				TextView detailResultTV = (TextView) findViewById(R.id.detailResult);
+				detailResultTV.setText(detailResult);
+				
+				// Preparing the picture
+				try {
+					  ImageView picture = (ImageView) findViewById(R.id.picture);
+					  URL url = new URL("http://"+this.getString(R.string.login_default_IP)+json.getString("picturePath"));
+					  InputStream is = (InputStream) url.getContent();
+					  Bitmap bitmap = BitmapFactory.decodeStream(is);
+					  picture.setImageBitmap(bitmap); 
+					} catch (MalformedURLException e) {
+					  e.printStackTrace();
+					} catch (IOException e) {
+					  e.printStackTrace();
+					}
+					
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 
 			if((SolvingIndex == true) ||(answer_arr.isEmpty() == false) ) {
 				my_answer_view.setText(answer_arr.get(scene_number - 1).toString());
@@ -1663,6 +1704,7 @@ public class CourseList extends Activity implements OnDismissListener {
 
 		ratingbar = (RatingBar) findViewById(R.id.ratingbar);
 
+		// This method will manage 'solving question' and 'detail result'
 		showScene();
 
 		Button returnMR = (Button) findViewById(R.id.returnresult02);
@@ -1698,6 +1740,51 @@ public class CourseList extends Activity implements OnDismissListener {
 		});
 
 	}
+	
+	/**
+	 * Used for JSON data from node server.
+	 * @return the content of the <b>url</b> as a string.
+	 */
+	public static String getContents(String url) {
+	        String contents ="";
+	 
+	  try {
+	        URLConnection conn = new URL(url).openConnection();
+	 
+	        InputStream in = conn.getInputStream();
+	        contents = convertStreamToString(in);
+	   } catch (MalformedURLException e) {
+	        Log.v("MALFORMED URL EXCEPTION", e.toString());
+	   } catch (IOException e) {
+	        Log.e(e.getMessage(), e.toString());
+	   }
+	  return contents;
+	}
+	 
+	/**
+	 * Convert the <b>inputStream</b> into a <b>String</b><br>
+	 * Used by getContents()
+	 */
+	private static String convertStreamToString(InputStream is) throws UnsupportedEncodingException {
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+		StringBuilder sb = new StringBuilder();
+	    String line = null;
+	    try {
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+	   } catch (IOException e) {
+	        e.printStackTrace();
+	   } finally {
+	        try {
+	        	is.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return sb.toString();
+	  }
 
 	private void scorequestion(Vector<Integer> _rightanswer,
 			Vector<Integer> _myanswer) {

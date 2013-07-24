@@ -35,14 +35,26 @@ android:layout_marginTop="10dp"
 />
 
 <TextView
+    android:id="@+id/detailResult"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignRight="@+id/nextResult"
+    android:layout_below="@+id/webviewdetailresult"
+    android:layout_marginTop="15dp"
+    android:layout_toRightOf="@+id/pie_container"
+    android:background="@android:color/background_light"
+    android:text="TODO: This text should never appear"
+    android:textColor="@android:color/background_dark" />
+
+<TextView
 android:id="@+id/textresult01"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="@string/my_answer"
-android:layout_below="@+id/webviewdetailresult"
+android:layout_below="@+id/detailResult"
 android:layout_alignParentLeft="true"
 android:layout_marginLeft="10dp"
-android:layout_marginTop="5dp"
+android:layout_marginTop="15dp"
 />
 
 <TextView
@@ -148,6 +160,17 @@ android:layout_alignParentBottom="true"
 android:layout_marginBottom="10dp"
 >
 </Button>
+
+<ImageView
+    android:id="@+id/picture"
+    android:contentDescription="TODO: this is the picture"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/pie_container"
+    android:layout_alignRight="@+id/nextResult"
+    android:layout_below="@+id/r_answer_view"
+    android:layout_marginTop="48dp"
+    android:src="@drawable/action_item_btn" />
 
 </RelativeLayout>
 </LinearLayout>

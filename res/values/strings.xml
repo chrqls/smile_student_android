@@ -23,7 +23,7 @@
 
 	<string name="login_username_hint">Username</string>
 	<string name="login_optional_name">Name(optional)</string>
-	<string name="login_default_IP">10.1.0.1</string>
+	<string name="login_default_IP">10.0.0.5</string>
 	<string name="login_reset">RESET</string>
 	<string name="login">LOGIN</string>
 	<string name="login_share">SHARE</string>  <!-- Share Server IP Information with other students -->
@@ -140,5 +140,10 @@
 	<string name="num_r_answer">Right</string>
 	<string name="num_w_answer">Wrong</string>
 	<string name="notice_last_q">This is the last question.</string>
-
+	<string name="question_num">Question No.</string> 
+	<string name="author">created by</string>
+	<string name="question">Question:</string>
+	<string name="answer">Correct answer:</string>
+	<string name="num_correct_people">Num correct people:</string>
+	<string name="average_rating">Average rating:</string>
 </resources>
