@@ -127,5 +127,11 @@
 	<string name="num_r_answer">Respuesta</string>
 	<string name="num_w_answer">Mal</string>
 	<string name="notice_last_q">Esta es la última pregunta.</string>
-
+	<string name="question_num">Question No.</string> 
+	<string name="author">created by</string>
+	<string name="question">Question:</string>
+	<string name="answer">Correct answer:</string>
+	<string name="num_correct_people">Num correct people:</string>
+	<string name="average_rating">Average rating:</string>
+	<string name="picture_description">Picture made by the author</string>
 </resources>

@@ -43,7 +43,6 @@ android:layout_marginTop="10dp"
     android:layout_marginTop="15dp"
     android:layout_toRightOf="@+id/pie_container"
     android:background="@android:color/background_light"
-    android:text="TODO: This text should never appear"
     android:textColor="@android:color/background_dark" />
 
 <TextView
@@ -163,13 +162,13 @@ android:layout_marginBottom="10dp"
 
 <ImageView
     android:id="@+id/picture"
-    android:contentDescription="TODO: this is the picture"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignLeft="@+id/pie_container"
+    android:layout_alignLeft="@+id/returnresult02"
     android:layout_alignRight="@+id/nextResult"
     android:layout_below="@+id/r_answer_view"
-    android:layout_marginTop="48dp"
+    android:layout_marginTop="77dp"
+    android:contentDescription="@string/picture_description"
     android:src="@drawable/action_item_btn" />
 
 </RelativeLayout>
