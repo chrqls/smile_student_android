@@ -150,5 +150,4 @@
 	<string name="answer">Correct answer:</string>
 	<string name="num_correct_people">Num correct people:</string>
 	<string name="average_rating">Average rating:</string>
-	<string name="picture_description">Picture made by the author</string>
 </resources>

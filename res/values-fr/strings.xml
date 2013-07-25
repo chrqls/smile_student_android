@@ -137,5 +137,4 @@
 	<string name="answer">Bonne réponse:</string>
 	<string name="num_correct_people">Participants ayant bien répondu:</string>
 	<string name="average_rating">Moyenne des votes:</string>
-	<string name="picture_description">Photo prise par l\'auteur</string> <!-- #TODO# rephrase? -->
 </resources>
