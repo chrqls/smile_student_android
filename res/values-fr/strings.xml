@@ -131,5 +131,10 @@
 	<string name="num_r_answer">Vrai</string>
 	<string name="num_w_answer">Faux</string>
 	<string name="notice_last_q">C\'est la dernière question.</string>
-
+	<string name="question_num">Question No.</string> 
+	<string name="author">créée par</string>
+	<string name="question">Question:</string>
+	<string name="answer">Bonne réponse:</string>
+	<string name="num_correct_people">Participants ayant bien répondu:</string>
+	<string name="average_rating">Moyenne des votes:</string>
 </resources>

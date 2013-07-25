@@ -47,7 +47,7 @@
 	<string name="no_network"> No network connection</string>
 	<string name="insert_name">Insert username</string>
 
-	<string name="ConnectingSever">ConnectingSever:</string>
+	<string name="ConnectingSever">ConnectingServer:</string>
 	<string name="Sending"> Sending:</string>
 	<string name="creatingconnection">Creating Connection</string>
 	<string name="network_warning">Connection Failed. Please Restart.</string>
@@ -140,5 +140,10 @@
 	<string name="num_r_answer">Right</string>
 	<string name="num_w_answer">Wrong</string>
 	<string name="notice_last_q">This is the last question.</string>
-
+	<string name="question_num">Question No.</string> 
+	<string name="author">created by</string>
+	<string name="question">Question:</string>
+	<string name="answer">Correct answer:</string>
+	<string name="num_correct_people">Num correct people:</string>
+	<string name="average_rating">Average rating:</string>
 </resources>

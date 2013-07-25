@@ -16,6 +16,7 @@ limitations under the License.
 
 package org.smilec.smile.student;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,16 +24,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.Locale;
 import java.util.Vector;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.widget.RatingBar;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -47,6 +53,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1478,38 +1485,79 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	private void showScene() {
 
-		if (issolvequestion == 0) { // related to solving questions
-			webpage = "http://" + cururi + server_dir + (scene_number - 1)
-					+ ".html";
-
-		} else { // related to seeing results
-
-			webpage = "http://" + cururi + server_dir + (scene_number - 1)
-					+ "_result" + ".html";
-
-
-			if((SolvingIndex == true) ||(answer_arr.isEmpty() == false) ) {
-				my_answer_view.setText(answer_arr.get(scene_number - 1).toString());
-			} else {
-				my_answer_view.setText("N/A");
+		String html = new String("<html><head></head><body><p>foobar</p></body></html>"); 
+		
+		// For solving question screen
+		if (issolvequestion == 0) {
+			
+			webpage = "http://" + cururi + server_dir + (scene_number - 1) + ".html";
+			
+			// Getting all the values from node server
+			String solvingQuestionsData = getContents(webpage);
+			
+			try {
+				JSONObject json = new JSONObject(solvingQuestionsData);
+				
+				html = 
+					"<html>"
+						+"<head>"+this.getString(R.string.question_num)+json.getString("questionNum")+" ("+this.getString(R.string.author)+" <i>"+json.getString("author")+"</i> )</head>"
+						+"<body>"
+							+"<p>"+this.getString(R.string.question)+" "+json.getString("question")+"</p>"
+							+"<img class=\"main\" src=\"http://"+cururi+json.getString("picturePath")+"\" width=\"200\" height=\"180\""+(json.getString("questionType").equals("QUESTION_PIC")?"":"style=\"display:none\"")+"/>"
+							+"<p>"
+								+"(1) " + json.getString("option1")+"<br>"
+								+"(2) " + json.getString("option2")+"<br>"
+								+"(3) " + json.getString("option3")+"<br>"
+								+"(4) " + json.getString("option4")+"<br>"
+							+"</p>"
+						+"</body>"
+					+"</html>";
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
+		} 
+		
+		// For detail result screen
+		else { 
 
-			// 5-rating star
-			Float f = new Float(final_avg_ratings.get(scene_number - 1));
-			ratingbar.setRating(f);
-			ratingbar.setEnabled(false);
-
-			// percent graph
-			System.out.println("Draw Graph: start");
-			right_val = Integer.parseInt(r_answer_percents.get(scene_number - 1).trim());
-			wrong_val = 100 - right_val;
-			draw_piechart.redraw(right_val, wrong_val);
-			System.out.println("Draw Graph: end");
-
+			webpage = "http://" + cururi + server_dir + (scene_number - 1) + "_result.html";
+			
+			// Getting all the values from node server
+			String detailResultData = getContents(webpage);
+			
+			try {
+				JSONObject json = new JSONObject(detailResultData);
+				
+				html = 
+					"<html>"
+						+"<head>"+this.getString(R.string.question_num)+json.getString("questionNum")+" ("+this.getString(R.string.author)+" <i>"+json.getString("author")+"</i> )</head>"
+						+"<body>"
+							+"<p>"+this.getString(R.string.question)+" "+json.getString("question")+"</p>"
+							+"<img class=\"main\" src=\"http://"+cururi+json.getString("picturePath")+"\" width=\"200\" height=\"180\""+(json.getString("questionType").equals("QUESTION_PIC")?"":"style=\"display:none\"")+"/>"
+							+"<p>"
+								+"(1) " + json.getString("option1")+(json.getString("answer").equals("1")?"<font color=red>&nbsp; &#10004;</font>":"")+"<br>"
+								+"(2) " + json.getString("option2")+(json.getString("answer").equals("2")?"<font color=red>&nbsp; &#10004;</font>":"")+"<br>"
+								+"(3) " + json.getString("option3")+(json.getString("answer").equals("3")?"<font color=red>&nbsp; &#10004;</font>":"")+"<br>"
+								+"(4) " + json.getString("option4")+(json.getString("answer").equals("4")?"<font color=red>&nbsp; &#10004;</font>":"")+"<br>"
+							+"</p>"
+							+"<p>"
+								+this.getString(R.string.answer)+" "+json.getString("answer")+"<br>"
+								+this.getString(R.string.num_correct_people)+" "+json.getString("numCorrectPeople")+" / "+json.getString("numberOfStudents")+"<br>"
+								+this.getString(R.string.average_rating)+" "+json.getString("averageRating")
+							+"</p>"
+						+"</body>"
+					+"</html>";
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			curwebview = (WebView) findViewById(R.id.webviewdetailresult);
+			curwebview.clearCache(false);
 		}
-
 		curwebview.clearView();
-		curwebview.loadUrl(webpage);
+		curwebview.loadData(html, "text/html", "UTF-8");
 	}
 
 	private void showNextScene() {
@@ -1651,27 +1699,44 @@ public class CourseList extends Activity implements OnDismissListener {
 
 	private void show_detail(Vector<Integer> _myscore) {
 
-		curcategory = category_arr[2];
-		scene_number = 1;
 		setContentView(R.layout.detailresult);
-
+		
+		scene_number = 1;
+		curcategory = category_arr[2];
 		setTitle(curcategory + "     1/" + LAST_SCENE_NUM);
-		curwebview = (WebView) findViewById(R.id.webviewdetailresult);
-		curwebview.clearCache(false);
-
+		
 		my_answer_view = (TextView) findViewById(R.id.textresult02);
-
 		ratingbar = (RatingBar) findViewById(R.id.ratingbar);
 
+		// Preparing the WebView
 		showScene();
+		
+		// 
+		if((SolvingIndex == true) ||(answer_arr.isEmpty() == false) ) {
+			my_answer_view.setText(answer_arr.get(scene_number - 1).toString());
+		} else {
+			my_answer_view.setText("N/A");
+		}
 
+		// 5-rating star
+		Float f = new Float(final_avg_ratings.get(scene_number - 1));
+		ratingbar.setRating(f);
+		ratingbar.setEnabled(false);
+
+		// Percent graph
+		System.out.println("Draw Graph: start");
+		right_val = Integer.parseInt(r_answer_percents.get(scene_number - 1).trim());
+		wrong_val = 100 - right_val;
+		draw_piechart.redraw(right_val, wrong_val);
+		System.out.println("Draw Graph: end");
+
+		// 3 buttons
 		Button returnMR = (Button) findViewById(R.id.returnresult02);
 		returnMR.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				seeResults();
 			}
 		});
-
 		Button prevDR = (Button) findViewById(R.id.prevResult);
 		prevDR.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
@@ -1680,7 +1745,6 @@ public class CourseList extends Activity implements OnDismissListener {
 				}
 			}
 		});
-
 		Button nextDR = (Button) findViewById(R.id.nextResult);
 		nextDR.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
@@ -1696,8 +1760,52 @@ public class CourseList extends Activity implements OnDismissListener {
 				}
 			}
 		});
-
 	}
+	
+	/**
+	 * Used for JSON data from node server.
+	 * @return the content of the <b>url</b> as a string.
+	 */
+	public static String getContents(String url) {
+	        String contents ="";
+	 
+	  try {
+	        URLConnection conn = new URL(url).openConnection();
+	 
+	        InputStream in = conn.getInputStream();
+	        contents = convertStreamToString(in);
+	   } catch (MalformedURLException e) {
+	        Log.v("MALFORMED URL EXCEPTION", e.toString());
+	   } catch (IOException e) {
+	        Log.e(e.getMessage(), e.toString());
+	   }
+	  return contents;
+	}
+	 
+	/**
+	 * Convert the <b>inputStream</b> into a <b>String</b><br>
+	 * Used by getContents()
+	 */
+	private static String convertStreamToString(InputStream is) throws UnsupportedEncodingException {
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+		StringBuilder sb = new StringBuilder();
+	    String line = null;
+	    try {
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+	   } catch (IOException e) {
+	        e.printStackTrace();
+	   } finally {
+	        try {
+	        	is.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return sb.toString();
+	  }
 
 	private void scorequestion(Vector<Integer> _rightanswer,
 			Vector<Integer> _myanswer) {
@@ -1722,7 +1830,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	}
 
 	private String getHTMLTagForUTF8() {
-		return new String("\n <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"\n ");
+		return new String("\n <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n ");
 	}
 
 	private String createwinnerhtml() {
