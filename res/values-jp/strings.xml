@@ -57,6 +57,7 @@
     <string name="creatingconnection">接続の作成</string>
 	<string name="network_warning">接続出来ませんでした。もう一度接続して下さい</string>
 
+	<string name="wifi_desactivated">Please activate wifi.</string>
 	<string name="inform_state_before_connect">サーバーへ接続しています.</string>
 	<string name="inform_state_ini_wait">他者の参加まで少々お待ち下さい.</string>
 	<string name="inform_state_make_question">質問の開始にはボタンを押して下さい.</string>

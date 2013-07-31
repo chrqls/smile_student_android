@@ -39,6 +39,7 @@
 	<string name="creatingconnection">la creación de la conexión</string>
 	<string name="network_warning">Error de conexión. Por favor, Reiniciar.</string>
 
+	<string name="wifi_desactivated">Please activate wifi.</string>
 	<string name="inform_state_before_connect">Tratando de conectar con el servidor.</string>
 	<string name="inform_state_ini_wait">Waiting for others to join the Quiz.</string>
 	<string name="inform_state_make_question">

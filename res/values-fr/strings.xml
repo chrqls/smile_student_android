@@ -43,6 +43,7 @@
 	<string name="creatingconnection">Création de la connexion</string>
 	<string name="network_warning">La connexion a échoué. Veuillez réessayer.</string>
 
+	<string name="wifi_desactivated">Merci d\'activer le wifi</string>
 	<string name="inform_state_before_connect">Tentative de connexion au serveur.</string>
 	<string name="inform_state_ini_wait">Attente des autres élèves avant de débuter le quiz.</string>
 	<string name="inform_state_make_question">Appuyer sur le bouton pour formuler votre question.</string>
