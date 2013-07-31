@@ -1557,7 +1557,7 @@ public class CourseList extends Activity implements OnDismissListener {
 			curwebview.clearCache(false);
 		}
 		curwebview.clearView();
-		curwebview.loadData(html, "text/html", "UTF-8");
+		curwebview.loadDataWithBaseURL("foobar", html, "text/html", "UTF-8", "foobar"); 
 	}
 
 	private void showNextScene() {

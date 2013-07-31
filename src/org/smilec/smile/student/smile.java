@@ -25,11 +25,13 @@ import java.util.Locale;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -255,7 +257,13 @@ public class smile extends Activity {
 					courselist.putExtras(bundle);
 
 					try {
-						startActivity(courselist);
+						WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+			            
+			            if (!wifi.isWifiEnabled()){
+			              Toast.makeText(getApplicationContext(), R.string.wifi_desactivated, Toast.LENGTH_LONG).show();
+			            } else {
+			              startActivity(courselist);
+			            } 
 
 					} catch (Exception e) {
 						if (show_systemout) System.out.println("Error in starting program");

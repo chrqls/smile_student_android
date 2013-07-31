@@ -52,6 +52,7 @@
 	<string name="creatingconnection">Creating Connection</string>
 	<string name="network_warning">Connection Failed. Please Restart.</string>
 
+	<string name="wifi_desactivated">Please activate wifi.</string>
 	<string name="inform_state_before_connect">Trying to connect to the server.</string>
 	<string name="inform_state_ini_wait">Waiting for others to join the Quiz.</string>
 	<string name="inform_state_make_question">Press the button to start making your question.</string>
