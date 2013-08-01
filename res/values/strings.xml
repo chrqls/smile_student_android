@@ -43,6 +43,7 @@
 	<string name="OK">OK</string>
 	<string name="NO">NO</string>
 	<string name="Cancel">Cancel</string>
+	<string name="finish">Finish</string>
 
 	<string name="no_network"> No network connection</string>
 	<string name="insert_name">Insert username</string>
@@ -105,7 +106,7 @@
 
 	<string name="post_q">Do you want to post this question?</string>
 	<string name="error_noanswer">ERROR: No Right Answer</string>
-	<string name="Post_MoreQ">Post+MoreQ</string>
+	<string name="Post_MoreQ">New Question</string>
 
 	<string name="add_img">Add Image</string>
 	<string name="take_pic">Take Picture</string>

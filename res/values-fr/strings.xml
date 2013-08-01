@@ -34,6 +34,7 @@
 	<string name="OK">Oui</string>
 	<string name="NO">Non</string>
 	<string name="Cancel">Annuler</string>
+	<string name="finish">Terminer</string>
     
 	<string name="no_network">Aucune connexion réseau</string>
 	<string name="insert_name">Insérer votre identifiant</string>
@@ -96,7 +97,7 @@
 	    
 	<string name="post_q">Voulez-vous poster cette question?</string>
 	<string name="error_noanswer">ERREUR: Aucune bonne réponse</string>
-	<string name="Post_MoreQ">Post+MoreQ</string> <!-- #TODO# -->
+	<string name="Post_MoreQ">Nouvelle question</string>
 	
 	<string name="add_img">Ajouter une Image</string>
 	<string name="take_pic">Prendre une photo</string>

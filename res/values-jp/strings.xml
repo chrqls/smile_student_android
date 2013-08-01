@@ -48,6 +48,7 @@
 	<string name="OK">はい</string>
 	<string name="NO">いいえ</string>
 	<string name="Cancel">キャンセル</string>
+	<string name="finish">Finish</string>
 
 	<string name="no_network">ネットワークに接続されていません</string>
 	<string name="insert_name">ユーザー名を入力</string>
