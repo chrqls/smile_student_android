@@ -767,7 +767,7 @@ public class CourseList extends Activity implements OnDismissListener {
 				final Builder adb = new AlertDialog.Builder(CourseList.this);
 				adb.setTitle(curcategory);
 				adb.setMessage(getString(R.string.post_q));
-				adb.setPositiveButton(getString(R.string.OK),
+				adb.setPositiveButton(getString(R.string.finish),
 						new DialogInterface.OnClickListener() {
 
 							public void onClick(DialogInterface arg0, int arg1) {

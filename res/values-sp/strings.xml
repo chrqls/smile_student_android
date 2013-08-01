@@ -30,6 +30,7 @@
 	<string name="OK">Aceptar</string>
 	<string name="NO">NO</string>
 	<string name="Cancel">cancelar</string>
+	<string name="finish">Finish</string>
 
 	<string name="no_network"> sin conexión a la red</string>
 	<string name="insert_name">introduzca nombre de usuario</string>
