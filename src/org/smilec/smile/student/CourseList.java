@@ -75,6 +75,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -1155,6 +1156,30 @@ public class CourseList extends Activity implements OnDismissListener {
 		chkimg = 1;
 		TakenImage = false;
 
+		// check if external storage exist
+		boolean mExternalStorageAvailable = false;
+		boolean mExternalStorageWriteable = false;
+		String state = Environment.getExternalStorageState();
+
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+		    // We can read and write the media
+		    mExternalStorageAvailable = mExternalStorageWriteable = true;
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		    // We can only read the media
+		    mExternalStorageAvailable = true;
+		    mExternalStorageWriteable = false;
+		} else {
+		    // Something else is wrong. It may be one of many other states, but all we need
+		    //  to know is we can neither read nor write
+		    mExternalStorageAvailable = mExternalStorageWriteable = false;
+		}
+		
+		if(mExternalStorageAvailable==false || mExternalStorageWriteable==false)
+		{
+			showToast("We cannot take picture. Please check if the external storage available or writeable.");
+			return;
+		}
+		
 		// -----------------------------------------------------------------
 		// Start Built-in Camera Activity
 		// -----------------------------------------------------------------

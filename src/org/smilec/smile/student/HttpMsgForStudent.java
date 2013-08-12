@@ -30,6 +30,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.Vector;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -50,7 +51,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 
@@ -65,7 +70,7 @@ public class HttpMsgForStudent extends Thread {
 	String MY_IP;
 	String Server_IP;
 	String last_type_from_msg;
-	
+	String id="";
 	String APP_TAG = "http_student";
 	int msec = 1200;   // check once for 1.5 sec
 	
@@ -85,7 +90,8 @@ public class HttpMsgForStudent extends Thread {
 		curr_name = name;
 		MY_IP =  IP;
 		Log.d(APP_TAG, "IP = " + IP);
-		
+		id = getDeviceId(main.getApplicationContext());
+		Log.i(APP_TAG,"Device ID: "+id);
 		last_type_from_msg = "";
 		
 		send_q = new LinkedList<JSONObject>();
@@ -140,6 +146,7 @@ public class HttpMsgForStudent extends Thread {
 				  wifi = true;
 				  main.setNewStateFromTeacher(CourseList.WIFI_CONNECTED);
 			  }
+			  
 			  try {
 				if (http_thread.isbusy()) {
 					cnt++;
@@ -211,6 +218,24 @@ public class HttpMsgForStudent extends Thread {
 		return r;
 	}
 	
+	private static String uniqueID = null;
+	private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
+
+	public synchronized static String getDeviceId(Context context) {
+	    if (uniqueID == null) {
+	        SharedPreferences sharedPrefs = context.getSharedPreferences(
+	                PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+	        uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+	        if (uniqueID == null) {
+	            uniqueID = UUID.randomUUID().toString();
+	            Editor editor = sharedPrefs.edit();
+	            editor.putString(PREF_UNIQUE_ID, uniqueID);
+	            editor.commit();
+	        }
+	    }
+	    return uniqueID;
+	}
+	
 	synchronized boolean process_send_messages() 
 	{
 		//http_thread = new http_additional_thread();
@@ -253,8 +278,9 @@ public class HttpMsgForStudent extends Thread {
 					e.printStackTrace();
 				}
 			}
-			o.put("IP", MY_IP); // always give my IP in the message
-
+			//o.put("IP", MY_IP); // always give my IP in the message
+			
+			o.put("IP", id); 
 			send_q.addLast(o);
 
 		} catch (Exception e ) {

@@ -17,7 +17,7 @@
 	<string name="login_optional_name">Name(optional)</string>
 	<string name="login_default_IP">192.168.2.4</string>
 	<string name="login_reset">RESET</string>
-	<string name="login">LOGIN T</string>
+	<string name="login">LOGIN</string>
 	<string name="login_share">FIND</string>  <!-- Find Server IP using multicasting -->
 	<string name="login_share_msg">Finding the server.</string>
 	<string name="default_share_scheme">http</string>

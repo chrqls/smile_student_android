@@ -141,7 +141,7 @@ public class smile extends Activity {
 			cur_locale = new Locale("hi");	
 			face=Typeface.createFromAsset(getAssets(), "fonts/mangal.ttf");	
 		} else if (curr_lang.equals(language_list[4])) {  // Indonesian			
-			cur_locale = new Locale("id");		
+			cur_locale = new Locale("in");		
 		} else if (curr_lang.equals(language_list[5])) {  // Malayalam (India)			
 			cur_locale = new Locale("ma");	
 			face=Typeface.createFromAsset(getAssets(), "fonts/kartika.ttf");		
