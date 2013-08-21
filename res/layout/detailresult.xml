@@ -90,7 +90,7 @@ android:layout_marginTop="25dp"
 android:padding="5dp"
 android:textStyle="bold"
 android:textColor="#ffffff"
-android:background="#ffd700"   
+android:background="#97B546"   
 android:text="@string/num_r_answer"
 >
 </TextView>
@@ -105,7 +105,7 @@ android:layout_marginTop="25dp"
 android:padding="5dp"
 android:textStyle="bold"
 android:textColor="#ffffff"
-android:background="#9400d3"  
+android:background="#CA181E"  
 android:text="@string/num_w_answer"
 >
 </TextView>

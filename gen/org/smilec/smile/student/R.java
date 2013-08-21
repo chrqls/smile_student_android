@@ -60,8 +60,12 @@ public final class R {
         public static final int titleback=0x7f020019;
     }
     public static final class id {
-        public static final int DetailResult=0x7f080055;
+        public static final int DetailResult=0x7f08005d;
         public static final int HTTPText=0x7f08000b;
+        public static final int Header01=0x7f080056;
+        public static final int Header11=0x7f080058;
+        public static final int Header21=0x7f08005a;
+        public static final int Header22=0x7f08005b;
         public static final int LinearLayout01=0x7f080027;
         public static final int LinearLayout02=0x7f08003f;
         public static final int LinearLayout03=0x7f08000e;
@@ -77,8 +81,8 @@ public final class R {
         public static final int ScrollView03=0x7f080026;
         public static final int ScrollView04=0x7f08003e;
         public static final int ScrollView05=0x7f08000d;
-        public static final int SeeRQuit=0x7f080054;
-        public static final int WinnerResult=0x7f080056;
+        public static final int SeeRQuit=0x7f08005c;
+        public static final int WinnerResult=0x7f08005e;
         public static final int antext01=0x7f080042;
         public static final int arrow_down=0x7f08003b;
         public static final int arrow_up=0x7f08003a;
@@ -116,7 +120,7 @@ public final class R {
         public static final int ratingbarQ=0x7f08004f;
         public static final int ratingtext01=0x7f080048;
         public static final int resetQ=0x7f080050;
-        public static final int returnresult01=0x7f08005b;
+        public static final int returnresult01=0x7f080063;
         public static final int returnresult02=0x7f080017;
         public static final int rgroup02=0x7f080043;
         public static final int rgroup03=0x7f080049;
@@ -135,13 +139,17 @@ public final class R {
         public static final int shareb=0x7f080023;
         public static final int shareb2=0x7f080024;
         public static final int smile_logo=0x7f08001d;
-        public static final int spinnerTarget=0x7f080057;
-        public static final int text=0x7f080059;
+        public static final int spinnerTarget=0x7f08005f;
+        public static final int tableLayoutSeeR=0x7f080054;
+        public static final int tableRow1=0x7f080055;
+        public static final int tableRow2=0x7f080057;
+        public static final int tableRow3=0x7f080059;
+        public static final int text=0x7f080061;
         public static final int textresult01=0x7f080011;
         public static final int textresult02=0x7f080012;
         public static final int thumbImage=0x7f08001a;
         public static final int title=0x7f080001;
-        public static final int toast_layout_root=0x7f080058;
+        public static final int toast_layout_root=0x7f080060;
         public static final int tracks=0x7f080039;
         public static final int uri=0x7f080020;
         public static final int usernametext02=0x7f08001e;
@@ -150,7 +158,7 @@ public final class R {
         public static final int webviewPreview=0x7f08003c;
         public static final int webviewQ=0x7f080041;
         public static final int webviewSeeR=0x7f080053;
-        public static final int webviewWinner=0x7f08005a;
+        public static final int webviewWinner=0x7f080062;
         public static final int webviewdetailresult=0x7f080010;
     }
     public static final class layout {

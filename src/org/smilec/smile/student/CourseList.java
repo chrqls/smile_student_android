@@ -61,6 +61,7 @@ import org.smilec.smile.student.R;
 
 import android.widget.RatingBar;
 import android.annotation.SuppressLint;
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -72,6 +73,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -96,6 +98,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ZoomControls;
@@ -184,7 +188,7 @@ public class CourseList extends Activity implements OnDismissListener {
 	static Cursor mcursor_for_camera;
 	int IMAGECAPTURE_OK = 0;
 	String media_path;
-
+    
 	Activity activity;
 
 	@Override
@@ -319,6 +323,8 @@ public class CourseList extends Activity implements OnDismissListener {
 	String MY_IP;
     String titleSize1="";
     String titleSize2="";
+    int resultSize1=0;
+    int resultSize2=0;
     
 	// This part is called when starting this app
 	@Override
@@ -342,11 +348,16 @@ public class CourseList extends Activity implements OnDismissListener {
 		String manufacturer = android.os.Build.MANUFACTURER;
 		//showToast(manufacturer);
 		
+		resultSize1=returnPixels(16.0f);
+		resultSize2=returnPixels(18.0f);
+		
 		if ((getResources().getConfiguration().screenLayout &      
 				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {     // 480x640 dp units
 			draw_piechart = new piechart(this, returnPixels(200.0f));
 			titleSize1 ="<big>";
 			titleSize2 ="</big>";
+			resultSize1=returnPixels(24.0f);
+			resultSize2=returnPixels(26.0f);
 	    } 
 		else if (manufacturer != null && manufacturer.toLowerCase().equals("samsung"))
 		{		    
@@ -1810,10 +1821,12 @@ public class CourseList extends Activity implements OnDismissListener {
 		scorequestion(answer_arr, right_answer); // score my answers
 
 		// 1. show main result
-		String received_html = createresulthtml(my_score, curusername);
-	    //curwebview.loadData(received_html, "text/html; charset=utf-8", "UTF-8");
-	    curwebview.loadDataWithBaseURL("file:///android_asset", received_html, "text/html", "utf-8", null);
+		//String received_html = createresulthtml(my_score, curusername);
+	    //curwebview.loadData(received_html, "text/html; charset=utf-8", "UTF-8");  // original
+	    //curwebview.loadDataWithBaseURL("file:///android_asset", received_html, "text/html", "utf-8", null); // added
 
+	    createScoreTable(my_score, curusername);
+	    
 		Button quitSR = (Button) findViewById(R.id.SeeRQuit);
 		quitSR.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
@@ -1836,7 +1849,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		detailSR.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				draw_piechart.setIsAdded(false);
-				show_detail(my_score);
+				show_detail(my_score, 1);
 			}
 		});
 
@@ -1868,13 +1881,13 @@ public class CourseList extends Activity implements OnDismissListener {
 	int right_val;
 	int wrong_val;
 	
-	private void show_detail(Vector<Integer> _myscore) {
+	private void show_detail(Vector<Integer> _myscore, int num) {
 
 		curcategory = category_arr[2];
-		scene_number = 1;
+		scene_number = num;
 		setContentView(R.layout.detailresult);
 
-		setTitle(curcategory + "     1/" + LAST_SCENE_NUM);
+		setTitle(curcategory + "     "+num+"/" + LAST_SCENE_NUM);
 		curwebview = (WebView) findViewById(R.id.webviewdetailresult);
 		curwebview.clearCache(false);
 		setWebviewFontSize(curwebview);
@@ -2018,6 +2031,7 @@ public class CourseList extends Activity implements OnDismissListener {
 		return return_html;
 	}
 
+	
 	String result_html;
  
 	private String createresulthtml(Vector<Integer> _myscore, String username) {
@@ -2057,6 +2071,56 @@ public class CourseList extends Activity implements OnDismissListener {
 		result_html = fore_html + mid_html + last_html;
 
 		return result_html;
+	}
+	
+	private void createScoreTable(Vector<Integer> _myscore, String username) {
+
+		int num_right = countrightquestion(_myscore);
+		int total_question = LAST_SCENE_NUM;
+		
+		TableLayout tl = (TableLayout) findViewById(R.id.tableLayoutSeeR);
+		TextView text1 = (TextView) findViewById(R.id.Header01);
+		text1.setText(getString(R.string.name)+ ": "+ username);
+		TextView text2 = (TextView) findViewById(R.id.Header11);
+		text2.setText(getString(R.string.t_score)+":" + num_right + "/" + total_question);
+		
+		for (int i = 0; i < _myscore.size(); i++) {
+			TableRow tr = new TableRow(getApplicationContext());
+		    tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+			int number = 0;
+			number = i + 1;
+			int score = _myscore.get(i);
+						
+			Button b = new Button(getApplicationContext());
+		    b.setText("(" + number + ")");
+		    b.setTextSize(resultSize1);
+		   // b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+		    TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            params.setMargins(returnPixels(30.0f), 0, returnPixels(30.0f), 0);
+            b.setLayoutParams(params);
+		    b.setOnClickListener(new MyButtonListener(number));
+		     
+		    /* Add Button to row. */
+		    tr.addView(b);
+		    TextView text = new TextView(getApplicationContext());
+					
+			if (score == 1) { // right
+				text.setText("0");
+			} else { // wrong
+				text.setText("X");
+			}
+			text.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+			text.setTextColor(Color.BLACK);
+			text.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+			text.setTextSize(resultSize2);  
+			tr.addView(text);
+			
+		    //tr.setBackgroundResource(R.drawable.sf_gradient_03);
+		    tl.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+		}
+
+		return;
 	}
 	
 	void setWebviewFontSize(WebView view)
@@ -2448,5 +2512,17 @@ public class CourseList extends Activity implements OnDismissListener {
         	curwebview.clearView(); 			
  			curwebview.loadData("<html><head></head><body><div style='height:100px;text-align:center;'><br /><i>"+msg[0]+"</i><br /><br /></div></body></html>", "text/html", "UTF-8");
         }
+	}
+	
+	class MyButtonListener implements Button.OnClickListener {
+		int num;
+		MyButtonListener(int i)
+		{
+		   num = i;	
+		}
+		public void onClick(View v) {
+			draw_piechart.setIsAdded(false);
+			show_detail(my_score, num);
+		}
 	}
 } // end of activity

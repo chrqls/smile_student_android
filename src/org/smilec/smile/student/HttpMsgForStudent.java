@@ -70,7 +70,6 @@ public class HttpMsgForStudent extends Thread {
 	String MY_IP;
 	String Server_IP;
 	String last_type_from_msg;
-	String id="";
 	String APP_TAG = "http_student";
 	int msec = 1200;   // check once for 1.5 sec
 	
@@ -88,10 +87,9 @@ public class HttpMsgForStudent extends Thread {
 		finished  = false;
 		main      = _main;
 		curr_name = name;
-		MY_IP =  IP;
+		//MY_IP =  IP;
+		MY_IP = getUniqueId(main.getApplicationContext());
 		Log.d(APP_TAG, "IP = " + IP);
-		id = getDeviceId(main.getApplicationContext());
-		Log.i(APP_TAG,"Device ID: "+id);
 		last_type_from_msg = "";
 		
 		send_q = new LinkedList<JSONObject>();
@@ -108,7 +106,7 @@ public class HttpMsgForStudent extends Thread {
 		send_uri = "http://"+Server_IP+"/SMILE/pushmsg.php";
 		server_msg_uri
 			= "http://"+Server_IP+"/SMILE/current/MSG/smsg.txt";
-		server_my_state_uri
+		server_my_state_uri 
 		    = "http://"+Server_IP+"/SMILE/current/MSG/" + MY_IP +".txt";
 		
 		// enque HAIL message to server
@@ -221,7 +219,7 @@ public class HttpMsgForStudent extends Thread {
 	private static String uniqueID = null;
 	private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
 
-	public synchronized static String getDeviceId(Context context) {
+	public synchronized static String getUniqueId(Context context) {
 	    if (uniqueID == null) {
 	        SharedPreferences sharedPrefs = context.getSharedPreferences(
 	                PREF_UNIQUE_ID, Context.MODE_PRIVATE);
@@ -262,7 +260,7 @@ public class HttpMsgForStudent extends Thread {
 	synchronized void sendMessage(JSONObject o)
 	{
 		try {
-			if(MY_IP==null || MY_IP.trim().length() == 0)
+			/*if(MY_IP==null || MY_IP.trim().length() == 0)
 			{
 				try {
 				    InetAddress addr = InetAddress.getLocalHost();
@@ -277,10 +275,9 @@ public class HttpMsgForStudent extends Thread {
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
-			}
-			//o.put("IP", MY_IP); // always give my IP in the message
-			
-			o.put("IP", id); 
+			}*/
+		    o.put("IP", MY_IP); // always give my IP in the message
+
 			send_q.addLast(o);
 
 		} catch (Exception e ) {

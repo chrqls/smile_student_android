@@ -70,7 +70,9 @@ public class piechart {
         int itemCount=0;
         int items[]={right_val, wrong_val};
         // int colors[]={-16776961, -6777216}; //  -16776961 (0xff0000ff) blue; -6777216 gray
-        int colors[]={Color.argb(255,255,215,0), Color.argb(255,148,0,211)}; // -16711681 (0xff00ffff) cyan;  -16711936 (0xff00ff00) green
+        //int colors[]={Color.argb(255,255,215,0), Color.argb(255,148,0,211)};  // yellow, purple
+        // argb (int alpha, int red, int green, int blue)
+        int colors[]={Color.argb(255,151,181,70), Color.argb(255,202,24,30)}; 
         String itemslabel[]={"right"," wrong"}; // Label
         piedata.clear();
         maxCount=0;

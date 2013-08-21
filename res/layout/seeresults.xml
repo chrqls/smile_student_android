@@ -18,7 +18,7 @@ android:id="@+id/webviewSeeR"
 android:layout_width="fill_parent" 
 android:layout_height="fill_parent"
 android:layout_alignParentTop="true"
-android:layout_alignParentBottom="true"         
+android:layout_alignParentBottom="true"
 android:layout_alignParentLeft="true"  
 android:layout_alignParentRight="true"
 android:layout_marginLeft="15dp"
@@ -26,7 +26,70 @@ android:layout_marginRight="15dp"
 android:layout_marginTop="10dp"
 android:layout_marginBottom="80dp"
 /> 
-
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="none"
+    android:layout_alignParentTop="true"
+	android:layout_alignParentLeft="true"  
+	android:layout_alignParentRight="true"
+	android:layout_marginLeft="15dp"
+	android:layout_marginRight="15dp"
+	android:layout_marginTop="10dp"
+	android:layout_marginBottom="80dp">
+<TableLayout 
+android:id="@+id/tableLayoutSeeR"  
+android:layout_width="wrap_content"  
+android:layout_height="wrap_content" 
+android:shrinkColumns="*"  
+android:stretchColumns="*">  
+<TableRow  
+        android:id="@+id/tableRow1"  
+        android:layout_height="wrap_content"  
+        android:layout_width="match_parent">  
+        <TextView  
+            android:id="@+id/Header01"  
+            android:text="Username"  
+            android:layout_span="2"
+            android:gravity="center"
+            android:textColor="#000"
+            android:padding="2dip"
+            android:textSize="18sp" ></TextView>       
+</TableRow> 
+<TableRow  
+        android:id="@+id/tableRow2"  
+        android:layout_height="wrap_content"  
+        android:layout_width="match_parent">  
+        <TextView  
+            android:id="@+id/Header11"  
+            android:text="Total Score"  
+            android:layout_span="2"
+            android:gravity="center"
+            android:textColor="#000"
+            android:padding="2dip"
+            android:textSize="18sp" ></TextView>       
+</TableRow>
+<TableRow  
+        android:id="@+id/tableRow3"  
+        android:layout_height="wrap_content"  
+        android:layout_width="match_parent">  
+        <TextView  
+            android:id="@+id/Header21"  
+            android:text="@string/q_num"  
+            android:gravity="center"
+            android:textColor="#000"
+            android:padding="2dip"
+            android:textSize="18sp" ></TextView>  
+        <TextView  
+            android:id="@+id/Header22"  
+            android:text="@string/correct_wrong"  
+            android:gravity="center"
+            android:textColor="#000"
+            android:padding="2dip"
+            android:textSize="18sp" ></TextView>     
+</TableRow>  
+</TableLayout>
+</ScrollView>
 <Button
 android:id="@+id/SeeRQuit"
 android:layout_width="wrap_content"
